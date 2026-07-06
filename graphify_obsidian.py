@@ -5,7 +5,9 @@ import json
 import shutil
 import subprocess
 import sys
+import time
 from pathlib import Path
+from types import SimpleNamespace
 
 DEFAULT_HOME = Path.home() / "graphify-obsidian"
 DEFAULT_VAULT = "/Users/mufid/personal-projects/duedatebuddy"
@@ -169,6 +171,33 @@ def cmd_run(args):
     mark_done(cfg, args.source, input_path)
     return 0
 
+def configured_source_names(cfg):
+    return [p["name"] for p in cfg.get("projects", [])] + [c["name"] for c in cfg.get("doc_collections", [])]
+
+def watch_once(config_path):
+    cfg = load_config(config_path)
+    ran = []
+    for name in configured_source_names(cfg):
+        kind, item = find_source(cfg, name)
+        input_path = item["path"] if kind == "project" else item["inbox"]
+        if should_run(cfg, name, input_path):
+            rc = cmd_run(SimpleNamespace(config=config_path, source=name))
+            if rc == 0:
+                ran.append(name)
+    return ran
+
+def cmd_watch(args):
+    print(f"Watching configured sources every {args.interval}s. Press Ctrl-C to stop.")
+    try:
+        while True:
+            ran = watch_once(args.config)
+            for name in ran:
+                print(f"Updated {name}")
+            time.sleep(args.interval)
+    except KeyboardInterrupt:
+        print("Stopped")
+        return 0
+
 def build_parser():
     parser = argparse.ArgumentParser(prog="graphify-obsidian")
     parser.add_argument("--config", type=Path, default=DEFAULT_HOME / "config.json")
@@ -185,6 +214,10 @@ def build_parser():
     run = sub.add_parser("run")
     run.add_argument("source")
     run.set_defaults(func=cmd_run)
+
+    watch = sub.add_parser("watch")
+    watch.add_argument("--interval", type=int, default=5)
+    watch.set_defaults(func=cmd_watch)
 
     return parser
 

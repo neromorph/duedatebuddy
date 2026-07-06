@@ -131,5 +131,36 @@ class GraphifyObsidianTests(unittest.TestCase):
             (src / "a.md").write_text("two")
             self.assertTrue(go.should_run(cfg, "docs", src))
 
+    def test_configured_source_names_returns_projects_then_docs(self):
+        cfg = {
+            "projects": [{"name": "app", "path": "/app"}],
+            "doc_collections": [{"name": "papers", "inbox": "/papers"}],
+        }
+        self.assertEqual(go.configured_source_names(cfg), ["app", "papers"])
+
+    def test_watch_once_runs_only_changed_sources(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            base = Path(tmp) / "base"
+            app = Path(tmp) / "app"
+            app.mkdir()
+            (app / "a.py").write_text("print(1)")
+            config = Path(tmp) / "config.json"
+            config.write_text(json.dumps({
+                "vault": str(Path(tmp) / "vault"),
+                "base": str(base),
+                "projects": [{"name": "app", "path": str(app)}],
+                "doc_collections": [],
+            }))
+            calls = []
+            go.RUNNER = lambda cmd, check, stdin=None, stdout=None, stderr=None: calls.append(cmd)
+            try:
+                ran = go.watch_once(config)
+                skipped = go.watch_once(config)
+            finally:
+                go.RUNNER = go.subprocess.run
+            self.assertEqual(ran, ["app"])
+            self.assertEqual(skipped, [])
+            self.assertEqual(len(calls), 1)
+
 if __name__ == "__main__":
     unittest.main()
