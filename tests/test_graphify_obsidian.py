@@ -118,5 +118,18 @@ class GraphifyObsidianTests(unittest.TestCase):
             self.assertEqual(calls[0][0], "graphify")
             self.assertIn("Graphify/projects/app", calls[0][-1])
 
+    def test_state_skips_unchanged_folder_after_mark_done(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            base = Path(tmp) / "base"
+            src = Path(tmp) / "src"
+            src.mkdir()
+            (src / "a.md").write_text("one")
+            cfg = {"base": str(base)}
+            self.assertTrue(go.should_run(cfg, "docs", src))
+            go.mark_done(cfg, "docs", src)
+            self.assertFalse(go.should_run(cfg, "docs", src))
+            (src / "a.md").write_text("two")
+            self.assertTrue(go.should_run(cfg, "docs", src))
+
 if __name__ == "__main__":
     unittest.main()

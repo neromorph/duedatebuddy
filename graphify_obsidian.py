@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import argparse
+import hashlib
 import json
 import shutil
 import subprocess
@@ -32,6 +33,43 @@ def write_json(path, data):
     path = Path(path).expanduser()
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
+
+def state_path(cfg):
+    return expand(cfg["base"]) / "state.json"
+
+def load_state(cfg):
+    path = state_path(cfg)
+    if not path.exists():
+        return {}
+    return json.loads(path.read_text(encoding="utf-8"))
+
+def save_state(cfg, state):
+    write_json(state_path(cfg), state)
+
+def fingerprint(path):
+    path = expand(path)
+    h = hashlib.sha256()
+    if not path.exists():
+        return ""
+    files = source_files(path) if path.is_dir() else [path]
+    for file in files:
+        stat = file.stat()
+        h.update(str(file.relative_to(path) if path.is_dir() else file.name).encode())
+        h.update(str(stat.st_mtime_ns).encode())
+        h.update(str(stat.st_size).encode())
+    return h.hexdigest()
+
+def should_run(cfg, name, path):
+    state = load_state(cfg)
+    return state.get(name) != fingerprint(path)
+
+def mark_done(cfg, name, path):
+    fp = fingerprint(path)
+    if not fp:
+        return
+    state = load_state(cfg)
+    state[name] = fp
+    save_state(cfg, state)
 
 def source_files(root):
     root = expand(root)
@@ -118,12 +156,17 @@ def cmd_run(args):
         print(f"Unknown source: {args.source}", file=sys.stderr)
         return 1
     vault = expand(cfg["vault"])
+    input_path = item["path"] if kind == "project" else item["inbox"]
+    if not should_run(cfg, args.source, input_path):
+        print(f"Skipped unchanged source: {args.source}")
+        return 0
     if kind == "project":
         run_graphify(item["path"], vault / "Graphify/projects" / item["name"], runner=RUNNER)
     else:
         convert_collection(cfg, item)
         staging = expand(cfg["base"]) / "staging/docs" / item["name"]
         run_graphify(staging, vault / "Graphify/docs" / item["name"], runner=RUNNER)
+    mark_done(cfg, args.source, input_path)
     return 0
 
 def build_parser():
