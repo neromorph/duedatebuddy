@@ -117,7 +117,7 @@ def convert_collection(cfg, collection, runner=subprocess.run):
 def run_graphify(input_path, output_path, runner=subprocess.run):
     output_path = expand(output_path)
     output_path.mkdir(parents=True, exist_ok=True)
-    runner(["graphify", str(expand(input_path)), "--obsidian", "--obsidian-dir", str(output_path)], check=True)
+    runner(["graphify", "extract", str(expand(input_path)), "--out", str(output_path)], check=True)
 
 def find_source(cfg, name):
     for project in cfg.get("projects", []):

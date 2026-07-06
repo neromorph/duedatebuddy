@@ -119,13 +119,13 @@ class GraphifyObsidianTests(unittest.TestCase):
             made = go.convert_collection({"base": str(base)}, {"name": "x", "inbox": str(inbox)})
             self.assertEqual(made, [])
 
-    def test_run_graphify_uses_obsidian_output(self):
+    def test_run_graphify_uses_output_dir(self):
         with tempfile.TemporaryDirectory() as tmp:
             calls = []
             def fake_runner(cmd, check, stdin=None, stdout=None, stderr=None):
                 calls.append(cmd)
             go.run_graphify(Path("/input"), Path(tmp) / "out", runner=fake_runner)
-            self.assertEqual(calls, [["graphify", "/input", "--obsidian", "--obsidian-dir", str(Path(tmp) / "out")]])
+            self.assertEqual(calls, [["graphify", "extract", "/input", "--out", str(Path(tmp) / "out")]])
 
     def test_cmd_run_project_runs_graphify_for_named_project(self):
         with tempfile.TemporaryDirectory() as tmp:
