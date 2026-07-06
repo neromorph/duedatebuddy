@@ -47,6 +47,10 @@ def markdown_name(path):
     return path.name if path.suffix.lower() == ".md" else f"{path.stem}.md"
 
 def convert_collection(cfg, collection, runner=subprocess.run):
+    vault = cfg.get("vault")
+    inbox = expand(collection["inbox"])
+    if vault and inbox.is_relative_to(expand(vault)):
+        raise ValueError(f"inbox {inbox} must not be inside vault {vault}")
     staging = expand(cfg["base"]) / "staging/docs" / collection["name"]
     staging.mkdir(parents=True, exist_ok=True)
     made = []

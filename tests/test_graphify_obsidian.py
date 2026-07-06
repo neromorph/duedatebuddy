@@ -71,6 +71,17 @@ class GraphifyObsidianTests(unittest.TestCase):
             self.assertTrue((base / "staging/docs/papers/note.md").exists())
             self.assertTrue((base / "staging/docs/papers/paper.md").exists())
 
+    def test_convert_collection_rejects_inbox_inside_vault(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            vault = Path(tmp) / "vault"
+            inbox = vault / "inbox/docs/papers"  # inbox is inside vault — must reject
+            inbox.mkdir(parents=True)
+            (inbox / "paper.pdf").write_text("fake")
+            cfg = {"vault": str(vault), "base": str(Path(tmp) / "base")}
+            with self.assertRaises(ValueError) as ctx:
+                go.convert_collection(cfg, {"name": "papers", "inbox": str(inbox)})
+            self.assertIn("must not be inside vault", str(ctx.exception))
+
     def test_convert_collection_skips_hidden_files(self):
         with tempfile.TemporaryDirectory() as tmp:
             base = Path(tmp) / "base"
