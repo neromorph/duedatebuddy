@@ -91,5 +91,32 @@ class GraphifyObsidianTests(unittest.TestCase):
             made = go.convert_collection({"base": str(base)}, {"name": "x", "inbox": str(inbox)})
             self.assertEqual(made, [])
 
+    def test_run_graphify_uses_obsidian_output(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            calls = []
+            def fake_runner(cmd, check, stdin=None, stdout=None, stderr=None):
+                calls.append(cmd)
+            go.run_graphify(Path("/input"), Path(tmp) / "out", runner=fake_runner)
+            self.assertEqual(calls, [["graphify", "/input", "--obsidian", "--obsidian-dir", str(Path(tmp) / "out")]])
+
+    def test_cmd_run_project_runs_graphify_for_named_project(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            config = Path(tmp) / "config.json"
+            config.write_text(json.dumps({
+                "vault": str(Path(tmp) / "vault"),
+                "base": str(Path(tmp) / "base"),
+                "projects": [{"name": "app", "path": str(Path(tmp) / "app")}],
+                "doc_collections": [],
+            }))
+            calls = []
+            go.RUNNER = lambda cmd, check, stdin=None, stdout=None, stderr=None: calls.append(cmd)
+            try:
+                rc = go.cmd_run(SimpleNamespace(config=config, source="app"))
+            finally:
+                go.RUNNER = go.subprocess.run
+            self.assertEqual(rc, 0)
+            self.assertEqual(calls[0][0], "graphify")
+            self.assertIn("Graphify/projects/app", calls[0][-1])
+
 if __name__ == "__main__":
     unittest.main()

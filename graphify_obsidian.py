@@ -9,10 +9,10 @@ from pathlib import Path
 DEFAULT_HOME = Path.home() / "graphify-obsidian"
 DEFAULT_VAULT = "/Users/mufid/personal-projects/duedatebuddy"
 
+RUNNER = subprocess.run
 
 def expand(path):
     return Path(path).expanduser()
-
 
 def default_config():
     return {
@@ -24,18 +24,14 @@ def default_config():
         ],
     }
 
-
 def load_config(path):
     with Path(path).expanduser().open(encoding="utf-8") as f:
         return json.load(f)
-
 
 def write_json(path, data):
     path = Path(path).expanduser()
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
-
-
 
 def source_files(root):
     root = expand(root)
@@ -64,6 +60,20 @@ def convert_collection(cfg, collection, runner=subprocess.run):
         made.append(dest)
     return sorted(made)
 
+def run_graphify(input_path, output_path, runner=subprocess.run):
+    output_path = expand(output_path)
+    output_path.mkdir(parents=True, exist_ok=True)
+    runner(["graphify", str(expand(input_path)), "--obsidian", "--obsidian-dir", str(output_path)], check=True)
+
+def find_source(cfg, name):
+    for project in cfg.get("projects", []):
+        if project["name"] == name:
+            return "project", project
+    for collection in cfg.get("doc_collections", []):
+        if collection["name"] == name:
+            return "docs", collection
+    return None, None
+
 def ensure_layout(cfg):
     base = expand(cfg["base"])
     (base / "logs").mkdir(parents=True, exist_ok=True)
@@ -72,7 +82,6 @@ def ensure_layout(cfg):
         staging = base / "staging/docs" / collection["name"]
         inbox.mkdir(parents=True, exist_ok=True)
         staging.mkdir(parents=True, exist_ok=True)
-
 
 def cmd_init(args):
     config_path = Path(args.config).expanduser()
@@ -86,7 +95,6 @@ def cmd_init(args):
     write_json(config_path, cfg)
     print(f"Wrote {config_path}")
     return 0
-
 
 def cmd_dry_run(args):
     cfg = load_config(args.config)
@@ -103,6 +111,20 @@ def cmd_dry_run(args):
         print(f"Docs {collection['name']}: {collection['inbox']} -> {staging} -> {out}")
     return 0
 
+def cmd_run(args):
+    cfg = load_config(args.config)
+    kind, item = find_source(cfg, args.source)
+    if item is None:
+        print(f"Unknown source: {args.source}", file=sys.stderr)
+        return 1
+    vault = expand(cfg["vault"])
+    if kind == "project":
+        run_graphify(item["path"], vault / "Graphify/projects" / item["name"], runner=RUNNER)
+    else:
+        convert_collection(cfg, item)
+        staging = expand(cfg["base"]) / "staging/docs" / item["name"]
+        run_graphify(staging, vault / "Graphify/docs" / item["name"], runner=RUNNER)
+    return 0
 
 def build_parser():
     parser = argparse.ArgumentParser(prog="graphify-obsidian")
@@ -117,13 +139,15 @@ def build_parser():
     dry = sub.add_parser("dry-run")
     dry.set_defaults(func=cmd_dry_run)
 
-    return parser
+    run = sub.add_parser("run")
+    run.add_argument("source")
+    run.set_defaults(func=cmd_run)
 
+    return parser
 
 def main(argv=None):
     args = build_parser().parse_args(argv)
     return args.func(args)
-
 
 if __name__ == "__main__":
     raise SystemExit(main())
