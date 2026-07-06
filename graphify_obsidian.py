@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 import argparse
 import json
+import shutil
+import subprocess
 import sys
 from pathlib import Path
 
@@ -33,6 +35,30 @@ def write_json(path, data):
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
 
+
+
+def source_files(root):
+    root = expand(root)
+    if not root.exists():
+        return []
+    return sorted(p for p in root.rglob("*") if p.is_file() and not p.name.startswith("."))
+
+def markdown_name(path):
+    return path.name if path.suffix.lower() == ".md" else f"{path.stem}.md"
+
+def convert_collection(cfg, collection, runner=subprocess.run):
+    staging = expand(cfg["base"]) / "staging/docs" / collection["name"]
+    staging.mkdir(parents=True, exist_ok=True)
+    made = []
+    for src in source_files(collection["inbox"]):
+        dest = staging / markdown_name(src)
+        if src.suffix.lower() == ".md":
+            shutil.copy2(src, dest)
+        else:
+            with src.open("rb") as stdin, dest.open("wb") as stdout:
+                runner(["docker", "run", "--rm", "-i", "markitdown:latest"], check=True, stdin=stdin, stdout=stdout)
+        made.append(dest)
+    return sorted(made)
 
 def ensure_layout(cfg):
     base = expand(cfg["base"])
