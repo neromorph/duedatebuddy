@@ -16,7 +16,7 @@ Create one watched workflow that keeps source files outside the Obsidian vault, 
 ## Folder Layout
 
 ```text
-~/Documents/Obsidian Vault/
+/Users/mufid/personal-projects/duedatebuddy/
   Graphify/
     projects/
       <project-name>/
