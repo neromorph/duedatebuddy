@@ -2,7 +2,7 @@ import io
 import json
 import tempfile
 import unittest
-from contextlib import redirect_stdout
+from contextlib import redirect_stdout, redirect_stderr
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -82,6 +82,34 @@ class GraphifyObsidianTests(unittest.TestCase):
                 go.convert_collection(cfg, {"name": "papers", "inbox": str(inbox)})
             self.assertIn("must not be inside vault", str(ctx.exception))
 
+    def test_convert_collection_logs_error_and_continues_on_markitdown_failure(self):
+        import subprocess
+        with tempfile.TemporaryDirectory() as tmp:
+            base = Path(tmp) / "base"
+            inbox = Path(tmp) / "inbox"
+            inbox.mkdir()
+            (inbox / "good.pdf").write_bytes(b"fine")
+            # ponytail: distinctive sentinel content to detect failure by stdin
+            (inbox / "bad.pdf").write_bytes(b"MARKITDOWN_SHOULD_FAIL_SENTINEL")
+            (inbox / "also-good.pdf").write_bytes(b"ok")
+
+            def discriminating_runner(cmd, check, stdin, stdout):
+                data = stdin.read()
+                if b"MARKITDOWN_SHOULD_FAIL_SENTINEL" in data:
+                    raise subprocess.CalledProcessError(1, cmd)
+                stdout.write(b"converted")
+                return SimpleNamespace(returncode=0)
+
+            cfg = {"base": str(base)}
+            made = go.convert_collection(cfg, {"name": "papers", "inbox": str(inbox)}, runner=discriminating_runner)
+            log_path = go.markitdown_log_path(cfg)
+            self.assertTrue(log_path.exists())
+            log_text = log_path.read_text()
+            self.assertIn("bad.pdf", log_text)
+            self.assertTrue((base / "staging/docs/papers/good.md").exists())
+            self.assertTrue((base / "staging/docs/papers/also-good.md").exists())
+            self.assertFalse((base / "staging/docs/papers/bad.md").exists())
+
     def test_convert_collection_skips_hidden_files(self):
         with tempfile.TemporaryDirectory() as tmp:
             base = Path(tmp) / "base"
@@ -101,11 +129,14 @@ class GraphifyObsidianTests(unittest.TestCase):
 
     def test_cmd_run_project_runs_graphify_for_named_project(self):
         with tempfile.TemporaryDirectory() as tmp:
+            app = Path(tmp) / "app"
+            app.mkdir()
+            (app / "a.md").write_text("hello")
             config = Path(tmp) / "config.json"
             config.write_text(json.dumps({
                 "vault": str(Path(tmp) / "vault"),
                 "base": str(Path(tmp) / "base"),
-                "projects": [{"name": "app", "path": str(Path(tmp) / "app")}],
+                "projects": [{"name": "app", "path": str(app)}],
                 "doc_collections": [],
             }))
             calls = []
@@ -137,6 +168,56 @@ class GraphifyObsidianTests(unittest.TestCase):
             "doc_collections": [{"name": "papers", "inbox": "/papers"}],
         }
         self.assertEqual(go.configured_source_names(cfg), ["app", "papers"])
+
+    def test_cmd_run_skips_missing_project_path(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            config = Path(tmp) / "config.json"
+            config.write_text(json.dumps({
+                "vault": str(Path(tmp) / "vault"),
+                "base": str(Path(tmp) / "base"),
+                "projects": [{"name": "app", "path": str(Path(tmp) / "missing")}],
+                "doc_collections": [],
+            }))
+            err = io.StringIO()
+            with redirect_stderr(err):
+                rc = go.cmd_run(SimpleNamespace(config=config, source="app"))
+            self.assertEqual(rc, 0)
+            self.assertIn("does not exist", err.getvalue())
+
+    def test_cmd_run_skips_missing_inbox_path(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            config = Path(tmp) / "config.json"
+            config.write_text(json.dumps({
+                "vault": str(Path(tmp) / "vault"),
+                "base": str(Path(tmp) / "base"),
+                "projects": [],
+                "doc_collections": [{"name": "papers", "inbox": str(Path(tmp) / "missing-inbox")}],
+            }))
+            err = io.StringIO()
+            with redirect_stderr(err):
+                rc = go.cmd_run(SimpleNamespace(config=config, source="papers"))
+            self.assertEqual(rc, 0)
+            self.assertIn("does not exist", err.getvalue())
+
+    def test_cmd_run_skips_project_inside_vault(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            vault = Path(tmp) / "vault"
+            vault.mkdir()
+            project_dir = vault / "my-project"
+            project_dir.mkdir()
+            (project_dir / "a.md").write_text("hello")
+            config = Path(tmp) / "config.json"
+            config.write_text(json.dumps({
+                "vault": str(vault),
+                "base": str(Path(tmp) / "base"),
+                "projects": [{"name": "app", "path": str(project_dir)}],
+                "doc_collections": [],
+            }))
+            err = io.StringIO()
+            with redirect_stderr(err):
+                rc = go.cmd_run(SimpleNamespace(config=config, source="app"))
+            self.assertEqual(rc, 0)
+            self.assertIn("inside vault", err.getvalue())
 
     def test_watch_once_runs_only_changed_sources(self):
         with tempfile.TemporaryDirectory() as tmp:

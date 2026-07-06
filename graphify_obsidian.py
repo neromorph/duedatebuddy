@@ -82,6 +82,9 @@ def source_files(root):
 def markdown_name(path):
     return path.name if path.suffix.lower() == ".md" else f"{path.stem}.md"
 
+def markitdown_log_path(cfg):
+    return expand(cfg["base"]) / "logs" / "markitdown.log"
+
 def convert_collection(cfg, collection, runner=subprocess.run):
     vault = cfg.get("vault")
     inbox = expand(collection["inbox"])
@@ -89,14 +92,25 @@ def convert_collection(cfg, collection, runner=subprocess.run):
         raise ValueError(f"inbox {inbox} must not be inside vault {vault}")
     staging = expand(cfg["base"]) / "staging/docs" / collection["name"]
     staging.mkdir(parents=True, exist_ok=True)
+    log_path = markitdown_log_path(cfg)
+    log_path.parent.mkdir(parents=True, exist_ok=True)
     made = []
     for src in source_files(collection["inbox"]):
         dest = staging / markdown_name(src)
         if src.suffix.lower() == ".md":
             shutil.copy2(src, dest)
         else:
-            with src.open("rb") as stdin, dest.open("wb") as stdout:
-                runner(["docker", "run", "--rm", "-i", "markitdown:latest"], check=True, stdin=stdin, stdout=stdout)
+            tmp_dest = dest.parent / f".{dest.name}.tmp"
+            try:
+                with src.open("rb") as stdin, tmp_dest.open("wb") as stdout:
+                    runner(["docker", "run", "--rm", "-i", "markitdown:latest"], check=True, stdin=stdin, stdout=stdout)
+                tmp_dest.replace(dest)
+            except Exception as exc:
+                with log_path.open("a", encoding="utf-8") as lf:
+                    lf.write(f"{src}: {exc}\n")
+                if tmp_dest.exists():
+                    tmp_dest.unlink()
+                continue
         made.append(dest)
     return sorted(made)
 
@@ -159,6 +173,14 @@ def cmd_run(args):
         return 1
     vault = expand(cfg["vault"])
     input_path = item["path"] if kind == "project" else item["inbox"]
+    if not expand(input_path).exists():
+        print(f"Source path does not exist, skipping: {input_path}", file=sys.stderr)
+        return 0
+    if kind == "project" and vault:
+        project_path = expand(item["path"])
+        if project_path.is_relative_to(expand(vault)):
+            print(f"Project path {project_path} is inside vault {vault}, skipping", file=sys.stderr)
+            return 0
     if not should_run(cfg, args.source, input_path):
         print(f"Skipped unchanged source: {args.source}")
         return 0
