@@ -5,11 +5,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, SPACING, TYPOGRAPHY, RADII } from '@/lib/theme';
 import { supabase } from '@/lib/supabase';
-import { safeQuerySingle } from '@/lib/supabase-safe';
 import { useAuth } from '@/features/auth/useAuth';
 import { NotificationPreferences } from '@/types';
 import { useReminders } from '@/features/reminders/useReminders';
 import { notificationService } from '@/lib/notifications';
+import { logger } from '@/lib/logger';
 import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
 
@@ -20,21 +20,34 @@ export default function SettingsScreen() {
   const [prefs, setPrefs] = useState<NotificationPreferences | null>(null);
   const [prefsLoading, setPrefsLoading] = useState(true);
 
-  useEffect(() => {
-    loadPrefs();
-  }, [user]);
-
   const loadPrefs = async () => {
-    if (!user) return;
-    const { data } = await safeQuerySingle<NotificationPreferences>(
-      () => supabase
-        .from('notification_preferences')
-        .select('*')
-        .eq('user_id', user.id)
-        .single(),
-      'loadPrefs',
-    );
-    setPrefs(data);
+    if (!user) {
+      setPrefsLoading(false);
+      return;
+    }
+
+    const { data } = await supabase
+      .from('notification_preferences')
+      .select('*')
+      .eq('user_id', user.id)
+      .maybeSingle();
+
+    if (data) {
+      setPrefs(data);
+      setPrefsLoading(false);
+      return;
+    }
+
+    const { data: created, error } = await supabase
+      .from('notification_preferences')
+      .upsert({ user_id: user.id }, { onConflict: 'user_id' })
+      .select('*')
+      .single();
+
+    if (error) {
+      logger.error('settings', 'Gagal membuat preferensi notifikasi', { userId: user.id }, error);
+    }
+    setPrefs(created);
     setPrefsLoading(false);
   };
 
@@ -50,6 +63,10 @@ export default function SettingsScreen() {
       await notificationService.rescheduleAll(reminders, updated);
     }
   };
+
+  useEffect(() => {
+    loadPrefs();
+  }, [user]);
 
   const handleLogout = () => {
     Alert.alert(

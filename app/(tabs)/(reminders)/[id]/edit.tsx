@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, StyleSheet, KeyboardAvoidingView, Platform, Alert } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { COLORS, SPACING } from '@/lib/theme';
@@ -9,6 +9,7 @@ import { Reminder } from '@/types';
 import ReminderForm from '@/features/reminders/ReminderForm';
 import LoadingState from '@/components/ui/LoadingState';
 import { requestNotificationPermissions, notificationService } from '@/lib/notifications';
+import { logger } from '@/lib/logger';
 
 export default function EditPengingatScreen() {
   const router = useRouter();
@@ -23,7 +24,7 @@ export default function EditPengingatScreen() {
       .from('reminders')
       .select('*')
       .eq('id', id)
-      .eq('user_id', user!.id)
+      .eq('user_id', user.id)
       .single()
       .then(({ data }) => {
         setReminder(data);
@@ -32,9 +33,9 @@ export default function EditPengingatScreen() {
   }, [id, user]);
 
   const handleSubmit = async (formData: any) => {
-    if (!id) return;
+    if (!id || !user) return;
 
-    await supabase
+    const { error: updateErr } = await supabase
       .from('reminders')
       .update({
         title: formData.title,
@@ -45,14 +46,21 @@ export default function EditPengingatScreen() {
         notes: formData.notes,
         remind_before_days: formData.remind_before_days,
         asset_id: formData.asset_id,
+        priority: formData.priority || 'normal',
       })
       .eq('id', id)
-      .eq('user_id', user!.id);
+      .eq('user_id', user.id);
+
+    if (updateErr) {
+      logger.error('reminders', 'Gagal menyimpan perubahan pengingat', { reminderId: id }, updateErr);
+      Alert.alert('Error', 'Gagal menyimpan perubahan pengingat');
+      return;
+    }
 
     const { data: prefs } = await supabase
       .from('notification_preferences')
       .select('*')
-      .eq('user_id', user!.id)
+      .eq('user_id', user.id)
       .single();
 
     if (prefs) {

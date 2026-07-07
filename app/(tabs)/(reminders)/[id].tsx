@@ -25,7 +25,7 @@ import Badge from '@/components/ui/Badge';
 import LoadingState from '@/components/ui/LoadingState';
 import ErrorState from '@/components/ui/ErrorState';
 import Button from '@/components/ui/Button';
-import { cancelReminderNotifications } from '@/lib/notifications';
+import { notificationService } from '@/lib/notifications';
 import { useReminders } from '@/features/reminders/useReminders';
 
 export default function DetailPengingatScreen() {
