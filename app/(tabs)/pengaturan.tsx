@@ -1,16 +1,55 @@
-import React from 'react';
-import { View, Text, ScrollView, Alert, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, ScrollView, Alert, StyleSheet, Switch } from 'react-native';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, SPACING, TYPOGRAPHY, RADII } from '@/lib/theme';
+import { supabase } from '@/lib/supabase';
+import { safeQuerySingle } from '@/lib/supabase-safe';
 import { useAuth } from '@/features/auth/useAuth';
+import { NotificationPreferences } from '@/types';
+import { useReminders } from '@/features/reminders/useReminders';
+import { notificationService } from '@/lib/notifications';
 import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
 
 export default function SettingsScreen() {
   const router = useRouter();
   const { user, signOut } = useAuth();
+  const { reminders } = useReminders();
+  const [prefs, setPrefs] = useState<NotificationPreferences | null>(null);
+  const [prefsLoading, setPrefsLoading] = useState(true);
+
+  useEffect(() => {
+    loadPrefs();
+  }, [user]);
+
+  const loadPrefs = async () => {
+    if (!user) return;
+    const { data } = await safeQuerySingle<NotificationPreferences>(
+      () => supabase
+        .from('notification_preferences')
+        .select('*')
+        .eq('user_id', user.id)
+        .single(),
+      'loadPrefs',
+    );
+    setPrefs(data);
+    setPrefsLoading(false);
+  };
+
+  const updatePref = async (key: string, value: any) => {
+    if (!user || !prefs) return;
+    const { error } = await supabase
+      .from('notification_preferences')
+      .update({ [key]: value })
+      .eq('user_id', user.id);
+    if (!error) {
+      const updated = { ...prefs, [key]: value };
+      setPrefs(updated);
+      await notificationService.rescheduleAll(reminders, updated);
+    }
+  };
 
   const handleLogout = () => {
     Alert.alert(
@@ -43,15 +82,50 @@ export default function SettingsScreen() {
           <Text style={styles.email}>{user?.email}</Text>
         </Card>
 
-        <Card style={styles.sectionCard}>
-          <View style={styles.menuItem}>
-            <Ionicons name="notifications-outline" size={22} color={COLORS.onSurfaceVariant} />
-            <View style={styles.menuContent}>
-              <Text style={styles.menuLabel}>Notifikasi</Text>
-              <Text style={styles.menuDesc}>Kelola pengaturan notifikasi</Text>
+        {!prefsLoading && prefs && (
+          <Card style={styles.sectionCard}>
+            <Text style={styles.sectionTitle}>Notifikasi</Text>
+
+            <View style={styles.prefRow}>
+              <Text style={styles.prefLabel}>Waktu pengingat</Text>
+              <Text style={styles.prefValue}>{prefs.notification_time}</Text>
             </View>
-          </View>
-          <View style={styles.divider} />
+            <View style={styles.divider} />
+
+            <View style={styles.prefRow}>
+              <Text style={styles.prefLabel}>Gabung notifikasi</Text>
+              <Switch
+                value={prefs.grouping_enabled}
+                onValueChange={(v) => updatePref('grouping_enabled', v)}
+                trackColor={{ false: COLORS.outline, true: COLORS.primaryContainer }}
+                thumbColor={prefs.grouping_enabled ? COLORS.primary : COLORS.onSurfaceVariant}
+              />
+            </View>
+            <View style={styles.divider} />
+
+            <View style={styles.prefRow}>
+              <Text style={styles.prefLabel}>Pengingat akhir pekan</Text>
+              <Switch
+                value={prefs.weekend_reminders}
+                onValueChange={(v) => updatePref('weekend_reminders', v)}
+                trackColor={{ false: COLORS.outline, true: COLORS.primaryContainer }}
+                thumbColor={prefs.weekend_reminders ? COLORS.primary : COLORS.onSurfaceVariant}
+              />
+            </View>
+            <View style={styles.divider} />
+
+            <View style={styles.prefRow}>
+              <Text style={styles.prefLabel}>Frekuensi pengingat terlewat</Text>
+              <Text style={styles.prefValue}>
+                {prefs.overdue_frequency === 'daily' ? 'Setiap hari' :
+                 prefs.overdue_frequency === 'every_other_day' ? '2 hari sekali' :
+                 prefs.overdue_frequency === 'weekly' ? 'Mingguan' : 'Tidak ada'}
+              </Text>
+            </View>
+          </Card>
+        )}
+
+        <Card style={styles.sectionCard}>
           <View style={styles.menuItem}>
             <Ionicons name="color-palette-outline" size={22} color={COLORS.onSurfaceVariant} />
             <View style={styles.menuContent}>
@@ -121,6 +195,26 @@ const styles = StyleSheet.create({
   },
   sectionCard: {
     marginBottom: SPACING.lg,
+  },
+  sectionTitle: {
+    ...TYPOGRAPHY.title,
+    color: COLORS.onSurface,
+    marginBottom: SPACING.md,
+  },
+  prefRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: SPACING.sm,
+  },
+  prefLabel: {
+    ...TYPOGRAPHY.body,
+    color: COLORS.onSurface,
+    flex: 1,
+  },
+  prefValue: {
+    ...TYPOGRAPHY.body,
+    color: COLORS.onSurfaceVariant,
   },
   menuItem: {
     flexDirection: 'row',
