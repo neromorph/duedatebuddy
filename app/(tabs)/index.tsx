@@ -6,6 +6,7 @@ import {
   RefreshControl,
   StyleSheet,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import { useRouter, useFocusEffect } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -76,13 +77,21 @@ export default function DashboardScreen() {
     fetchReminders();
   };
 
+  const criticalReminders = reminders.filter(
+    (r) => r.status === 'pending' && r.priority === 'critical',
+  );
+
+  const dueThisWeek = reminders.filter((r) => {
+    const days = daysRemaining(r.due_date);
+    return r.status === 'pending' && days >= 0 && days <= 7;
+  });
+
+  const dueThisWeekTotal = dueThisWeek.reduce((sum, r) => sum + (r.amount || 0), 0);
+
   const summaryItems: SummaryItem[] = [
     {
-      label: 'Akan Jatuh Tempo',
-      value: reminders.filter((r) => {
-        const days = daysRemaining(r.due_date);
-        return r.status === 'pending' && days >= 0 && days <= 7;
-      }).length.toString(),
+      label: 'Jatuh Tempo Minggu Ini',
+      value: `${dueThisWeek.length} \u00B7 ${formatCurrency(dueThisWeekTotal)}`,
       icon: 'alarm',
       color: COLORS.statusCritical,
     },
@@ -165,6 +174,31 @@ export default function DashboardScreen() {
                 </View>
               ))}
             </View>
+
+            {criticalReminders.length > 0 && (
+              <View style={styles.criticalSection}>
+                <Text style={[styles.sectionTitle, { color: COLORS.statusCritical }]}>
+                  {'\u26A0'} Prioritas Critical
+                </Text>
+                <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.criticalScroll}>
+                  {criticalReminders.map((item) => (
+                    <TouchableOpacity
+                      key={item.id}
+                      onPress={() => router.push(`/(tabs)/(reminders)/${item.id}`)}
+                      activeOpacity={0.7}
+                    >
+                      <Card style={styles.criticalCard}>
+                        <Text style={styles.criticalTitle}>{item.title}</Text>
+                        <Text style={styles.criticalDate}>{formatDate(item.due_date)}</Text>
+                        {item.amount != null && (
+                          <Text style={styles.criticalAmount}>{formatCurrency(item.amount)}</Text>
+                        )}
+                      </Card>
+                    </TouchableOpacity>
+                  ))}
+                </ScrollView>
+              </View>
+            )}
 
             <Text style={styles.sectionTitle}>Segera Jatuh Tempo</Text>
           </>
@@ -310,6 +344,33 @@ const styles = StyleSheet.create({
   reminderAmount: {
     ...TYPOGRAPHY.amount,
     color: COLORS.onSurface,
+  },
+  criticalSection: {
+    marginBottom: SPACING.lg,
+  },
+  criticalScroll: {
+    marginBottom: SPACING.sm,
+  },
+  criticalCard: {
+    width: 160,
+    marginRight: SPACING.sm,
+    backgroundColor: COLORS.statusCritical + '08',
+    borderWidth: 1,
+    borderColor: COLORS.statusCritical + '30',
+  },
+  criticalTitle: {
+    ...TYPOGRAPHY.title,
+    color: COLORS.statusCritical,
+  },
+  criticalDate: {
+    ...TYPOGRAPHY.body,
+    color: COLORS.onSurfaceVariant,
+    marginTop: 2,
+  },
+  criticalAmount: {
+    ...TYPOGRAPHY.amount,
+    color: COLORS.statusCritical,
+    marginTop: 4,
   },
   errorBar: {
     position: 'absolute',
