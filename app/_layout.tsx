@@ -8,7 +8,7 @@ import { StatusBar } from 'expo-status-bar';
 import { View, ActivityIndicator, StyleSheet, Text } from 'react-native';
 import { useAuth } from '@/features/auth/useAuth';
 import { COLORS } from '@/lib/theme';
-import { requestNotificationPermissions } from '@/lib/notifications';
+import { getExpoPushToken } from '@/lib/notifications';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import { logger } from '@/lib/logger';
 
@@ -45,9 +45,18 @@ export default function RootLayout() {
       logger.error('root', 'Auth init failed', undefined, e);
       setInitError(e instanceof Error ? e.message : 'Auth init failed');
     });
-    requestNotificationPermissions().catch((e) => {
-      logger.error('root', 'Notification permissions failed', undefined, e);
-    });
+    getExpoPushToken()
+      .then((token) => {
+        if (token) logger.info('notifications', 'Expo push token ready', { suffix: token.slice(-8) });
+      })
+      .catch((e) => {
+        logger.error(
+          'root',
+          'Push token registration failed',
+          { error: e instanceof Error ? e.message : String(e) },
+          e,
+        );
+      });
   }, []);
 
   // Safety timeout: auto-hide splash after 15s even if something hangs

@@ -50,12 +50,15 @@ export default function TambahAsetScreen() {
       <KeyboardAvoidingView style={styles.kav} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <View style={styles.content}>
           {selectedTemplate ? (
-            <AssetForm
-            onSubmit={handleSubmit}
-            template={selectedTemplate}
-            submitLabel="Tambah Aset"
-            loading={submitting}
-          />
+            <View style={styles.formContent}>
+              <AssetForm
+                onSubmit={handleSubmit}
+                template={selectedTemplate}
+                submitLabel="Tambah Aset"
+                loading={submitting}
+                title="Tambah Aset"
+              />
+            </View>
         ) : (
           <TemplatePicker
             templates={templates}
@@ -79,5 +82,9 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     paddingTop: SPACING.lg,
+  },
+  formContent: {
+    flex: 1,
+    paddingHorizontal: SPACING.lg,
   },
 });

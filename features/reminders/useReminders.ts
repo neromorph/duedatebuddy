@@ -3,8 +3,9 @@ import { addMonths, addYears, format } from 'date-fns';
 import { supabase } from '@/lib/supabase';
 import { safeQuery, safeQuerySingle } from '@/lib/supabase-safe';
 import { useAuth } from '@/features/auth/useAuth';
-import { Reminder, NotificationPreferences } from '@/types';
+import { Reminder } from '@/types';
 import { notificationService } from '@/lib/notifications';
+import { getOrCreateNotificationPreferences } from '@/lib/notification-preferences';
 
 export function useReminders() {
   const { user } = useAuth();
@@ -61,14 +62,7 @@ export function useReminders() {
     if (err) return { error: 'Gagal menyimpan pengingat' };
 
     if (data) {
-      const { data: prefs } = await safeQuerySingle<NotificationPreferences>(
-        () => supabase
-          .from('notification_preferences')
-          .select('*')
-          .eq('user_id', user.id)
-          .single(),
-        'createReminder:prefs',
-      );
+      const prefs = await getOrCreateNotificationPreferences(user.id);
       if (prefs) {
         await notificationService.scheduleReminder(data, prefs);
       }
@@ -165,14 +159,7 @@ export function useReminders() {
       );
 
       if (newReminder) {
-        const { data: prefs } = await safeQuerySingle<NotificationPreferences>(
-          () => supabase
-            .from('notification_preferences')
-            .select('*')
-            .eq('user_id', user!.id)
-            .single(),
-          'markAsPaid:prefs',
-        );
+        const prefs = user ? await getOrCreateNotificationPreferences(user.id) : null;
         if (prefs) {
           await notificationService.scheduleReminder(newReminder, prefs);
         }

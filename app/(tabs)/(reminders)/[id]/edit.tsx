@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, KeyboardAvoidingView, Platform, Alert } from 'react-native';
+import { ScrollView, StyleSheet, KeyboardAvoidingView, Platform, Alert } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
+import { useBottomTabBarHeight } from 'expo-router/build/react-navigation/bottom-tabs';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { COLORS, SPACING } from '@/lib/theme';
 import { supabase } from '@/lib/supabase';
@@ -10,9 +11,11 @@ import ReminderForm from '@/features/reminders/ReminderForm';
 import LoadingState from '@/components/ui/LoadingState';
 import { requestNotificationPermissions, notificationService } from '@/lib/notifications';
 import { logger } from '@/lib/logger';
+import { getOrCreateNotificationPreferences } from '@/lib/notification-preferences';
 
 export default function EditPengingatScreen() {
   const router = useRouter();
+  const tabBarHeight = useBottomTabBarHeight();
   const { id } = useLocalSearchParams<{ id: string }>();
   const { user } = useAuth();
   const [reminder, setReminder] = useState<Reminder | null>(null);
@@ -57,11 +60,7 @@ export default function EditPengingatScreen() {
       return;
     }
 
-    const { data: prefs } = await supabase
-      .from('notification_preferences')
-      .select('*')
-      .eq('user_id', user.id)
-      .single();
+    const prefs = await getOrCreateNotificationPreferences(user.id);
 
     if (prefs) {
       const fullReminder = { ...reminder!, ...formData, priority: formData.priority || 'normal' };
@@ -82,13 +81,17 @@ export default function EditPengingatScreen() {
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <KeyboardAvoidingView style={styles.kav} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-        <View style={styles.content}>
+        <ScrollView
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={[styles.content, { paddingBottom: tabBarHeight + SPACING.lg }]}
+        >
           <ReminderForm
-          onSubmit={handleSubmit}
-          defaultValues={reminder}
-          submitLabel="Simpan Perubahan"
-        />
-        </View>
+            onSubmit={handleSubmit}
+            defaultValues={reminder}
+            submitLabel="Simpan Perubahan"
+          />
+        </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
@@ -103,7 +106,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   content: {
-    flex: 1,
+    flexGrow: 1,
     padding: SPACING.lg,
   },
 });

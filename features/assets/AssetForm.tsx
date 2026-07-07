@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { COLORS, SPACING, TYPOGRAPHY } from '@/lib/theme';
+import { COLORS, RADII, SPACING, TYPOGRAPHY } from '@/lib/theme';
 import { AssetTemplate } from '@/types';
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
@@ -21,6 +21,7 @@ interface AssetFormProps {
   template?: AssetTemplate;
   submitLabel?: string;
   loading?: boolean;
+  title?: string;
 }
 
 export default function AssetForm({
@@ -29,6 +30,7 @@ export default function AssetForm({
   template,
   submitLabel = 'Simpan',
   loading = false,
+  title,
 }: AssetFormProps) {
   const {
     control,
@@ -52,48 +54,52 @@ export default function AssetForm({
 
   return (
     <View style={styles.container}>
-      {template && (
-        <View style={styles.templateInfo}>
-          <Text style={styles.templateLabel}>Templat: {template.name}</Text>
-        </View>
-      )}
+      <View style={styles.form}>
+        {title && <Text style={styles.title}>{title}</Text>}
 
-      <Controller
-        control={control}
-        name="name"
-        render={({ field: { onChange, value } }) => (
-          <Input
-            label="Nama Aset"
-            value={value}
-            onChangeText={onChange}
-            placeholder="Masukkan nama aset"
-            error={errors.name?.message}
-          />
+        {template && (
+          <View style={styles.templateInfo}>
+            <Text style={styles.templateLabel}>Templat: {template.name}</Text>
+          </View>
         )}
-      />
 
-      <Controller
-        control={control}
-        name="description"
-        render={({ field: { onChange, value } }) => (
-          <Input
-            label="Deskripsi (opsional)"
-            value={value || ''}
-            onChangeText={onChange}
-            placeholder="Tambahkan deskripsi"
-            multiline
-            numberOfLines={3}
-            style={styles.notesInput}
-          />
-        )}
-      />
+        <Controller
+          control={control}
+          name="name"
+          render={({ field: { onChange, value } }) => (
+            <Input
+              label="Nama Aset"
+              value={value}
+              onChangeText={onChange}
+              placeholder="Masukkan nama aset"
+              error={errors.name?.message}
+            />
+          )}
+        />
 
-      <Button
-        title={submitLabel}
-        onPress={handleSubmit(handleFormSubmit)}
-        loading={loading}
-        style={styles.submit}
-      />
+        <Controller
+          control={control}
+          name="description"
+          render={({ field: { onChange, value } }) => (
+            <Input
+              label="Deskripsi (opsional)"
+              value={value || ''}
+              onChangeText={onChange}
+              placeholder="Tambahkan deskripsi"
+              multiline
+              numberOfLines={3}
+              style={styles.notesInput}
+            />
+          )}
+        />
+
+        <Button
+          title={submitLabel}
+          onPress={handleSubmit(handleFormSubmit)}
+          loading={loading}
+          style={styles.submit}
+        />
+      </View>
     </View>
   );
 }
@@ -102,10 +108,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  form: {
+    width: '100%',
+    maxWidth: 480,
+    alignSelf: 'center',
+  },
+  title: {
+    ...TYPOGRAPHY.headline,
+    color: COLORS.onSurface,
+    marginBottom: SPACING.lg,
+  },
   templateInfo: {
     backgroundColor: COLORS.primaryContainer + '30',
     padding: SPACING.md,
-    borderRadius: 8,
+    borderRadius: RADII.md,
     marginBottom: SPACING.lg,
   },
   templateLabel: {
@@ -114,10 +130,10 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   notesInput: {
-    minHeight: 80,
+    minHeight: 96,
     textAlignVertical: 'top',
   },
   submit: {
-    marginTop: SPACING.sm,
+    marginTop: SPACING.xs,
   },
 });

@@ -9,7 +9,7 @@ import { useAuth } from '@/features/auth/useAuth';
 import { NotificationPreferences } from '@/types';
 import { useReminders } from '@/features/reminders/useReminders';
 import { notificationService } from '@/lib/notifications';
-import { logger } from '@/lib/logger';
+import { getOrCreateNotificationPreferences } from '@/lib/notification-preferences';
 import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
 
@@ -26,28 +26,7 @@ export default function SettingsScreen() {
       return;
     }
 
-    const { data } = await supabase
-      .from('notification_preferences')
-      .select('*')
-      .eq('user_id', user.id)
-      .maybeSingle();
-
-    if (data) {
-      setPrefs(data);
-      setPrefsLoading(false);
-      return;
-    }
-
-    const { data: created, error } = await supabase
-      .from('notification_preferences')
-      .upsert({ user_id: user.id }, { onConflict: 'user_id' })
-      .select('*')
-      .single();
-
-    if (error) {
-      logger.error('settings', 'Gagal membuat preferensi notifikasi', { userId: user.id }, error);
-    }
-    setPrefs(created);
+    setPrefs(await getOrCreateNotificationPreferences(user.id));
     setPrefsLoading(false);
   };
 
