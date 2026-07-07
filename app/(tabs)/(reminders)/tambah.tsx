@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { COLORS, SPACING } from '@/lib/theme';
 import { useReminders } from '@/features/reminders/useReminders';
 import ReminderForm from '@/features/reminders/ReminderForm';
-import { requestNotificationPermissions, scheduleReminderNotification } from '@/lib/notifications';
+import { requestNotificationPermissions } from '@/lib/notifications';
 
 export default function TambahPengingatScreen() {
   const router = useRouter();
@@ -17,12 +17,6 @@ export default function TambahPengingatScreen() {
     const result = await createReminder(data);
     if (result.data) {
       await requestNotificationPermissions();
-      await scheduleReminderNotification({
-        id: result.data.id,
-        title: result.data.title,
-        due_date: result.data.due_date,
-        remind_before_days: result.data.remind_before_days,
-      });
       router.back();
     }
   };

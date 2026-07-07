@@ -8,7 +8,7 @@ import { useAuth } from '@/features/auth/useAuth';
 import { Reminder } from '@/types';
 import ReminderForm from '@/features/reminders/ReminderForm';
 import LoadingState from '@/components/ui/LoadingState';
-import { requestNotificationPermissions, scheduleReminderNotification } from '@/lib/notifications';
+import { requestNotificationPermissions, notificationService } from '@/lib/notifications';
 
 export default function EditPengingatScreen() {
   const router = useRouter();
@@ -49,13 +49,18 @@ export default function EditPengingatScreen() {
       .eq('id', id)
       .eq('user_id', user!.id);
 
+    const { data: prefs } = await supabase
+      .from('notification_preferences')
+      .select('*')
+      .eq('user_id', user!.id)
+      .single();
+
+    if (prefs) {
+      const fullReminder = { ...reminder!, ...formData, priority: formData.priority || 'normal' };
+      await notificationService.scheduleReminder(fullReminder, prefs);
+    }
+
     await requestNotificationPermissions();
-    await scheduleReminderNotification({
-      id,
-      title: formData.title,
-      due_date: formData.due_date,
-      remind_before_days: formData.remind_before_days,
-    });
 
     router.back();
   };

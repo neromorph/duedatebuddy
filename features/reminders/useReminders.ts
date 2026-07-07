@@ -3,8 +3,8 @@ import { addMonths, addYears, format } from 'date-fns';
 import { supabase } from '@/lib/supabase';
 import { safeQuery, safeQuerySingle } from '@/lib/supabase-safe';
 import { useAuth } from '@/features/auth/useAuth';
-import { Reminder } from '@/types';
-import { scheduleReminderNotification } from '@/lib/notifications';
+import { Reminder, NotificationPreferences } from '@/types';
+import { notificationService } from '@/lib/notifications';
 
 export function useReminders() {
   const { user } = useAuth();
@@ -50,6 +50,7 @@ export function useReminders() {
           notes: reminder.notes || null,
           remind_before_days: reminder.remind_before_days || [7, 3, 1, 0],
           asset_id: reminder.asset_id || null,
+          priority: reminder.priority || 'normal',
           status: 'pending',
         })
         .select()
@@ -58,6 +59,21 @@ export function useReminders() {
     );
 
     if (err) return { error: 'Gagal menyimpan pengingat' };
+
+    if (data) {
+      const { data: prefs } = await safeQuerySingle<NotificationPreferences>(
+        () => supabase
+          .from('notification_preferences')
+          .select('*')
+          .eq('user_id', user.id)
+          .single(),
+        'createReminder:prefs',
+      );
+      if (prefs) {
+        await notificationService.scheduleReminder(data, prefs);
+      }
+    }
+
     return { data };
   };
 
@@ -86,6 +102,10 @@ export function useReminders() {
         .single(),
       'deleteReminder',
     );
+
+    if (!err) {
+      await notificationService.cancel(id);
+    }
 
     if (err) return { error: 'Gagal menghapus pengingat' };
     return {};
@@ -136,6 +156,7 @@ export function useReminders() {
             notes: reminder.notes,
             remind_before_days: reminder.remind_before_days,
             asset_id: reminder.asset_id,
+            parent_reminder_id: reminder.id,
             status: 'pending',
           })
           .select()
@@ -144,12 +165,17 @@ export function useReminders() {
       );
 
       if (newReminder) {
-        await scheduleReminderNotification({
-          id: newReminder.id,
-          title: newReminder.title,
-          due_date: newReminder.due_date,
-          remind_before_days: newReminder.remind_before_days,
-        });
+        const { data: prefs } = await safeQuerySingle<NotificationPreferences>(
+          () => supabase
+            .from('notification_preferences')
+            .select('*')
+            .eq('user_id', user!.id)
+            .single(),
+          'markAsPaid:prefs',
+        );
+        if (prefs) {
+          await notificationService.scheduleReminder(newReminder, prefs);
+        }
       }
     }
 
