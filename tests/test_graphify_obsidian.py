@@ -15,10 +15,9 @@ class GraphifyObsidianTests(unittest.TestCase):
         self.assertEqual(cfg["vault"], "/Users/mufid/personal-projects/duedatebuddy")
         self.assertEqual(cfg["base"], "~/graphify-obsidian")
         self.assertEqual(cfg["projects"], [])
-        self.assertEqual(cfg["doc_collections"][0]["name"], "default")
-        self.assertEqual(cfg["doc_collections"][0]["inbox"], "~/graphify-obsidian/inbox/docs/default")
+        self.assertEqual(cfg["doc_collections"], [])
 
-    def test_init_writes_config_and_creates_default_inbox(self):
+    def test_init_writes_explicit_source_config_only(self):
         with tempfile.TemporaryDirectory() as tmp:
             base = Path(tmp) / "graphify-obsidian"
             config = base / "config.json"
@@ -26,8 +25,8 @@ class GraphifyObsidianTests(unittest.TestCase):
             self.assertEqual(rc, 0)
             data = json.loads(config.read_text())
             self.assertEqual(data["base"], str(base))
-            self.assertTrue((base / "inbox/docs/default").is_dir())
-            self.assertTrue((base / "staging/docs/default").is_dir())
+            self.assertEqual(data["projects"], [])
+            self.assertEqual(data["doc_collections"], [])
             self.assertTrue((base / "logs").is_dir())
 
     def test_dry_run_prints_projects_and_doc_outputs(self):

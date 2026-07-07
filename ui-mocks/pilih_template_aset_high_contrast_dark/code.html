@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .selected-card {
+            border-color: #ffffff !important;
+            background-color: #1a1a1a !important;
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-dim": "#131313",
+                        "secondary-container": "#006672",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "error": "#ffb4ab",
+                        "on-primary-fixed-variant": "#454747",
+                        "inverse-primary": "#5d5f5f",
+                        "on-surface": "#ffffff",
+                        "on-secondary-fixed": "#001f24",
+                        "on-primary-fixed": "#1a1c1c",
+                        "outline": "#8e9192",
+                        "on-primary-container": "#1a1c1c",
+                        "surface-container-low": "#111111",
+                        "outline-variant": "#444748",
+                        "on-tertiary-container": "#636565",
+                        "tertiary-fixed": "#e2e2e2",
+                        "error-container": "#93000a",
+                        "surface-tint": "#ffffff",
+                        "on-surface-variant": "#c4c7c8",
+                        "on-tertiary": "#2f3131",
+                        "on-secondary-fixed-variant": "#004f58",
+                        "on-secondary-container": "#94e1ee",
+                        "secondary": "#85d2e0",
+                        "on-background": "#ffffff",
+                        "primary-fixed": "#ffffff",
+                        "background": "#000000",
+                        "on-secondary": "#00363d",
+                        "on-error-container": "#ffdad6",
+                        "tertiary": "#ffffff",
+                        "surface-bright": "#1a1a1a",
+                        "on-primary": "#000000",
+                        "on-error": "#690005",
+                        "surface-container": "#111111",
+                        "surface": "#000000",
+                        "tertiary-container": "#ffffff",
+                        "inverse-on-surface": "#313030",
+                        "primary": "#ffffff",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "primary-container": "#ffffff",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "surface-variant": "#1a1a1a",
+                        "surface-container-lowest": "#000000",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "surface-container-high": "#1a1a1a",
+                        "secondary-fixed": "#a2effd",
+                        "secondary-fixed-dim": "#85d2e0",
+                        "inverse-surface": "#ffffff",
+                        "surface-container-highest": "#262626"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-md": "12px",
+                        "margin-desktop": "32px",
+                        "stack-lg": "24px",
+                        "margin-mobile": "16px",
+                        "base": "8px",
+                        "stack-sm": "4px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "title-md": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "label-md": ["Plus Jakarta Sans"],
+                        "label-lg": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "title-lg": ["Plus Jakarta Sans"],
+                        "headline-sm": ["Plus Jakarta Sans"],
+                        "title-sm": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "title-md": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "title-lg": ["22px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "title-sm": ["14px", {"lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 w-full z-50 bg-surface flex items-center justify-between px-4 h-16 border-b border-surface-container-high">
+<div class="flex items-center gap-4">
+<button aria-label="Back" class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-surface-container-high transition-colors active:scale-95 duration-100">
+<span class="material-symbols-outlined text-primary">arrow_back</span>
+</button>
+<h1 class="font-title-lg text-title-lg text-primary">Tambah Aset Baru</h1>
+</div>
+<button class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-surface-container-high transition-colors active:scale-95 duration-100">
+<span class="material-symbols-outlined text-primary">more_vert</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-20 pb-24 px-4 md:px-8 max-w-4xl mx-auto w-full">
+<!-- Progress Indicator -->
+<div class="mb-8">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-lg text-label-lg text-primary">Langkah 1 dari 2</span>
+<span class="font-label-lg text-label-lg text-outline">Pilih Template</span>
+</div>
+<div class="h-1 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary w-1/2 transition-all duration-500"></div>
+</div>
+</div>
+<!-- Search Bar -->
+<div class="mb-8 relative group">
+<div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline">search</span>
+</div>
+<input class="w-full h-14 pl-12 pr-4 bg-surface-container border border-outline-variant rounded-xl font-body-lg text-body-lg text-on-surface focus:ring-1 focus:ring-primary focus:bg-surface-container-high transition-all placeholder:text-outline-variant" placeholder="Cari tipe aset (misal: Pajak, Mobil...)" type="text"/>
+</div>
+<!-- Section Title -->
+<div class="mb-6">
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-1">Pilih Template Aset</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Gunakan template untuk mempermudah pengisian detail data.</p>
+</div>
+<!-- Template Grid -->
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+<!-- Rumah -->
+<div class="template-card flex flex-col items-center justify-center p-6 bg-surface-container rounded-xl border-2 border-transparent cursor-pointer hover:bg-surface-container-high transition-all active:scale-95" onclick="selectTemplate(this)">
+<div class="w-14 h-14 rounded-xl bg-surface-container-high border border-outline-variant flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-primary text-3xl">home</span>
+</div>
+<span class="font-title-sm text-title-sm text-on-surface text-center">Rumah</span>
+</div>
+<!-- Kendaraan -->
+<div class="template-card flex flex-col items-center justify-center p-6 bg-surface-container rounded-xl border-2 border-transparent cursor-pointer hover:bg-surface-container-high transition-all active:scale-95" onclick="selectTemplate(this)">
+<div class="w-14 h-14 rounded-xl bg-surface-container-high border border-outline-variant flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-primary text-3xl">directions_car</span>
+</div>
+<span class="font-title-sm text-title-sm text-on-surface text-center">Kendaraan</span>
+</div>
+<!-- Internet -->
+<div class="template-card flex flex-col items-center justify-center p-6 bg-surface-container rounded-xl border-2 border-transparent cursor-pointer hover:bg-surface-container-high transition-all active:scale-95" onclick="selectTemplate(this)">
+<div class="w-14 h-14 rounded-xl bg-surface-container-high border border-outline-variant flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-primary text-3xl">wifi</span>
+</div>
+<span class="font-title-sm text-title-sm text-on-surface text-center">Internet</span>
+</div>
+<!-- Listrik -->
+<div class="template-card flex flex-col items-center justify-center p-6 bg-surface-container rounded-xl border-2 border-transparent cursor-pointer hover:bg-surface-container-high transition-all active:scale-95" onclick="selectTemplate(this)">
+<div class="w-14 h-14 rounded-xl bg-surface-container-high border border-outline-variant flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-primary text-3xl">electric_bolt</span>
+</div>
+<span class="font-title-sm text-title-sm text-on-surface text-center">Listrik</span>
+</div>
+<!-- BPJS -->
+<div class="template-card flex flex-col items-center justify-center p-6 bg-surface-container rounded-xl border-2 border-transparent cursor-pointer hover:bg-surface-container-high transition-all active:scale-95" onclick="selectTemplate(this)">
+<div class="w-14 h-14 rounded-xl bg-surface-container-high border border-outline-variant flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-primary text-3xl">health_and_safety</span>
+</div>
+<span class="font-title-sm text-title-sm text-on-surface text-center">BPJS</span>
+</div>
+<!-- Asuransi -->
+<div class="template-card flex flex-col items-center justify-center p-6 bg-surface-container rounded-xl border-2 border-transparent cursor-pointer hover:bg-surface-container-high transition-all active:scale-95" onclick="selectTemplate(this)">
+<div class="w-14 h-14 rounded-xl bg-surface-container-high border border-outline-variant flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-primary text-3xl">shield</span>
+</div>
+<span class="font-title-sm text-title-sm text-on-surface text-center">Asuransi</span>
+</div>
+<!-- KPR -->
+<div class="template-card flex flex-col items-center justify-center p-6 bg-surface-container rounded-xl border-2 border-transparent cursor-pointer hover:bg-surface-container-high transition-all active:scale-95" onclick="selectTemplate(this)">
+<div class="w-14 h-14 rounded-xl bg-surface-container-high border border-outline-variant flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-primary text-3xl">payments</span>
+</div>
+<span class="font-title-sm text-title-sm text-on-surface text-center">KPR</span>
+</div>
+<!-- Custom -->
+<div class="template-card flex flex-col items-center justify-center p-6 bg-surface-container rounded-xl border-2 border-transparent cursor-pointer hover:bg-surface-container-high transition-all active:scale-95" onclick="selectTemplate(this)">
+<div class="w-14 h-14 rounded-xl bg-surface-container-high border border-outline-variant flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-primary text-3xl">add</span>
+</div>
+<span class="font-title-sm text-title-sm text-on-surface text-center">Custom</span>
+</div>
+</div>
+</main>
+<!-- Bottom Action Bar -->
+<div class="fixed bottom-0 w-full bg-surface-container-lowest border-t border-outline-variant p-4 md:px-8 flex items-center justify-between">
+<button class="px-6 py-3 font-label-lg text-label-lg text-primary hover:bg-surface-container-high rounded-full transition-all">
+        Batal
+    </button>
+<button class="px-8 py-3 bg-primary text-on-primary font-label-lg text-label-lg rounded-full shadow-sm opacity-50 cursor-not-allowed hover:bg-surface-bright transition-all active:scale-95 flex items-center gap-2" disabled="" id="nextBtn">
+        Lanjut
+        <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<script>
+    let selectedElement = null;
+
+    function selectTemplate(el) {
+        // Remove previous selection
+        const cards = document.querySelectorAll('.template-card');
+        cards.forEach(card => {
+            card.classList.remove('selected-card');
+        });
+
+        // Add new selection
+        el.classList.add('selected-card');
+        selectedElement = el;
+
+        // Enable next button
+        const nextBtn = document.getElementById('nextBtn');
+        nextBtn.disabled = false;
+        nextBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        
+        // Subtle feedback
+        console.log("Selected template:", el.querySelector('span:last-child').textContent);
+    }
+
+    // Mock Navigation
+    document.getElementById('nextBtn').addEventListener('click', () => {
+        if (!selectedElement) return;
+        const label = selectedElement.querySelector('span:last-child').textContent;
+        alert('Lanjut ke pengisian detail untuk: ' + label);
+    });
+</script>
+</body></html>

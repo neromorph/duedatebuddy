@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Asset Tracker - Assets</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #000000;
+            color: #e5e2e1;
+            -webkit-font-smoothing: antialiased;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .monospaced-numbers {
+            font-variant-numeric: tabular-nums;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #000000;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #2a2a2a;
+            border-radius: 10px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#131313",
+                        "outline-variant": "#444748",
+                        "inverse-on-surface": "#313030",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "surface-container-lowest": "#0e0e0e",
+                        "secondary-container": "#006672",
+                        "on-surface-variant": "#c4c7c8",
+                        "surface-container-high": "#2a2a2a",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "surface-container-low": "#1c1b1b",
+                        "primary": "#ffffff",
+                        "secondary-fixed-dim": "#85d2e0",
+                        "on-tertiary": "#2f3131",
+                        "secondary-fixed": "#a2effd",
+                        "surface-container": "#201f1f",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "surface-bright": "#393939",
+                        "on-primary-fixed-variant": "#454747",
+                        "outline": "#8e9192",
+                        "primary-container": "#e2e2e2",
+                        "tertiary-container": "#e2e2e2",
+                        "surface-container-highest": "#353534",
+                        "on-secondary-fixed-variant": "#004f58",
+                        "on-secondary": "#00363d",
+                        "surface-dim": "#131313",
+                        "on-secondary-container": "#94e1ee",
+                        "surface-variant": "#353534",
+                        "error-container": "#93000a",
+                        "on-surface": "#e5e2e1",
+                        "surface-tint": "#c6c6c7",
+                        "on-error": "#690005",
+                        "on-secondary-fixed": "#001f24",
+                        "error": "#ffb4ab",
+                        "inverse-surface": "#e5e2e1",
+                        "tertiary": "#ffffff",
+                        "on-primary": "#2f3131",
+                        "inverse-primary": "#5d5f5f",
+                        "tertiary-fixed": "#e2e2e2",
+                        "primary-fixed": "#e2e2e2",
+                        "secondary": "#85d2e0",
+                        "on-primary-fixed": "#1a1c1c",
+                        "on-background": "#e5e2e1",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "on-primary-container": "#636565",
+                        "background": "#131313",
+                        "on-tertiary-container": "#636565",
+                        "on-error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "stack-sm": "4px",
+                        "stack-md": "12px",
+                        "base": "8px",
+                        "margin-mobile": "16px",
+                        "stack-lg": "24px",
+                        "margin-desktop": "32px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "title-md": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "title-md": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-black text-on-surface min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-40 border-b border-outline-variant bg-surface dark:bg-surface flex justify-between items-center px-margin-mobile h-16">
+<div class="flex items-center gap-4">
+<button class="text-primary dark:text-primary hover:bg-surface-container-high transition-colors p-2 rounded-full active:opacity-80 transition-opacity">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-primary dark:text-primary tracking-tight">ASSET TRACKER</h1>
+</div>
+<button class="text-primary dark:text-primary hover:bg-surface-container-high transition-colors p-2 rounded-full active:opacity-80 transition-opacity">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</header>
+<main class="max-w-5xl mx-auto px-margin-mobile mt-stack-lg">
+<!-- Search and Global Actions -->
+<div class="flex flex-col gap-stack-md mb-stack-lg">
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline">search</span>
+</div>
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-xl py-4 pl-12 pr-4 text-on-surface focus:outline-none focus:border-secondary transition-all placeholder:text-outline font-body-lg text-body-lg" placeholder="Cari aset..." type="text"/>
+</div>
+<!-- Filter Chips -->
+<div class="flex gap-base overflow-x-auto no-scrollbar pb-2 custom-scrollbar">
+<button class="whitespace-nowrap px-6 py-2 rounded-full bg-primary text-on-primary font-label-md text-label-md transition-all active:scale-95">Semua</button>
+<button class="whitespace-nowrap px-6 py-2 rounded-full border border-outline-variant text-on-surface font-label-md text-label-md hover:bg-surface-container-high transition-all active:scale-95">Properti</button>
+<button class="whitespace-nowrap px-6 py-2 rounded-full border border-outline-variant text-on-surface font-label-md text-label-md hover:bg-surface-container-high transition-all active:scale-95">Kendaraan</button>
+<button class="whitespace-nowrap px-6 py-2 rounded-full border border-outline-variant text-on-surface font-label-md text-label-md hover:bg-surface-container-high transition-all active:scale-95">Elektronik</button>
+<button class="whitespace-nowrap px-6 py-2 rounded-full border border-outline-variant text-on-surface font-label-md text-label-md hover:bg-surface-container-high transition-all active:scale-95">Investasi</button>
+</div>
+</div>
+<!-- Asset Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Asset Card 1 -->
+<div class="bg-surface-container-low border border-outline-variant rounded-xl overflow-hidden group hover:border-outline transition-all duration-300">
+<div class="h-48 w-full overflow-hidden relative">
+<img alt="Luxury Property" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A high-end modern residential villa with clean architectural lines, featuring expansive glass windows and a pristine white exterior. The property is set against a dramatic dark twilight sky, creating a high-contrast aesthetic. Minimalist landscaping with subtle uplighting emphasizes the structure's technical precision and premium feel, consistent with a luxury asset management theme." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKW6qUfHk4P-icp9QeroDzr_ksq6OuPBwLIt2cATgTE1Iq4zTiea5TS35bK6aABzlte6gt530CV1VmlAoaTclJ9VJW5SQ0sbJB-fhpuZJFvohkOmHXGzpu-F8C8woAE6ZcpLnZkmEQI1WUjiJAyXYL-plx76xdFF-XQwazcxKRTrK7Tr1p1Fd2mIv5nqloTqdhoqa6eiwyxyeyLlZzo4cPCecjgRI4vlTtfUCOCdPUbZgQgZkF8bha-uJs4Dk-c_A5A3xhI_VKOEg"/>
+<div class="absolute top-4 right-4 px-3 py-1 bg-secondary-container/20 backdrop-blur-md rounded-lg text-secondary-fixed border border-secondary/30">
+<span class="font-label-md text-label-md">PROPERTI</span>
+</div>
+</div>
+<div class="p-stack-lg">
+<div class="flex justify-between items-start mb-stack-sm">
+<h3 class="font-title-md text-title-md text-white">The Zenith Penthouse</h3>
+<span class="material-symbols-outlined text-outline">more_vert</span>
+</div>
+<p class="text-outline font-body-md text-body-md mb-stack-md">Sudirman Central, Jakarta</p>
+<div class="flex flex-col gap-1 mb-stack-lg">
+<span class="text-on-surface font-label-md text-label-md">Value</span>
+<span class="font-headline-lg text-headline-lg text-white monospaced-numbers">Rp 12.500.000.000</span>
+</div>
+<button class="w-full py-3 bg-white text-black font-label-md text-label-md rounded-lg font-bold hover:bg-neutral-200 transition-colors active:scale-[0.98]">DETAIL ASET</button>
+</div>
+</div>
+<!-- Asset Card 2 -->
+<div class="bg-surface-container-low border border-outline-variant rounded-xl overflow-hidden group hover:border-outline transition-all duration-300">
+<div class="h-48 w-full overflow-hidden relative">
+<img alt="Electric Vehicle" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A sleek, aerodynamic electric sports car in a deep obsidian finish parked in a high-tech underground garage. The lighting is focused and dramatic, highlighting the sharp contours and metallic reflections of the vehicle. The overall environment is dark and technical, emphasizing precision engineering and high-value asset tracking in a modern, authoritative style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCh6TCSiB14qAvbmdrM2Qb7tApv_-1bnF2_BZ7KM5GANS5i8Sw-nXSyZbBGwLjXvnYSdRnWDB8OFgJoUdkyMwy5poThtdUTF9eoygvhmuu_kDsR53bAhTcspHaMeynlf7wCfer04ilqxbT8aUmg3J-_2r5lmMKO6dyXdRnWT89FLPcEXTfVbpXDdkeOJPAC9rNytlCWYtoVn03tBvg3ms08t-WuMRpFocKQpx1X5r63dGmiMtGXXpNY3HJEGrUS5BWKO5y9v0T_Gy0"/>
+<div class="absolute top-4 right-4 px-3 py-1 bg-secondary-container/20 backdrop-blur-md rounded-lg text-secondary-fixed border border-secondary/30">
+<span class="font-label-md text-label-md">KENDARAAN</span>
+</div>
+</div>
+<div class="p-stack-lg">
+<div class="flex justify-between items-start mb-stack-sm">
+<h3 class="font-title-md text-title-md text-white">Tesla Model S Plaid</h3>
+<span class="material-symbols-outlined text-outline">more_vert</span>
+</div>
+<p class="text-outline font-body-md text-body-md mb-stack-md">B 1234 ABC • Black Satin</p>
+<div class="flex flex-col gap-1 mb-stack-lg">
+<span class="text-on-surface font-label-md text-label-md">Value</span>
+<span class="font-headline-lg text-headline-lg text-white monospaced-numbers">Rp 2.450.000.000</span>
+</div>
+<button class="w-full py-3 bg-white text-black font-label-md text-label-md rounded-lg font-bold hover:bg-neutral-200 transition-colors active:scale-[0.98]">DETAIL ASET</button>
+</div>
+</div>
+<!-- Asset Card 3 -->
+<div class="bg-surface-container-low border border-outline-variant rounded-xl overflow-hidden group hover:border-outline transition-all duration-300">
+<div class="h-48 w-full overflow-hidden relative">
+<img alt="Tech Hardware" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A collection of professional computing hardware, including a high-end workstation and specialized servers, arranged in a clean, clinical studio setting. The lighting is cool and technical, reflecting off brushed aluminum surfaces. The scene conveys reliability and substantial technological investment, set within a dark-mode palette that emphasizes clarity and order." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVcoMUCgHr7jNGoZXgdLTrj7F13hAl5C5CGjF0PEmVj3CAtGZ_KozPW-zNhzZ3AR_208QgQSakVvqTOXK0kxY4xV9QpBIgPBU8blbWOKkg_oq4jB2NlYJ82Tf5ueyLfK_a4AYbdJOcFFRA7wkT193WxkbNrRlw0Dgc1rBj5gOf8tdjHWBxcy-zFGLqbvU5FDfs2Rvxypmq24f_sQi61Xer9LHkAJLpSf4p4Wnr_hT0V-ZVgZUyf88h8p0G1vhY1BsZzzDkJkVn1m4"/>
+<div class="absolute top-4 right-4 px-3 py-1 bg-secondary-container/20 backdrop-blur-md rounded-lg text-secondary-fixed border border-secondary/30">
+<span class="font-label-md text-label-md">ELEKTRONIK</span>
+</div>
+</div>
+<div class="p-stack-lg">
+<div class="flex justify-between items-start mb-stack-sm">
+<h3 class="font-title-md text-title-md text-white">Server Cluster A-1</h3>
+<span class="material-symbols-outlined text-outline">more_vert</span>
+</div>
+<p class="text-outline font-body-md text-body-md mb-stack-md">Datacenter Room 402</p>
+<div class="flex flex-col gap-1 mb-stack-lg">
+<span class="text-on-surface font-label-md text-label-md">Value</span>
+<span class="font-headline-lg text-headline-lg text-white monospaced-numbers">Rp 840.000.000</span>
+</div>
+<button class="w-full py-3 bg-white text-black font-label-md text-label-md rounded-lg font-bold hover:bg-neutral-200 transition-colors active:scale-[0.98]">DETAIL ASET</button>
+</div>
+</div>
+</div>
+</main>
+<!-- FAB -->
+<button class="fixed bottom-24 right-6 w-14 h-14 bg-white text-black rounded-full flex items-center justify-center shadow-2xl z-50 active:scale-90 transition-transform duration-150">
+<span class="material-symbols-outlined !text-4xl" style="font-variation-settings: 'wght' 600;">add</span>
+</button>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 bg-surface dark:bg-surface border-t border-outline-variant flex justify-around items-center h-20 px-base pb-safe">
+<button class="flex flex-col items-center justify-center text-outline dark:text-outline px-4 py-1 hover:text-on-surface-variant transition-colors active:scale-95 transition-transform duration-150">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-md text-label-md">Beranda</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-primary dark:bg-primary text-surface dark:text-surface rounded-xl px-4 py-1 hover:text-on-surface-variant transition-colors active:scale-95 transition-transform duration-150">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+<span class="font-label-md text-label-md">Aset</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline dark:text-outline px-4 py-1 hover:text-on-surface-variant transition-colors active:scale-95 transition-transform duration-150">
+<span class="material-symbols-outlined">calendar_month</span>
+<span class="font-label-md text-label-md">Kalender</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline dark:text-outline px-4 py-1 hover:text-on-surface-variant transition-colors active:scale-95 transition-transform duration-150">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Pengaturan</span>
+</button>
+</nav>
+<script>
+        // Simple micro-interaction for active chip states
+        document.querySelectorAll('.overflow-x-auto button').forEach(button => {
+            button.addEventListener('click', function() {
+                document.querySelectorAll('.overflow-x-auto button').forEach(b => {
+                    b.classList.remove('bg-primary', 'text-on-primary');
+                    b.classList.add('border', 'border-outline-variant', 'text-on-surface');
+                });
+                this.classList.add('bg-primary', 'text-on-primary');
+                this.classList.remove('border', 'border-outline-variant', 'text-on-surface');
+            });
+        });
+
+        // Search bar focus effect
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('ring-2', 'ring-white/10');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('ring-2', 'ring-white/10');
+        });
+    </script>
+</body></html>

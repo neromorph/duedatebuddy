@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary": "#ffffff",
+                    "on-status-critical": "#FFFFFF",
+                    "outline-variant": "#bec8ca",
+                    "inverse-surface": "#2e3131",
+                    "surface-tint": "#016874",
+                    "inverse-primary": "#85d2e0",
+                    "surface-container-highest": "#e1e3e3",
+                    "surface-bright": "#f8fafa",
+                    "status-warning": "#8F4E00",
+                    "error": "#ba1a1a",
+                    "secondary-fixed": "#cde7ed",
+                    "on-tertiary-fixed": "#0e1b36",
+                    "on-error": "#ffffff",
+                    "surface-dim": "#d8dada",
+                    "on-secondary-container": "#50686d",
+                    "surface-container-low": "#f2f4f4",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-fixed": "#051f23",
+                    "on-surface-variant": "#3f484a",
+                    "surface-container-high": "#e6e8e9",
+                    "surface": "#f8fafa",
+                    "secondary-container": "#cde7ed",
+                    "tertiary-fixed": "#d9e2ff",
+                    "on-surface": "#191c1d",
+                    "on-status-active": "#FFFFFF",
+                    "background": "#f8fafa",
+                    "on-primary-fixed-variant": "#004f58",
+                    "secondary": "#4a6267",
+                    "tertiary": "#3a4664",
+                    "on-primary-container": "#97e4f2",
+                    "primary-fixed-dim": "#85d2e0",
+                    "status-neutral": "#535F61",
+                    "surface-variant": "#e1e3e3",
+                    "secondary-fixed-dim": "#b1cbd1",
+                    "on-tertiary-fixed-variant": "#3a4664",
+                    "primary": "#004e58",
+                    "tertiary-fixed-dim": "#bac6ea",
+                    "outline": "#6f797b",
+                    "error-container": "#ffdad6",
+                    "surface-container": "#eceeee",
+                    "on-secondary-fixed-variant": "#334b4f",
+                    "status-active": "#2E6C00",
+                    "primary-container": "#006874",
+                    "surface-container-lowest": "#ffffff",
+                    "status-critical": "#BA1A1A",
+                    "on-primary-fixed": "#001f24",
+                    "on-error-container": "#93000a",
+                    "tertiary-container": "#525e7d",
+                    "on-primary": "#ffffff",
+                    "primary-fixed": "#a2effd",
+                    "inverse-on-surface": "#eff1f1",
+                    "on-background": "#191c1d",
+                    "on-status-warning": "#FFFFFF",
+                    "on-tertiary-container": "#ccd8fd"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "margin-tablet": "24px",
+                    "lg": "24px",
+                    "xl": "32px",
+                    "sm": "8px",
+                    "md": "16px",
+                    "gutter": "16px",
+                    "xs": "4px",
+                    "base": "8px"
+            },
+            "fontFamily": {
+                    "headline-sm": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "title-lg": ["Plus Jakarta Sans"],
+                    "label-md": ["Plus Jakarta Sans"],
+                    "headline-lg-mobile": ["Plus Jakarta Sans"],
+                    "label-lg": ["Plus Jakarta Sans"],
+                    "body-md": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "title-md": ["Plus Jakarta Sans"],
+                    "title-sm": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-md": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "letterSpacing": "0.5px", "fontWeight": "400"}],
+                    "title-lg": ["22px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "500"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                    "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "500"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.25px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.5px", "fontWeight": "700"}],
+                    "title-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.15px", "fontWeight": "600"}],
+                    "title-sm": ["14px", {"lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        .lock-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+        .glass-effect {
+            backdrop-filter: blur(12px);
+            background: rgba(248, 250, 250, 0.7);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md overflow-hidden">
+<!-- Top App Bar (Suppressed Shell as per UX goal for Transactional/Secure state) -->
+<header class="fixed top-0 w-full z-50 flex items-center justify-between px-4 h-16 bg-surface">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-primary-container flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-on-primary-container" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+</div>
+<h1 class="font-headline-sm text-headline-sm text-primary">Asset Tracker</h1>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-low transition-colors active:scale-95">
+<span class="material-symbols-outlined text-on-surface-variant">help_outline</span>
+</button>
+</header>
+<!-- Main Canvas -->
+<main class="flex-grow flex flex-col items-center justify-center px-margin-mobile relative">
+<!-- Decorative Background Element -->
+<div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+<div class="absolute -top-[10%] -left-[10%] w-[60%] h-[60%] rounded-full bg-primary/5 blur-3xl"></div>
+<div class="absolute -bottom-[10%] -right-[10%] w-[60%] h-[60%] rounded-full bg-secondary/5 blur-3xl"></div>
+</div>
+<div class="z-10 w-full max-w-md flex flex-col items-center text-center">
+<!-- Lock Icon Section -->
+<div class="relative mb-10">
+<div class="absolute inset-0 bg-primary/10 rounded-full scale-150 blur-2xl"></div>
+<div class="w-32 h-32 md:w-40 md:h-40 bg-surface-container rounded-[32px] flex items-center justify-center shadow-lg relative z-10 lock-pulse border border-outline-variant/30">
+<span class="material-symbols-outlined text-primary text-7xl md:text-8xl" style="font-variation-settings: 'FILL' 1;">fingerprint</span>
+</div>
+<div class="absolute -bottom-2 -right-2 w-12 h-12 bg-status-active rounded-full flex items-center justify-center border-4 border-background z-20">
+<span class="material-symbols-outlined text-white text-2xl" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+</div>
+</div>
+<!-- Text Content -->
+<div class="space-y-4 mb-12">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface">
+                    Keamanan Terjaga
+                </h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-[280px] mx-auto">
+                    Akses aset Anda dengan aman menggunakan autentikasi biometrik perangkat Anda.
+                </p>
+</div>
+<!-- Action Cluster -->
+<div class="w-full space-y-4 px-4">
+<button class="w-full h-14 bg-primary text-on-primary rounded-xl font-title-md text-title-md flex items-center justify-center gap-3 shadow-md hover:brightness-110 active:scale-95 transition-all" id="biometricBtn">
+<span class="material-symbols-outlined">fingerprint</span>
+                    Buka dengan Biometrik
+                </button>
+<div class="flex items-center gap-4 py-2">
+<div class="h-[1px] flex-grow bg-outline-variant"></div>
+<span class="font-label-md text-label-md text-outline">Atau gunakan</span>
+<div class="h-[1px] flex-grow bg-outline-variant"></div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<button class="flex flex-col items-center justify-center p-4 rounded-xl border border-outline-variant bg-surface-container-low hover:bg-surface-container transition-colors active:scale-95 group">
+<span class="material-symbols-outlined text-primary mb-2 group-hover:scale-110 transition-transform">password</span>
+<span class="font-label-lg text-label-lg text-on-surface">PIN</span>
+</button>
+<button class="flex flex-col items-center justify-center p-4 rounded-xl border border-outline-variant bg-surface-container-low hover:bg-surface-container transition-colors active:scale-95 group">
+<span class="material-symbols-outlined text-primary mb-2 group-hover:scale-110 transition-transform">lock</span>
+<span class="font-label-lg text-label-lg text-on-surface">Password</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Success Modal (Hidden by default) -->
+<div class="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/40 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300" id="successModal">
+<div class="bg-surface-container-lowest w-full max-w-xs rounded-3xl p-8 flex flex-col items-center text-center shadow-2xl transform scale-90 transition-transform duration-300">
+<div class="w-20 h-20 bg-status-active/10 rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-status-active text-5xl" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-2">Berhasil</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Identitas terverifikasi. Membuka dashboard...</p>
+</div>
+</div>
+<!-- Background Image Illustration (Subtle) -->
+<div class="fixed bottom-0 left-0 w-full h-1/3 z-[-1] opacity-20 pointer-events-none">
+<img alt="security pattern" class="w-full h-full object-cover grayscale" data-alt="A highly detailed 3D abstract digital background consisting of interconnected glowing lines and nodes resembling a secure neural network or blockchain structure. The lighting is low-key with deep teal and charcoal tones, creating a professional and high-tech security atmosphere. Minimalist geometric patterns intersect in a clean, corporate style that emphasizes digital safety and sophisticated modern technology." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjLU6kW-byM3sPmZP2BPb5gKvNDYBJ9eguQzicqOG00VEAAPlxZhQ-RDHwA86XrEvYXFVIa0UipOQq_brK4agFQolyYVZ4rSFLocq5kZvEdgH_wP_u6grAvD4HTlZVAo6OND6VUeABth_IbeA6ibY2qnaKSwarhTJtkTzB589HACrReYb34URvSa3iGUxPnd69RcUUXUaZ0ocol_xYhIx-iW_MVSha5X6slwg-xiATQz34hyv6Uvy-m8eqU-deCtdN2LYo_wWHEvA"/>
+</div>
+<script>
+        document.getElementById('biometricBtn').addEventListener('click', function() {
+            const modal = document.getElementById('successModal');
+            const modalContent = modal.querySelector('div');
+            
+            // Show modal
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modalContent.classList.remove('scale-90');
+            modalContent.classList.add('scale-100');
+
+            // Simulate navigation after delay
+            setTimeout(() => {
+                alert('Mengarahkan ke Dashboard...');
+                location.reload(); // Placeholder for actual navigation
+            }, 2000);
+        });
+
+        // Atmospheric Micro-interaction for the lock
+        document.addEventListener('mousemove', (e) => {
+            const lock = document.querySelector('.lock-pulse');
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 40;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 40;
+            lock.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+        });
+    </script>
+</body></html>

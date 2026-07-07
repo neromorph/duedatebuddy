@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>Pengaturan - Asset Tracker</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary": "#ffffff",
+                    "on-status-critical": "#FFFFFF",
+                    "outline-variant": "#bec8ca",
+                    "inverse-surface": "#2e3131",
+                    "surface-tint": "#016874",
+                    "inverse-primary": "#85d2e0",
+                    "surface-container-highest": "#e1e3e3",
+                    "surface-bright": "#f8fafa",
+                    "status-warning": "#8F4E00",
+                    "error": "#ba1a1a",
+                    "secondary-fixed": "#cde7ed",
+                    "on-tertiary-fixed": "#0e1b36",
+                    "on-error": "#ffffff",
+                    "surface-dim": "#d8dada",
+                    "on-secondary-container": "#50686d",
+                    "surface-container-low": "#f2f4f4",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-fixed": "#051f23",
+                    "on-surface-variant": "#3f484a",
+                    "surface-container-high": "#e6e8e9",
+                    "surface": "#f8fafa",
+                    "secondary-container": "#cde7ed",
+                    "tertiary-fixed": "#d9e2ff",
+                    "on-surface": "#191c1d",
+                    "on-status-active": "#FFFFFF",
+                    "background": "#f8fafa",
+                    "on-primary-fixed-variant": "#004f58",
+                    "secondary": "#4a6267",
+                    "tertiary": "#3a4664",
+                    "on-primary-container": "#97e4f2",
+                    "primary-fixed-dim": "#85d2e0",
+                    "status-neutral": "#535F61",
+                    "surface-variant": "#e1e3e3",
+                    "secondary-fixed-dim": "#b1cbd1",
+                    "on-tertiary-fixed-variant": "#3a4664",
+                    "primary": "#004e58",
+                    "tertiary-fixed-dim": "#bac6ea",
+                    "outline": "#6f797b",
+                    "error-container": "#ffdad6",
+                    "surface-container": "#eceeee",
+                    "on-secondary-fixed-variant": "#334b4f",
+                    "status-active": "#2E6C00",
+                    "primary-container": "#006874",
+                    "surface-container-lowest": "#ffffff",
+                    "status-critical": "#BA1A1A",
+                    "on-primary-fixed": "#001f24",
+                    "on-error-container": "#93000a",
+                    "tertiary-container": "#525e7d",
+                    "on-primary": "#ffffff",
+                    "primary-fixed": "#a2effd",
+                    "inverse-on-surface": "#eff1f1",
+                    "on-background": "#191c1d",
+                    "on-status-warning": "#FFFFFF",
+                    "on-tertiary-container": "#ccd8fd"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "margin-tablet": "24px",
+                    "lg": "24px",
+                    "xl": "32px",
+                    "sm": "8px",
+                    "md": "16px",
+                    "gutter": "16px",
+                    "xs": "4px",
+                    "base": "8px"
+            },
+            "fontFamily": {
+                    "headline-sm": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "title-lg": ["Plus Jakarta Sans"],
+                    "label-md": ["Plus Jakarta Sans"],
+                    "headline-lg-mobile": ["Plus Jakarta Sans"],
+                    "label-lg": ["Plus Jakarta Sans"],
+                    "body-md": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "title-md": ["Plus Jakarta Sans"],
+                    "title-sm": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-md": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "letterSpacing": "0.5px", "fontWeight": "400"}],
+                    "title-lg": ["22px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "500"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                    "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "500"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.25px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.5px", "fontWeight": "700"}],
+                    "title-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.15px", "fontWeight": "600"}],
+                    "title-sm": ["14px", {"lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .touch-target { min-height: 48px; min-width: 48px; }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #bec8ca; border-radius: 10px; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background selection:bg-primary-fixed selection:text-on-primary-fixed custom-scrollbar overflow-x-hidden">
+<!-- Top App Bar -->
+<header class="fixed top-0 w-full z-50 bg-surface dark:bg-surface-dim flex items-center justify-between px-4 h-16 w-full">
+<div class="flex items-center gap-4">
+<button aria-label="Back" class="flex items-center justify-center w-12 h-12 rounded-full hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors active:scale-95 duration-100">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim">arrow_back</span>
+</button>
+<h1 class="font-title-lg text-title-lg text-primary dark:text-primary-fixed-dim">Pengaturan</h1>
+</div>
+<button class="flex items-center justify-center w-12 h-12 rounded-full hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors active:scale-95 duration-100">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim">more_vert</span>
+</button>
+</header>
+<main class="pt-20 pb-24 px-4 max-w-2xl mx-auto space-y-6">
+<!-- 1. Profile Section -->
+<section class="bg-surface-container-low rounded-xl p-4 flex items-center gap-4">
+<div class="relative w-16 h-16 rounded-full overflow-hidden flex-shrink-0 bg-secondary-container">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="A professional close-up portrait of a friendly middle-aged man with a warm smile, set against a softly blurred interior background of a modern living room. The lighting is natural and bright, conveying a sense of reliability and family-oriented warmth. The overall aesthetic is clean and high-key, aligning with a premium light-mode UI design focused on financial trust and home management." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4Ufx81JffedaQM2y0dLQK3PO7G4SAhJyg76NMaLi8lemWVeb1mUxLiChb1H9aSQ400mpXIqgX-Js2qKl2v1q4Wr5aFOcLnu9VmR9896OqH3hV4yn5UtD6hml8KYQzdIp_0TY2WnaiX1xJiIE9uwWiISufG8icsjwHqcwcG4jC6Mt8Hj2dHA_a-WAx13osIZp4lKCknxft3mzfglIEnDBq0TA182Z2UOthwgX0Xaj2ruXmRsFqKhqIxOiXUmCfeRf9fxxCuw0ZcU0"/>
+</div>
+<div class="flex-grow">
+<h2 class="font-title-md text-title-md text-on-surface">Budi Santoso</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">budi.santoso@family.id</p>
+</div>
+<button class="text-primary hover:bg-primary-fixed-dim/10 p-2 rounded-full transition-colors">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</section>
+<!-- 2. Keluarga Section -->
+<section class="space-y-3">
+<div class="px-2">
+<h3 class="font-label-lg text-label-lg text-primary uppercase tracking-wider">Keluarga</h3>
+</div>
+<div class="bg-surface-container rounded-xl overflow-hidden">
+<div class="p-4 border-b border-outline-variant flex justify-between items-center">
+<div>
+<p class="font-title-sm text-title-sm">Keluarga Santoso</p>
+<p class="font-label-md text-label-md text-on-surface-variant">4 Anggota Keluarga</p>
+</div>
+<button class="bg-primary text-on-primary px-4 py-2 rounded-full font-label-lg flex items-center gap-2 hover:opacity-90 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[18px]">person_add</span>
+                        Undang
+                    </button>
+</div>
+<div class="divide-y divide-outline-variant/30">
+<div class="flex items-center gap-3 p-4">
+<div class="w-10 h-10 rounded-full bg-tertiary-fixed flex items-center justify-center text-on-tertiary-fixed font-bold">S</div>
+<div class="flex-grow">
+<p class="font-body-md text-body-md">Sari Santoso</p>
+<p class="font-label-md text-label-md text-on-surface-variant">Pasangan • Admin</p>
+</div>
+</div>
+<div class="flex items-center gap-3 p-4">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed font-bold">R</div>
+<div class="flex-grow">
+<p class="font-body-md text-body-md">Rian Santoso</p>
+<p class="font-label-md text-label-md text-on-surface-variant">Anak</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 3. Notifikasi Section -->
+<section class="space-y-3">
+<div class="px-2">
+<h3 class="font-label-lg text-label-lg text-primary uppercase tracking-wider">Notifikasi</h3>
+</div>
+<div class="bg-surface-container rounded-xl divide-y divide-outline-variant/30">
+<div class="flex items-center justify-between p-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+<span class="font-body-lg text-body-lg">Pengingat Jatuh Tempo</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="flex items-center justify-between p-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant">mail</span>
+<span class="font-body-lg text-body-lg">Laporan Bulanan Email</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</section>
+<!-- 4. Tampilan Section -->
+<section class="space-y-3">
+<div class="px-2">
+<h3 class="font-label-lg text-label-lg text-primary uppercase tracking-wider">Tampilan</h3>
+</div>
+<div class="bg-surface-container rounded-xl p-4 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant">dark_mode</span>
+<span class="font-body-lg text-body-lg">Mode Gelap</span>
+</div>
+<button class="flex items-center gap-2 bg-surface-container-high px-4 py-2 rounded-lg font-label-md hover:bg-surface-container-highest transition-colors" id="themeToggle">
+<span id="themeStatus">Nonaktif</span>
+<span class="material-symbols-outlined text-[18px]">sync</span>
+</button>
+</div>
+</section>
+<!-- 5. Keamanan Section -->
+<section class="space-y-3">
+<div class="px-2">
+<h3 class="font-label-lg text-label-lg text-primary uppercase tracking-wider">Keamanan</h3>
+</div>
+<div class="bg-surface-container rounded-xl divide-y divide-outline-variant/30">
+<div class="flex items-center justify-between p-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant">fingerprint</span>
+<div class="flex flex-col">
+<span class="font-body-lg text-body-lg">Biometrik</span>
+<span class="font-label-md text-label-md text-on-surface-variant">Sidik Jari atau Wajah</span>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<button class="w-full flex items-center justify-between p-4 text-left hover:bg-surface-container-high transition-colors">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant">lock</span>
+<span class="font-body-lg text-body-lg">Ganti Kata Sandi</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</button>
+</div>
+</section>
+<!-- 6. Keluar Section -->
+<section class="pt-4">
+<button class="w-full bg-error-container text-error p-4 rounded-xl flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all font-title-md">
+<span class="material-symbols-outlined">logout</span>
+                Keluar
+            </button>
+<p class="text-center mt-6 font-label-md text-on-surface-variant">Versi 2.4.0 (Build 1082)</p>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 w-full z-50 bg-surface dark:bg-surface-dim border-t border-outline-variant dark:border-outline shadow-sm flex justify-around items-center h-20 w-full pb-safe">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-5 py-1 hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all active:scale-90 duration-100" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Beranda</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-5 py-1 hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all active:scale-90 duration-100" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-label-md text-label-md">Aset</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-5 py-1 hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all active:scale-90 duration-100" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+<span class="font-label-md text-label-md">Kalender</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary-container text-on-secondary-container rounded-full px-5 py-1 transition-all active:scale-90 duration-100" href="#">
+<span class="material-symbols-outlined" data-icon="settings" style="font-variation-settings: 'FILL' 1;">settings</span>
+<span class="font-label-md text-label-md">Pengaturan</span>
+</a>
+</nav>
+<script>
+        const themeToggle = document.getElementById('themeToggle');
+        const themeStatus = document.getElementById('themeStatus');
+        const html = document.documentElement;
+
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            const isDark = html.classList.contains('dark');
+            themeStatus.textContent = isDark ? 'Aktif' : 'Nonaktif';
+            
+            // Subtle feedback
+            themeToggle.classList.add('scale-95');
+            setTimeout(() => themeToggle.classList.remove('scale-95'), 100);
+        });
+
+        // Interactive List Hover Effect
+        document.querySelectorAll('.bg-surface-container').forEach(container => {
+            const items = container.querySelectorAll('.p-4');
+            items.forEach(item => {
+                item.addEventListener('touchstart', () => {
+                    item.classList.add('bg-surface-container-highest');
+                });
+                item.addEventListener('touchend', () => {
+                    setTimeout(() => item.classList.remove('bg-surface-container-highest'), 150);
+                });
+            });
+        });
+    </script>
+</body></html>

@@ -22,9 +22,7 @@ def default_config():
         "vault": DEFAULT_VAULT,
         "base": "~/graphify-obsidian",
         "projects": [],
-        "doc_collections": [
-            {"name": "default", "inbox": "~/graphify-obsidian/inbox/docs/default"}
-        ],
+        "doc_collections": [],
     }
 
 def load_config(path):
@@ -114,10 +112,36 @@ def convert_collection(cfg, collection, runner=subprocess.run):
         made.append(dest)
     return sorted(made)
 
-def run_graphify(input_path, output_path, runner=subprocess.run):
+def load_env_file(path):
+    path = expand(path)
+    if not path.exists():
+        return {}
+    env = {}
+    for raw in path.read_text(encoding="utf-8").splitlines():
+        line = raw.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        key = key.strip()
+        value = value.strip().strip('"').strip("'")
+        if key:
+            env[key] = value
+    return env
+
+
+def run_graphify(input_path, output_path, runner=subprocess.run, env_file=None, excludes=None):
     output_path = expand(output_path)
     output_path.mkdir(parents=True, exist_ok=True)
-    runner(["graphify", "extract", str(expand(input_path)), "--out", str(output_path)], check=True)
+    env = None
+    if env_file:
+        env = {**subprocess.os.environ, **load_env_file(env_file)}
+    cmd = ["graphify", "extract", str(expand(input_path)), "--out", str(output_path)]
+    for exclude in excludes or []:
+        cmd.extend(["--exclude", exclude])
+    try:
+        runner(cmd, check=True, env=env)
+    except TypeError:
+        runner(cmd, check=True)
 
 def find_source(cfg, name):
     for project in cfg.get("projects", []):
@@ -144,7 +168,6 @@ def cmd_init(args):
         return 1
     cfg = default_config()
     cfg["base"] = str(Path(args.base).expanduser())
-    cfg["doc_collections"][0]["inbox"] = str(Path(args.base).expanduser() / "inbox/docs/default")
     ensure_layout(cfg)
     write_json(config_path, cfg)
     print(f"Wrote {config_path}")
@@ -184,12 +207,14 @@ def cmd_run(args):
     if not should_run(cfg, args.source, input_path):
         print(f"Skipped unchanged source: {args.source}")
         return 0
+    env_file = cfg.get("env_file") or vault / "Graphify/.env"
+    excludes = cfg.get("excludes", [])
     if kind == "project":
-        run_graphify(item["path"], vault / "Graphify/projects" / item["name"], runner=RUNNER)
+        run_graphify(item["path"], vault / "Graphify/projects" / item["name"], runner=RUNNER, env_file=env_file, excludes=excludes)
     else:
         convert_collection(cfg, item)
         staging = expand(cfg["base"]) / "staging/docs" / item["name"]
-        run_graphify(staging, vault / "Graphify/docs" / item["name"], runner=RUNNER)
+        run_graphify(staging, vault / "Graphify/docs" / item["name"], runner=RUNNER, env_file=env_file, excludes=excludes)
     mark_done(cfg, args.source, input_path)
     return 0
 

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>Daftar Aset - Asset Tracker</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary": "#ffffff",
+                    "secondary-container": "#cde7ed",
+                    "outline-variant": "#bec8ca",
+                    "tertiary": "#3a4664",
+                    "status-neutral": "#535F61",
+                    "on-status-active": "#FFFFFF",
+                    "on-primary-fixed": "#001f24",
+                    "inverse-surface": "#2e3131",
+                    "status-warning": "#8F4E00",
+                    "primary-container": "#006874",
+                    "surface": "#f8fafa",
+                    "tertiary-fixed-dim": "#bac6ea",
+                    "background": "#f8fafa",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-fixed-dim": "#b1cbd1",
+                    "surface-container": "#eceeee",
+                    "on-secondary-container": "#50686d",
+                    "on-status-warning": "#FFFFFF",
+                    "surface-bright": "#f8fafa",
+                    "inverse-primary": "#85d2e0",
+                    "on-tertiary-container": "#ccd8fd",
+                    "primary": "#004e58",
+                    "status-active": "#2E6C00",
+                    "on-background": "#191c1d",
+                    "surface-variant": "#e1e3e3",
+                    "on-tertiary": "#ffffff",
+                    "on-tertiary-fixed": "#0e1b36",
+                    "tertiary-fixed": "#d9e2ff",
+                    "on-surface": "#191c1d",
+                    "on-secondary": "#ffffff",
+                    "primary-fixed": "#a2effd",
+                    "on-status-critical": "#FFFFFF",
+                    "outline": "#6f797b",
+                    "secondary": "#4a6267",
+                    "surface-dim": "#d8dada",
+                    "secondary-fixed": "#cde7ed",
+                    "on-secondary-fixed": "#051f23",
+                    "primary-fixed-dim": "#85d2e0",
+                    "on-error": "#ffffff",
+                    "error": "#ba1a1a",
+                    "error-container": "#ffdad6",
+                    "surface-container-highest": "#e1e3e3",
+                    "on-primary-fixed-variant": "#004f58",
+                    "on-error-container": "#93000a",
+                    "status-critical": "#BA1A1A",
+                    "on-secondary-fixed-variant": "#334b4f",
+                    "on-primary-container": "#97e4f2",
+                    "surface-tint": "#016874",
+                    "surface-container-high": "#e6e8e9",
+                    "on-tertiary-fixed-variant": "#3a4664",
+                    "tertiary-container": "#525e7d",
+                    "on-surface-variant": "#3f484a",
+                    "surface-container-low": "#f2f4f4",
+                    "inverse-on-surface": "#eff1f1"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "lg": "24px",
+                    "base": "8px",
+                    "xs": "4px",
+                    "sm": "8px",
+                    "xl": "32px",
+                    "gutter": "16px",
+                    "margin-tablet": "24px",
+                    "md": "16px",
+                    "margin-mobile": "16px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "label-lg": ["Plus Jakarta Sans"],
+                    "title-lg": ["Plus Jakarta Sans"],
+                    "headline-lg-mobile": ["Plus Jakarta Sans"],
+                    "label-md": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "title-sm": ["Plus Jakarta Sans"],
+                    "body-md": ["Plus Jakarta Sans"],
+                    "title-md": ["Plus Jakarta Sans"],
+                    "headline-sm": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "body-lg": ["16px", {"lineHeight": "24px", "letterSpacing": "0.5px", "fontWeight": "400"}],
+                    "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "500"}],
+                    "title-lg": ["22px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "500"}],
+                    "headline-md": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.5px", "fontWeight": "700"}],
+                    "title-sm": ["14px", {"lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.25px", "fontWeight": "400"}],
+                    "title-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.15px", "fontWeight": "600"}],
+                    "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-effect {
+            backdrop-filter: blur(8px);
+            background: rgba(248, 250, 250, 0.85);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface dark:bg-surface-dim flex items-center justify-between px-4 h-16 w-full">
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-primary dark:text-primary-fixed-dim hover:bg-surface-container-low transition-colors p-2 rounded-full active:scale-95 duration-100">arrow_back</button>
+<h1 class="font-title-lg text-title-lg text-primary dark:text-primary-fixed-dim">Aset</h1>
+</div>
+<div class="flex items-center gap-2">
+<button class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-low transition-colors p-2 rounded-full active:scale-95 duration-100">search</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-low transition-colors p-2 rounded-full active:scale-95 duration-100">tune</button>
+<button class="material-symbols-outlined text-primary dark:text-primary-fixed-dim hover:bg-surface-container-low transition-colors p-2 rounded-full active:scale-95 duration-100">more_vert</button>
+</div>
+</header>
+<!-- Content Canvas -->
+<main class="pt-20 px-4 md:px-8 max-w-5xl mx-auto">
+<!-- Search & Quick Stats (Bento Minimal) -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+<div class="md:col-span-2 bg-surface-container-low p-6 rounded-xl flex flex-col justify-center">
+<h2 class="font-headline-sm text-headline-sm text-primary mb-2">Kelola Aset Keluarga</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Terdapat 12 aset aktif dengan 2 pembaruan segera.</p>
+</div>
+<div class="bg-primary text-on-primary p-6 rounded-xl flex flex-col items-center justify-center text-center">
+<span class="font-headline-lg text-headline-lg">2</span>
+<span class="font-label-md text-label-md uppercase tracking-wider">Perlu Tindakan</span>
+</div>
+</section>
+<!-- Category: Kendaraan -->
+<section class="mb-8">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-title-md text-title-md text-on-surface-variant">Kendaraan</h3>
+<span class="bg-surface-container text-on-surface-variant px-3 py-1 rounded-full font-label-md text-label-md">3 Unit</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+<!-- Asset Card 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 p-4 rounded-xl flex items-center gap-4 hover:shadow-sm transition-shadow cursor-pointer active:scale-[0.98] duration-100">
+<div class="w-12 h-12 rounded-xl bg-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-secondary-container">directions_car</span>
+</div>
+<div class="flex-1">
+<h4 class="font-title-md text-title-md">Toyota Corolla Cross</h4>
+<p class="font-label-md text-label-md text-on-surface-variant">Exp: 12 Okt 2024</p>
+</div>
+<div class="bg-[#e7f5e3] text-[#2E6C00] px-3 py-1 rounded-full font-label-md text-label-md">
+                        Aktif
+                    </div>
+</div>
+<!-- Asset Card 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 p-4 rounded-xl flex items-center gap-4 hover:shadow-sm transition-shadow cursor-pointer active:scale-[0.98] duration-100">
+<div class="w-12 h-12 rounded-xl bg-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-secondary-container">two_wheeler</span>
+</div>
+<div class="flex-1">
+<h4 class="font-title-md text-title-md">Honda Vario 160</h4>
+<p class="font-label-md text-label-md text-on-surface-variant">Exp: 15 Mar 2024</p>
+</div>
+<div class="bg-[#fff4e5] text-[#8F4E00] px-3 py-1 rounded-full font-label-md text-label-md">
+                        Segera Berakhir
+                    </div>
+</div>
+<!-- Asset Card 3 -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 p-4 rounded-xl flex items-center gap-4 hover:shadow-sm transition-shadow cursor-pointer active:scale-[0.98] duration-100">
+<div class="w-12 h-12 rounded-xl bg-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-secondary-container">directions_car</span>
+</div>
+<div class="flex-1">
+<h4 class="font-title-md text-title-md">Honda CR-V Gen 6</h4>
+<p class="font-label-md text-label-md text-on-surface-variant">Exp: 02 Jan 2025</p>
+</div>
+<div class="bg-[#e7f5e3] text-[#2E6C00] px-3 py-1 rounded-full font-label-md text-label-md">
+                        Aktif
+                    </div>
+</div>
+</div>
+</section>
+<!-- Category: Properti -->
+<section class="mb-8">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-title-md text-title-md text-on-surface-variant">Properti</h3>
+<span class="bg-surface-container text-on-surface-variant px-3 py-1 rounded-full font-label-md text-label-md">2 Unit</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+<!-- Asset Card 4 -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 p-4 rounded-xl flex items-center gap-4 hover:shadow-sm transition-shadow cursor-pointer active:scale-[0.98] duration-100">
+<div class="w-12 h-12 rounded-xl bg-tertiary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-on-tertiary-fixed">home</span>
+</div>
+<div class="flex-1">
+<h4 class="font-title-md text-title-md">Rumah BSD City</h4>
+<p class="font-label-md text-label-md text-on-surface-variant">PBB: 31 Agu 2024</p>
+</div>
+<div class="bg-[#e7f5e3] text-[#2E6C00] px-3 py-1 rounded-full font-label-md text-label-md">
+                        Aktif
+                    </div>
+</div>
+<!-- Asset Card 5 -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 p-4 rounded-xl flex items-center gap-4 hover:shadow-sm transition-shadow cursor-pointer active:scale-[0.98] duration-100">
+<div class="w-12 h-12 rounded-xl bg-tertiary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-on-tertiary-fixed">apartment</span>
+</div>
+<div class="flex-1">
+<h4 class="font-title-md text-title-md">Apartemen Sudirman</h4>
+<p class="font-label-md text-label-md text-on-surface-variant">IPL: 05 Jan 2024</p>
+</div>
+<div class="bg-[#ffebee] text-[#BA1A1A] px-3 py-1 rounded-full font-label-md text-label-md">
+                        Terlambat
+                    </div>
+</div>
+</div>
+</section>
+<!-- Category: Elektronik (Placeholder for scroll) -->
+<section class="mb-8 opacity-60">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-title-md text-title-md text-on-surface-variant">Elektronik</h3>
+<span class="bg-surface-container text-on-surface-variant px-3 py-1 rounded-full font-label-md text-label-md">7 Unit</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+<div class="bg-surface-container-lowest border border-outline-variant/30 p-4 rounded-xl flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant">laptop_mac</span>
+</div>
+<div class="flex-1">
+<h4 class="font-title-md text-title-md">MacBook Pro M2</h4>
+<p class="font-label-md text-label-md text-on-surface-variant">Garansi: 2025</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- FAB -->
+<button class="fixed bottom-24 right-6 w-14 h-14 bg-primary text-on-primary rounded-2xl shadow-lg flex items-center justify-center hover:scale-105 active:scale-95 transition-all z-50">
+<span class="material-symbols-outlined text-[32px]">add</span>
+</button>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 bg-surface dark:bg-surface-dim border-t border-outline-variant dark:border-outline shadow-sm flex justify-around items-center h-20 w-full pb-safe">
+<!-- Beranda -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-5 py-1 hover:bg-surface-container-high transition-all active:scale-90" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Beranda</span>
+</a>
+<!-- Aset (ACTIVE) -->
+<a class="flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary-container text-on-secondary-container rounded-full px-5 py-1 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<span class="font-label-md text-label-md">Aset</span>
+</a>
+<!-- Kalender -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-5 py-1 hover:bg-surface-container-high transition-all active:scale-90" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-label-md text-label-md">Kalender</span>
+</a>
+<!-- Pengaturan -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-5 py-1 hover:bg-surface-container-high transition-all active:scale-90" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Pengaturan</span>
+</a>
+</nav>
+<script>
+        // Simple micro-interaction for list items
+        document.querySelectorAll('main > section > div > div').forEach(card => {
+            card.addEventListener('click', () => {
+                card.style.transform = 'scale(0.96)';
+                setTimeout(() => {
+                    card.style.transform = 'scale(1)';
+                }, 100);
+            });
+        });
+    </script>
+</body></html>

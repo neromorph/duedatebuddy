@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>Pengaturan - Asset Tracker</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "secondary-fixed-dim": "#b9c8de",
+                "surface-container-lowest": "#060e20",
+                "background": "#0b1326",
+                "primary-fixed": "#6ef9e2",
+                "tertiary-fixed": "#62fae3",
+                "on-primary": "#003730",
+                "error": "#ffb4ab",
+                "on-secondary-container": "#a7b6cc",
+                "primary": "#b5fff0",
+                "surface": "#0b1326",
+                "tertiary-container": "#50ebd5",
+                "surface-container-high": "#222a3d",
+                "outline-variant": "#3c4946",
+                "tertiary-fixed-dim": "#3cddc7",
+                "error-container": "#93000a",
+                "on-primary-fixed": "#00201b",
+                "inverse-surface": "#dae2fd",
+                "secondary": "#b9c8de",
+                "on-secondary": "#233143",
+                "inverse-on-surface": "#283044",
+                "on-tertiary-fixed": "#00201c",
+                "on-tertiary-fixed-variant": "#005047",
+                "primary-fixed-dim": "#4ddcc6",
+                "surface-variant": "#2d3449",
+                "on-primary-container": "#00675b",
+                "surface-tint": "#4ddcc6",
+                "inverse-primary": "#006b5e",
+                "outline": "#859490",
+                "surface-bright": "#31394d",
+                "secondary-container": "#39485a",
+                "surface-dim": "#0b1326",
+                "surface-container-highest": "#2d3449",
+                "tertiary": "#b4fff1",
+                "on-error-container": "#ffdad6",
+                "on-tertiary": "#003731",
+                "surface-container-low": "#131b2e",
+                "on-secondary-fixed": "#0d1c2d",
+                "on-error": "#690005",
+                "on-surface-variant": "#bbcac5",
+                "on-tertiary-container": "#00675c",
+                "on-primary-fixed-variant": "#005047",
+                "on-surface": "#dae2fd",
+                "secondary-fixed": "#d4e4fa",
+                "on-background": "#dae2fd",
+                "primary-container": "#5eead4",
+                "surface-container": "#171f33",
+                "on-secondary-fixed-variant": "#39485a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-desktop": "64px",
+                    "margin-mobile": "16px",
+                    "container-max-width": "1280px",
+                    "unit": "8px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "body-md": ["Plus Jakarta Sans"],
+                    "label-lg": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "headline-lg-mobile": ["Plus Jakarta Sans"],
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "label-sm": ["Plus Jakarta Sans"],
+                    "title-lg": ["Plus Jakarta Sans"],
+                    "title-md": ["Plus Jakarta Sans"],
+                    "title-sm": ["Plus Jakarta Sans"],
+                    "label-md": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "headline-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "headline-md": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "500"}],
+                    "title-lg": ["22px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "title-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.15px", "fontWeight": "600"}],
+                    "title-sm": ["14px", {"lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "600"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .touch-target { min-height: 48px; min-width: 48px; }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #3c4946; border-radius: 10px; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background selection:bg-primary-fixed selection:text-on-primary-fixed custom-scrollbar overflow-x-hidden">
+<!-- Top App Bar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md flex items-center justify-between px-4 h-16 w-full border-b border-surface-container-highest">
+<div class="flex items-center gap-4">
+<button aria-label="Back" class="flex items-center justify-center w-12 h-12 rounded-full hover:bg-surface-container-high transition-colors active:scale-95 duration-100">
+<span class="material-symbols-outlined text-primary-fixed-dim">arrow_back</span>
+</button>
+<h1 class="font-title-lg text-title-lg text-on-surface">Pengaturan</h1>
+</div>
+<button class="flex items-center justify-center w-12 h-12 rounded-full hover:bg-surface-container-high transition-colors active:scale-95 duration-100">
+<span class="material-symbols-outlined text-primary-fixed-dim">more_vert</span>
+</button>
+</header>
+<main class="pt-20 pb-28 px-4 max-w-2xl mx-auto space-y-6">
+<!-- 1. Profile Section -->
+<section class="bg-surface-container-low rounded-xl p-4 flex items-center gap-4 border border-outline-variant/10">
+<div class="relative w-16 h-16 rounded-full overflow-hidden flex-shrink-0 bg-secondary-container ring-2 ring-primary-fixed-dim/20">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="A professional close-up portrait of a friendly middle-aged man with a warm smile, set against a softly blurred interior background of a modern living room." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4Ufx81JffedaQM2y0dLQK3PO7G4SAhJyg76NMaLi8lemWVeb1mUxLiChb1H9aSQ400mpXIqgX-Js2qKl2v1q4Wr5aFOcLnu9VmR9896OqH3hV4yn5UtD6hml8KYQzdIp_0TY2WnaiX1xJiIE9uwWiISufG8icsjwHqcwcG4jC6Mt8Hj2dHA_a-WAx13osIZp4lKCknxft3mzfglIEnDBq0TA182Z2UOthwgX0Xaj2ruXmRsFqKhqIxOiXUmCfeRf9fxxCuw0ZcU0"/>
+</div>
+<div class="flex-grow">
+<h2 class="font-title-md text-title-md text-on-surface">Budi Santoso</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">budi.santoso@family.id</p>
+</div>
+<button class="text-primary-fixed-dim hover:bg-primary-fixed-dim/10 p-2 rounded-full transition-colors active:scale-90">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</section>
+<!-- 2. Keluarga Section -->
+<section class="space-y-3">
+<div class="px-2">
+<h3 class="font-label-lg text-label-lg text-primary-fixed-dim uppercase tracking-wider">Keluarga</h3>
+</div>
+<div class="bg-surface-container rounded-xl overflow-hidden border border-outline-variant/10">
+<div class="p-4 border-b border-outline-variant/20 flex justify-between items-center">
+<div>
+<p class="font-title-sm text-title-sm text-on-surface">Keluarga Santoso</p>
+<p class="font-label-md text-label-md text-on-surface-variant">4 Anggota Keluarga</p>
+</div>
+<button class="bg-primary-container text-on-primary-container px-4 py-2 rounded-full font-label-lg flex items-center gap-2 hover:opacity-90 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[18px]">person_add</span>
+                        Undang
+                    </button>
+</div>
+<div class="divide-y divide-outline-variant/20">
+<div class="flex items-center gap-3 p-4 hover:bg-surface-container-high transition-colors cursor-pointer">
+<div class="w-10 h-10 rounded-full bg-tertiary-fixed-dim flex items-center justify-center text-on-tertiary-fixed font-bold">S</div>
+<div class="flex-grow">
+<p class="font-body-md text-body-md text-on-surface">Sari Santoso</p>
+<p class="font-label-md text-label-md text-on-surface-variant">Pasangan • Admin</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</div>
+<div class="flex items-center gap-3 p-4 hover:bg-surface-container-high transition-colors cursor-pointer">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed-dim flex items-center justify-center text-on-secondary-fixed font-bold">R</div>
+<div class="flex-grow">
+<p class="font-body-md text-body-md text-on-surface">Rian Santoso</p>
+<p class="font-label-md text-label-md text-on-surface-variant">Anak</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 3. Notifikasi Section -->
+<section class="space-y-3">
+<div class="px-2">
+<h3 class="font-label-lg text-label-lg text-primary-fixed-dim uppercase tracking-wider">Notifikasi</h3>
+</div>
+<div class="bg-surface-container rounded-xl divide-y divide-outline-variant/20 border border-outline-variant/10">
+<div class="flex items-center justify-between p-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-fixed-dim">notifications</span>
+<span class="font-body-lg text-body-lg text-on-surface">Pengingat Jatuh Tempo</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-fixed-dim"></div>
+</label>
+</div>
+<div class="flex items-center justify-between p-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-fixed-dim">mail</span>
+<span class="font-body-lg text-body-lg text-on-surface">Laporan Bulanan Email</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-fixed-dim"></div>
+</label>
+</div>
+</div>
+</section>
+<!-- 4. Tampilan Section -->
+<section class="space-y-3">
+<div class="px-2">
+<h3 class="font-label-lg text-label-lg text-primary-fixed-dim uppercase tracking-wider">Tampilan</h3>
+</div>
+<div class="bg-surface-container rounded-xl p-4 flex items-center justify-between border border-outline-variant/10">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-fixed-dim" style="font-variation-settings: 'FILL' 1;">dark_mode</span>
+<span class="font-body-lg text-body-lg text-on-surface">Mode Gelap</span>
+</div>
+<button class="flex items-center gap-2 bg-primary-container text-on-primary-container px-4 py-2 rounded-lg font-label-md hover:opacity-90 transition-all active:scale-95" id="themeToggle">
+<span id="themeStatus">Aktif</span>
+<span class="material-symbols-outlined text-[18px]">sync</span>
+</button>
+</div>
+</section>
+<!-- 5. Keamanan Section -->
+<section class="space-y-3">
+<div class="px-2">
+<h3 class="font-label-lg text-label-lg text-primary-fixed-dim uppercase tracking-wider">Keamanan</h3>
+</div>
+<div class="bg-surface-container rounded-xl divide-y divide-outline-variant/20 border border-outline-variant/10">
+<div class="flex items-center justify-between p-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-fixed-dim">fingerprint</span>
+<div class="flex flex-col">
+<span class="font-body-lg text-body-lg text-on-surface">Biometrik</span>
+<span class="font-label-md text-label-md text-on-surface-variant">Sidik Jari atau Wajah</span>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-fixed-dim"></div>
+</label>
+</div>
+<button class="w-full flex items-center justify-between p-4 text-left hover:bg-surface-container-high transition-colors">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-fixed-dim">lock</span>
+<span class="font-body-lg text-body-lg text-on-surface">Ganti Kata Sandi</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</button>
+</div>
+</section>
+<!-- 6. Keluar Section -->
+<section class="pt-4">
+<button class="w-full bg-error-container/20 text-error border border-error/20 p-4 rounded-xl flex items-center justify-center gap-2 hover:bg-error-container/30 active:scale-[0.98] transition-all font-title-md">
+<span class="material-symbols-outlined">logout</span>
+                Keluar
+            </button>
+<p class="text-center mt-6 font-label-md text-on-surface-variant opacity-60">Versi 2.4.0 (Build 1082)</p>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 w-full z-50 bg-surface/90 backdrop-blur-lg border-t border-surface-container-highest shadow-2xl flex justify-around items-center h-20 w-full pb-safe">
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1 hover:text-on-surface transition-all active:scale-90 duration-100" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Beranda</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1 hover:text-on-surface transition-all active:scale-90 duration-100" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-label-md text-label-md">Aset</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1 hover:text-on-surface transition-all active:scale-90 duration-100" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+<span class="font-label-md text-label-md">Kalender</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container/50 text-primary-fixed px-5 py-2 rounded-2xl transition-all active:scale-90 duration-100" href="#">
+<span class="material-symbols-outlined" data-icon="settings" style="font-variation-settings: 'FILL' 1;">settings</span>
+<span class="font-label-md text-label-md">Pengaturan</span>
+</a>
+</nav>
+<script>
+        const themeToggle = document.getElementById('themeToggle');
+        const themeStatus = document.getElementById('themeStatus');
+        const html = document.documentElement;
+
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            html.classList.toggle('light');
+            const isDark = html.classList.contains('dark');
+            themeStatus.textContent = isDark ? 'Aktif' : 'Nonaktif';
+            
+            // Subtle feedback
+            themeToggle.classList.add('scale-95');
+            setTimeout(() => themeToggle.classList.remove('scale-95'), 100);
+        });
+
+        // Interactive List Hover Effect for touch
+        document.querySelectorAll('.bg-surface-container').forEach(container => {
+            const items = container.querySelectorAll('.p-4');
+            items.forEach(item => {
+                item.addEventListener('touchstart', () => {
+                    item.classList.add('bg-surface-container-high');
+                });
+                item.addEventListener('touchend', () => {
+                    setTimeout(() => item.classList.remove('bg-surface-container-high'), 150);
+                });
+            });
+        });
+    </script>
+</body></html>

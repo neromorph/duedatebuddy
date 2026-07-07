@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        @keyframes subtle-pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 0.9;
+            }
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        .pulse-effect {
+            animation: subtle-pulse 3s ease-in-out infinite;
+        }
+
+        .ripple-layer {
+            position: absolute;
+            border-radius: 9999px;
+            border: 2px solid rgba(110, 249, 226, 0.2); /* Using primary-fixed color for the glow */
+            animation: ripple 4s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+        }
+
+        .ripple-2 {
+            animation-delay: 2s;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed-dim": "#b9c8de",
+                        "surface-container-lowest": "#060e20",
+                        "background": "#0b1326",
+                        "primary-fixed": "#6ef9e2",
+                        "tertiary-fixed": "#62fae3",
+                        "on-primary": "#003730",
+                        "error": "#ffb4ab",
+                        "on-secondary-container": "#a7b6cc",
+                        "primary": "#b5fff0",
+                        "surface": "#0b1326",
+                        "tertiary-container": "#50ebd5",
+                        "surface-container-high": "#222a3d",
+                        "outline-variant": "#3c4946",
+                        "tertiary-fixed-dim": "#3cddc7",
+                        "error-container": "#93000a",
+                        "on-primary-fixed": "#00201b",
+                        "inverse-surface": "#dae2fd",
+                        "secondary": "#b9c8de",
+                        "on-secondary": "#233143",
+                        "inverse-on-surface": "#283044",
+                        "on-tertiary-fixed": "#00201c",
+                        "on-tertiary-fixed-variant": "#005047",
+                        "primary-fixed-dim": "#4ddcc6",
+                        "surface-variant": "#2d3449",
+                        "on-primary-container": "#00675b",
+                        "surface-tint": "#4ddcc6",
+                        "inverse-primary": "#006b5e",
+                        "outline": "#859490",
+                        "surface-bright": "#31394d",
+                        "secondary-container": "#39485a",
+                        "surface-dim": "#0b1326",
+                        "surface-container-highest": "#2d3449",
+                        "tertiary": "#b4fff1",
+                        "on-error-container": "#ffdad6",
+                        "on-tertiary": "#003731",
+                        "surface-container-low": "#131b2e",
+                        "on-secondary-fixed": "#0d1c2d",
+                        "on-error": "#690005",
+                        "on-surface-variant": "#bbcac5",
+                        "on-tertiary-container": "#00675c",
+                        "on-primary-fixed-variant": "#005047",
+                        "on-surface": "#dae2fd",
+                        "secondary-fixed": "#d4e4fa",
+                        "on-background": "#dae2fd",
+                        "primary-container": "#5eead4",
+                        "surface-container": "#171f33",
+                        "on-secondary-fixed-variant": "#39485a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "label-lg": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "headline-md": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "500"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="bg-background overflow-hidden text-on-background">
+<!-- Splash Screen Container -->
+<main class="relative h-screen w-full flex items-center justify-center overflow-hidden">
+<!-- Ambient Background Glow -->
+<div class="absolute inset-0 bg-background overflow-hidden">
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px]"></div>
+</div>
+<!-- Animation Layer -->
+<div class="relative flex items-center justify-center w-64 h-64">
+<!-- Ripple Effects -->
+<div class="ripple-layer w-48 h-48"></div>
+<div class="ripple-layer ripple-2 w-48 h-48"></div>
+<!-- Central Icon Branding (Asset Tracker) -->
+<div class="pulse-effect relative z-10 flex flex-col items-center justify-center w-32 h-32 bg-primary-container rounded-[32px] shadow-[0_0_50px_rgba(110,249,226,0.3)]">
+<span class="material-symbols-outlined text-on-primary-container !text-6xl" data-icon="inventory_2" style="font-variation-settings: 'FILL' 1;">
+                    inventory_2
+                </span>
+</div>
+</div>
+<!-- Lower Loading Bar -->
+<div class="absolute bottom-16 left-1/2 -translate-x-1/2 w-48 h-1.5 bg-surface-container-highest/30 rounded-full overflow-hidden">
+<div class="h-full bg-primary-fixed w-0 transition-all duration-[3000ms] ease-out rounded-full shadow-[0_0_10px_rgba(110,249,226,0.5)]" id="progress-bar"></div>
+</div>
+</main>
+<script>
+        // Micro-interaction for the progress bar
+        window.addEventListener('DOMContentLoaded', () => {
+            const bar = document.getElementById('progress-bar');
+            setTimeout(() => {
+                bar.style.width = '100%';
+            }, 100);
+        });
+    </script>
+</body></html>

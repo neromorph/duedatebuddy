@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        @keyframes subtle-pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 0.9;
+            }
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        .pulse-effect {
+            animation: subtle-pulse 3s ease-in-out infinite;
+        }
+
+        .ripple-layer {
+            position: absolute;
+            border-radius: 9999px;
+            border: 2px solid rgba(162, 239, 253, 0.2); /* Using primary-fixed for the glow */
+            animation: ripple 4s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+        }
+
+        .ripple-2 {
+            animation-delay: 2s;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#ffffff",
+                        "on-status-critical": "#FFFFFF",
+                        "outline-variant": "#bec8ca",
+                        "inverse-surface": "#2e3131",
+                        "surface-tint": "#016874",
+                        "inverse-primary": "#85d2e0",
+                        "surface-container-highest": "#e1e3e3",
+                        "surface-bright": "#f8fafa",
+                        "status-warning": "#8F4E00",
+                        "error": "#ba1a1a",
+                        "secondary-fixed": "#cde7ed",
+                        "on-tertiary-fixed": "#0e1b36",
+                        "on-error": "#ffffff",
+                        "surface-dim": "#d8dada",
+                        "on-secondary-container": "#50686d",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed": "#051f23",
+                        "on-surface-variant": "#3f484a",
+                        "surface-container-low": "#f2f4f4",
+                        "on-surface": "#191c1d",
+                        "on-status-active": "#FFFFFF",
+                        "background": "#f8fafa",
+                        "on-primary-fixed-variant": "#004f58",
+                        "secondary": "#4a6267",
+                        "tertiary": "#3a4664",
+                        "on-primary-container": "#97e4f2",
+                        "primary-fixed-dim": "#85d2e0",
+                        "status-neutral": "#535F61",
+                        "surface-variant": "#e1e3e3",
+                        "secondary-fixed-dim": "#b1cbd1",
+                        "on-tertiary-fixed-variant": "#3a4664",
+                        "primary": "#004e58",
+                        "tertiary-fixed-dim": "#bac6ea",
+                        "outline": "#6f797b",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#eceeee",
+                        "on-secondary-fixed-variant": "#334b4f",
+                        "status-active": "#2E6C00",
+                        "primary-container": "#006874",
+                        "surface-container-lowest": "#ffffff",
+                        "status-critical": "#BA1A1A",
+                        "on-primary-fixed": "#001f24",
+                        "on-error-container": "#93000a",
+                        "tertiary-container": "#525e7d",
+                        "on-primary": "#ffffff",
+                        "primary-fixed": "#a2effd",
+                        "inverse-on-surface": "#eff1f1",
+                        "on-background": "#191c1d",
+                        "on-status-warning": "#FFFFFF",
+                        "on-tertiary-container": "#ccd8fd"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline-sm": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "title-lg": ["Plus Jakarta Sans"],
+                        "label-md": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "label-lg": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "title-md": ["Plus Jakarta Sans"],
+                        "title-sm": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-md": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "letterSpacing": "0.5px", "fontWeight": "400"}],
+                        "title-lg": ["22px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "500"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                        "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "500"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.25px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.5px", "fontWeight": "700"}],
+                        "title-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.15px", "fontWeight": "600"}],
+                        "title-sm": ["14px", {"lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-primary overflow-hidden">
+<!-- Splash Screen Container -->
+<main class="relative h-screen w-full flex items-center justify-center overflow-hidden">
+<!-- Subtle Ambient Background Glow -->
+<div class="absolute inset-0 bg-primary overflow-hidden">
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary-container rounded-full blur-[120px] opacity-20"></div>
+</div>
+<!-- Animation Layer -->
+<div class="relative flex items-center justify-center w-64 h-64">
+<!-- Ripple Effects -->
+<div class="ripple-layer w-48 h-48"></div>
+<div class="ripple-layer ripple-2 w-48 h-48"></div>
+<!-- Central Icon Branding -->
+<div class="pulse-effect relative z-10 flex items-center justify-center w-32 h-32 bg-primary-container rounded-[32px] shadow-2xl">
+<span class="material-symbols-outlined text-on-primary-container !text-6xl" data-icon="inventory_2" style="font-variation-settings: 'FILL' 1;">
+                    inventory_2
+                </span>
+</div>
+</div>
+<!-- Lower Loading Bar (Subtle Indicator) -->
+<div class="absolute bottom-16 left-1/2 -translate-x-1/2 w-48 h-1.5 bg-primary-container/30 rounded-full overflow-hidden">
+<div class="h-full bg-primary-fixed w-0 transition-all duration-[3000ms] ease-out rounded-full" id="progress-bar"></div>
+</div>
+</main>
+<script>
+        // Micro-interaction for the progress bar
+        window.addEventListener('DOMContentLoaded', () => {
+            const bar = document.getElementById('progress-bar');
+            setTimeout(() => {
+                bar.style.width = '100%';
+            }, 100);
+
+            // Optional: Simulate transition to home screen after splash
+            /*
+            setTimeout(() => {
+                document.body.style.opacity = '0';
+                document.body.style.transition = 'opacity 0.8s ease-in-out';
+            }, 3500);
+            */
+        });
+    </script>
+</body></html>

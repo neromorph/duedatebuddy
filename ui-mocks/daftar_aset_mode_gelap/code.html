@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>Daftar Aset | Asset Tracker</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .swipe-container {
+            overflow-x: hidden;
+            position: relative;
+        }
+        .swipe-content {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .archive-bg {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 24px;
+            z-index: 0;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary-fixed-dim": "#b9c8de",
+                      "surface-container-lowest": "#060e20",
+                      "background": "#0b1326",
+                      "primary-fixed": "#6ef9e2",
+                      "tertiary-fixed": "#62fae3",
+                      "on-primary": "#003730",
+                      "error": "#ffb4ab",
+                      "on-secondary-container": "#a7b6cc",
+                      "primary": "#b5fff0",
+                      "surface": "#0b1326",
+                      "tertiary-container": "#50ebd5",
+                      "surface-container-high": "#222a3d",
+                      "outline-variant": "#3c4946",
+                      "tertiary-fixed-dim": "#3cddc7",
+                      "error-container": "#93000a",
+                      "on-primary-fixed": "#00201b",
+                      "inverse-surface": "#dae2fd",
+                      "secondary": "#b9c8de",
+                      "on-secondary": "#233143",
+                      "inverse-on-surface": "#283044",
+                      "on-tertiary-fixed": "#00201c",
+                      "on-tertiary-fixed-variant": "#005047",
+                      "primary-fixed-dim": "#4ddcc6",
+                      "surface-variant": "#2d3449",
+                      "on-primary-container": "#00675b",
+                      "surface-tint": "#4ddcc6",
+                      "inverse-primary": "#006b5e",
+                      "outline": "#859490",
+                      "surface-bright": "#31394d",
+                      "secondary-container": "#39485a",
+                      "surface-dim": "#0b1326",
+                      "surface-container-highest": "#2d3449",
+                      "tertiary": "#b4fff1",
+                      "on-error-container": "#ffdad6",
+                      "on-tertiary": "#003731",
+                      "surface-container-low": "#131b2e",
+                      "on-secondary-fixed": "#0d1c2d",
+                      "on-error": "#690005",
+                      "on-surface-variant": "#bbcac5",
+                      "on-tertiary-container": "#00675c",
+                      "on-primary-fixed-variant": "#005047",
+                      "on-surface": "#dae2fd",
+                      "secondary-fixed": "#d4e4fa",
+                      "on-background": "#dae2fd",
+                      "primary-container": "#5eead4",
+                      "surface-container": "#171f33",
+                      "on-secondary-fixed-variant": "#39485a",
+                      "status-critical": "#ffb4ab",
+                      "on-status-critical": "#690005",
+                      "status-warning": "#ffb951",
+                      "on-status-warning": "#452b00",
+                      "status-active": "#b5cc7b",
+                      "on-status-active": "#243600"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-desktop": "64px",
+                      "margin-mobile": "16px",
+                      "container-max-width": "1280px",
+                      "unit": "8px",
+                      "gutter": "24px"
+              },
+              "fontFamily": {
+                      "headline-lg": ["Plus Jakarta Sans"],
+                      "body-md": ["Plus Jakarta Sans"],
+                      "label-lg": ["Plus Jakarta Sans"],
+                      "headline-md": ["Plus Jakarta Sans"],
+                      "headline-lg-mobile": ["Plus Jakarta Sans"],
+                      "body-lg": ["Plus Jakarta Sans"],
+                      "label-sm": ["Plus Jakarta Sans"],
+                      "title-lg": ["Plus Jakarta Sans"],
+                      "title-md": ["Plus Jakarta Sans"]
+              },
+              "fontSize": {
+                      "headline-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                      "headline-md": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                      "headline-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "500"}],
+                      "title-lg": ["22px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "title-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.15px", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+      </script>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen pb-24">
+<!-- Top AppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface flex items-center justify-between px-4 h-16 w-full">
+<div class="flex items-center gap-4">
+<button class="hover:bg-surface-container-low transition-colors active:scale-95 duration-100 p-2 rounded-full">
+<span class="material-symbols-outlined text-primary-fixed-dim">arrow_back</span>
+</button>
+<h1 class="font-title-lg text-title-lg text-primary-fixed-dim">Daftar Aset</h1>
+</div>
+<div class="flex items-center gap-2">
+<button class="hover:bg-surface-container-low transition-colors active:scale-95 duration-100 p-2 rounded-full">
+<span class="material-symbols-outlined text-primary-fixed-dim">more_vert</span>
+</button>
+</div>
+</header>
+<main class="pt-20 px-4 max-w-2xl mx-auto">
+<!-- Search Bar -->
+<div class="relative mt-4 mb-6">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline">search</span>
+</div>
+<input class="block w-full pl-12 pr-4 py-4 bg-surface-container-low border-none rounded-2xl focus:ring-2 focus:ring-primary text-body-lg placeholder-outline text-on-surface" placeholder="Cari aset Anda..." type="text"/>
+</div>
+<!-- Filter Chips -->
+<div class="flex gap-2 overflow-x-auto pb-6 no-scrollbar -mx-4 px-4">
+<button class="flex-shrink-0 px-4 py-2 bg-primary-container text-on-primary-container rounded-xl font-label-lg border border-transparent">Semua</button>
+<button class="flex-shrink-0 px-4 py-2 bg-surface-container-high text-on-surface-variant rounded-xl font-label-lg border border-outline-variant hover:bg-surface-container-highest transition-all">Properti</button>
+<button class="flex-shrink-0 px-4 py-2 bg-surface-container-high text-on-surface-variant rounded-xl font-label-lg border border-outline-variant hover:bg-surface-container-highest transition-all">Kendaraan</button>
+<button class="flex-shrink-0 px-4 py-2 bg-surface-container-high text-on-surface-variant rounded-xl font-label-lg border border-outline-variant hover:bg-surface-container-highest transition-all">Langganan</button>
+<button class="flex-shrink-0 px-4 py-2 bg-surface-container-high text-on-surface-variant rounded-xl font-label-lg border border-outline-variant hover:bg-surface-container-highest transition-all">Utilitas</button>
+<button class="flex-shrink-0 px-4 py-2 bg-surface-container-high text-on-surface-variant rounded-xl font-label-lg border border-outline-variant hover:bg-surface-container-highest transition-all">Asuransi</button>
+</div>
+<!-- Asset List Container -->
+<div class="space-y-3 pb-8">
+<!-- Asset Card: Critical Expiry -->
+<div class="swipe-container group bg-error-container rounded-2xl">
+<div class="archive-bg bg-error-container text-on-error-container"><div class="flex flex-col justify-center items-start flex-1 px-6 h-full">
+<h2 class="font-title-lg text-on-error-container">Honda HR-V</h2>
+<p class="font-label-md text-on-error-container/80">Kendaraan</p>
+</div>
+<span class="material-symbols-outlined text-on-error-container mr-6">archive</span></div>
+<div class="swipe-content bg-surface-container-low p-4 rounded-2xl flex items-center gap-4 border border-outline-variant hover:bg-surface-container transition-all cursor-pointer" onclick="handleSwipe(this)">
+<div class="w-12 h-12 rounded-xl bg-error-container/20 flex items-center justify-center text-error">
+<span class="material-symbols-outlined" style='font-variation-settings: "FILL" 1;'>directions_car</span>
+</div>
+<div class="flex-1">
+<h3 class="font-title-md text-title-md text-on-surface">Honda HR-V (B 1234 XYZ)</h3>
+<p class="font-label-md text-label-md text-on-surface-variant">Kendaraan • Pajak Tahunan</p>
+</div>
+<div class="flex flex-col items-end gap-1">
+<span class="px-2 py-1 bg-error-container text-error rounded-md font-label-md text-[10px] uppercase font-bold tracking-wider">Kritis</span>
+<span class="text-error font-label-md">Besok</span>
+</div>
+</div>
+</div>
+<!-- Asset Card: Warning Expiry -->
+<div class="swipe-container group bg-secondary-container rounded-2xl">
+<div class="archive-bg bg-secondary-container text-on-secondary-container"><div class="flex flex-col justify-center items-start flex-1 px-6 h-full">
+<h2 class="font-title-lg text-on-secondary-container">Apartemen Menteng</h2>
+<p class="font-label-md text-on-secondary-container/80">Properti</p>
+</div>
+<span class="material-symbols-outlined text-on-secondary-container mr-6">archive</span></div>
+<div class="swipe-content bg-surface-container-low p-4 rounded-2xl flex items-center gap-4 border border-outline-variant hover:bg-surface-container transition-all cursor-pointer" onclick="handleSwipe(this)">
+<div class="w-12 h-12 rounded-xl bg-tertiary-container/20 flex items-center justify-center text-tertiary-fixed-dim">
+<span class="material-symbols-outlined">apartment</span>
+</div>
+<div class="flex-1">
+<h3 class="font-title-md text-title-md text-on-surface">Apartemen Menteng</h3>
+<p class="font-label-md text-label-md text-on-surface-variant">Properti • Iuran Pemeliharaan</p>
+</div>
+<div class="flex flex-col items-end gap-1">
+<span class="px-2 py-1 bg-status-warning/20 text-status-warning rounded-md font-label-md text-[10px] uppercase font-bold tracking-wider">Segera</span>
+<span class="text-status-warning font-label-md">5 Hari</span>
+</div>
+</div>
+</div>
+<!-- Asset Card: Active -->
+<div class="swipe-container group bg-surface-container-highest rounded-2xl">
+<div class="archive-bg bg-surface-container-highest text-on-surface"><div class="flex flex-col justify-center items-start flex-1 px-6 h-full">
+<h2 class="font-title-lg text-on-surface">Netflix Premium</h2>
+<p class="font-label-md text-on-surface/80">Langganan</p>
+</div>
+<span class="material-symbols-outlined text-on-surface mr-6">archive</span></div>
+<div class="swipe-content bg-surface-container-low p-4 rounded-2xl flex items-center gap-4 border border-outline-variant hover:bg-surface-container transition-all cursor-pointer" onclick="handleSwipe(this)">
+<div class="w-12 h-12 rounded-xl bg-primary-container/20 flex items-center justify-center text-primary-fixed-dim">
+<span class="material-symbols-outlined">subscriptions</span>
+</div>
+<div class="flex-1">
+<h3 class="font-title-md text-title-md text-on-surface">Netflix Premium</h3>
+<p class="font-label-md text-label-md text-on-surface-variant">Langganan • Bulanan</p>
+</div>
+<div class="flex flex-col items-end gap-1">
+<span class="px-2 py-1 bg-status-active/20 text-status-active rounded-md font-label-md text-[10px] uppercase font-bold tracking-wider">Aktif</span>
+<span class="text-on-surface-variant font-label-md">22 Mar</span>
+</div>
+</div>
+</div>
+<!-- Asset Card: Utility -->
+<div class="swipe-container group bg-surface-container-highest rounded-2xl">
+<div class="archive-bg bg-surface-container-highest text-on-surface"><div class="flex flex-col justify-center items-start flex-1 px-6 h-full">
+<h2 class="font-title-lg text-on-surface">Tagihan Listrik</h2>
+<p class="font-label-md text-on-surface/80">Utilitas</p>
+</div>
+<span class="material-symbols-outlined text-on-surface mr-6">archive</span></div>
+<div class="swipe-content bg-surface-container-low p-4 rounded-2xl flex items-center gap-4 border border-outline-variant hover:bg-surface-container transition-all cursor-pointer" onclick="handleSwipe(this)">
+<div class="w-12 h-12 rounded-xl bg-surface-container-highest flex items-center justify-center text-primary-fixed-dim">
+<span class="material-symbols-outlined">bolt</span>
+</div>
+<div class="flex-1">
+<h3 class="font-title-md text-title-md text-on-surface">Tagihan Listrik Rumah</h3>
+<p class="font-label-md text-label-md text-on-surface-variant">Utilitas • Pasca Bayar</p>
+</div>
+<div class="flex flex-col items-end gap-1">
+<span class="px-2 py-1 bg-status-active/20 text-status-active rounded-md font-label-md text-[10px] uppercase font-bold tracking-wider">Aktif</span>
+<span class="text-on-surface-variant font-label-md">20 Mar</span>
+</div>
+</div>
+</div>
+<!-- Asset Card: Insurance -->
+<div class="swipe-container group bg-surface-container-highest rounded-2xl">
+<div class="archive-bg bg-surface-container-highest text-on-surface"><div class="flex flex-col justify-center items-start flex-1 px-6 h-full">
+<h2 class="font-title-lg text-on-surface">Prudential Life</h2>
+<p class="font-label-md text-on-surface/80">Asuransi</p>
+</div>
+<span class="material-symbols-outlined text-on-surface mr-6">archive</span></div>
+<div class="swipe-content bg-surface-container-low p-4 rounded-2xl flex items-center gap-4 border border-outline-variant hover:bg-surface-container transition-all cursor-pointer" onclick="handleSwipe(this)">
+<div class="w-12 h-12 rounded-xl bg-tertiary-fixed/20 flex items-center justify-center text-tertiary-fixed-dim">
+<span class="material-symbols-outlined">shield</span>
+</div>
+<div class="flex-1">
+<h3 class="font-title-md text-title-md text-on-surface">Prudential Life</h3>
+<p class="font-label-md text-label-md text-on-surface-variant">Asuransi • Premi Tahunan</p>
+</div>
+<div class="flex flex-col items-end gap-1">
+<span class="px-2 py-1 bg-status-active/20 text-status-active rounded-md font-label-md text-[10px] uppercase font-bold tracking-wider">Aktif</span>
+<span class="text-on-surface-variant font-label-md">15 Apr</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Empty State Visual Decoration (Optional) -->
+<div class="py-8 flex flex-col items-center opacity-40 grayscale">
+<div class="w-32 h-32 mb-4 bg-surface-container rounded-full flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A clean and minimalist 3D isometric illustration of organized floating geometric icons representing assets like a car, a small house, and a calendar. The scene is set in a light-mode aesthetic with soft shadows and a professional corporate color palette consisting of deep teal and soft grays." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDM9jUhZ7opYu99BBHYxjlokWaSEaZEeTJt8NUI2OtbETOOE71HZX2dzaR8_nYdEes24rPJB3NPCSdnQKwoJclwH4OBeplevl044KK-KW4zB11-J_rXytGLOTeESoYCL5KY2QSue7HdAFWvQapimhcAMXqKQsgrmGLfYTphZibm5Z7ZqCLH4_9PZS0bFFmkB0YC5UXdwfPibzVpfKQ99urpZ1I8rYEVElneseKb_UuKMtFR8OuF3yP8MiYdZ8JdHGDGCyj4GqsbvYM"/>
+</div>
+<p class="text-label-lg font-label-lg text-on-surface-variant">Melihat 5 aset terdaftar</p>
+</div>
+</main>
+<!-- FAB -->
+<button class="fixed bottom-24 right-6 w-14 h-14 bg-primary-container text-on-primary-container rounded-[16px] shadow-lg flex items-center justify-center hover:scale-105 active:scale-95 transition-transform z-40">
+<span class="material-symbols-outlined text-[28px]">add</span>
+</button>
+<!-- Bottom NavBar -->
+<nav class="fixed bottom-0 w-full z-50 bg-surface border-t border-outline-variant shadow-sm flex justify-around items-center h-20 w-full pb-safe">
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1 hover:bg-surface-container-high transition-all active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Beranda</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-5 py-1 hover:bg-surface-container-high transition-all active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" style='font-variation-settings: "FILL" 1;'>inventory_2</span>
+<span class="font-label-md text-label-md">Aset</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1 hover:bg-surface-container-high transition-all active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-label-md text-label-md">Kalender</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1 hover:bg-surface-container-high transition-all active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Pengaturan</span>
+</a>
+</nav>
+<script>
+        function handleSwipe(element) {
+            const container = element.parentElement;
+            const isSwiped = element.style.transform === 'translateX(-80px)';
+            
+            // Reset all others
+            document.querySelectorAll('.swipe-content').forEach(el => {
+                if(el !== element) el.style.transform = 'translateX(0px)';
+            });
+
+            if (isSwiped) {
+                element.style.transform = 'translateX(0px)';
+            } else {
+                element.style.transform = 'translateX(-80px)';
+            }
+        }
+
+        // Search bar interaction
+        const searchInput = document.querySelector('input');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('ring-2', 'ring-primary');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('ring-2', 'ring-primary');
+        });
+
+        // Filter chip toggle
+        const chips = document.querySelectorAll('.flex.gap-2 button');
+        chips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                chips.forEach(c => {
+                    c.classList.remove('bg-primary-container', 'text-on-primary-container');
+                    c.classList.add('bg-surface-container-high', 'text-on-surface-variant', 'border-outline-variant');
+                });
+                chip.classList.add('bg-primary-container', 'text-on-primary-container');
+                chip.classList.remove('bg-surface-container-high', 'text-on-surface-variant', 'border-outline-variant');
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .selected-card {
+            border-color: #004e58 !important;
+            background-color: #cde7ed !important;
+            transform: scale(1.02);
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#ffffff",
+                        "on-status-critical": "#FFFFFF",
+                        "outline-variant": "#bec8ca",
+                        "inverse-surface": "#2e3131",
+                        "surface-tint": "#016874",
+                        "inverse-primary": "#85d2e0",
+                        "surface-container-highest": "#e1e3e3",
+                        "surface-bright": "#f8fafa",
+                        "status-warning": "#8F4E00",
+                        "error": "#ba1a1a",
+                        "secondary-fixed": "#cde7ed",
+                        "on-tertiary-fixed": "#0e1b36",
+                        "on-error": "#ffffff",
+                        "surface-dim": "#d8dada",
+                        "on-secondary-container": "#50686d",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed": "#051f23",
+                        "on-surface-variant": "#3f484a",
+                        "surface-container-low": "#f2f4f4",
+                        "surface-container-high": "#e6e8e9",
+                        "surface": "#f8fafa",
+                        "secondary-container": "#cde7ed",
+                        "tertiary-fixed": "#d9e2ff",
+                        "on-surface": "#191c1d",
+                        "on-status-active": "#FFFFFF",
+                        "background": "#f8fafa",
+                        "on-primary-fixed-variant": "#004f58",
+                        "secondary": "#4a6267",
+                        "tertiary": "#3a4664",
+                        "on-primary-container": "#97e4f2",
+                        "primary-fixed-dim": "#85d2e0",
+                        "status-neutral": "#535F61",
+                        "surface-variant": "#e1e3e3",
+                        "secondary-fixed-dim": "#b1cbd1",
+                        "on-tertiary-fixed-variant": "#3a4664",
+                        "primary": "#004e58",
+                        "tertiary-fixed-dim": "#bac6ea",
+                        "outline": "#6f797b",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#eceeee",
+                        "on-secondary-fixed-variant": "#334b4f",
+                        "status-active": "#2E6C00",
+                        "primary-container": "#006874",
+                        "surface-container-lowest": "#ffffff",
+                        "status-critical": "#BA1A1A",
+                        "on-primary-fixed": "#001f24",
+                        "on-error-container": "#93000a",
+                        "tertiary-container": "#525e7d",
+                        "on-primary": "#ffffff",
+                        "primary-fixed": "#a2effd",
+                        "inverse-on-surface": "#eff1f1",
+                        "on-background": "#191c1d",
+                        "on-status-warning": "#FFFFFF",
+                        "on-tertiary-container": "#ccd8fd"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline-sm": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "title-lg": ["Plus Jakarta Sans"],
+                        "label-md": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "label-lg": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "title-md": ["Plus Jakarta Sans"],
+                        "title-sm": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-md": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "letterSpacing": "0.5px", "fontWeight": "400"}],
+                        "title-lg": ["22px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "500"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                        "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "500"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.25px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.5px", "fontWeight": "700"}],
+                        "title-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.15px", "fontWeight": "600"}],
+                        "title-sm": ["14px", {"lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen flex flex-col">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 w-full z-50 bg-surface dark:bg-surface-dim flex items-center justify-between px-4 h-16 w-full">
+<div class="flex items-center gap-4">
+<button aria-label="Back" class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-surface-container-low transition-colors active:scale-95 duration-100">
+<span class="material-symbols-outlined text-primary">arrow_back</span>
+</button>
+<h1 class="font-title-lg text-title-lg text-primary">Tambah Aset Baru</h1>
+</div>
+<button class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-surface-container-low transition-colors active:scale-95 duration-100">
+<span class="material-symbols-outlined text-primary">more_vert</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-20 pb-24 px-4 md:px-8 max-w-4xl mx-auto w-full">
+<!-- Progress Indicator -->
+<div class="mb-8">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-lg text-label-lg text-primary">Langkah 1 dari 2</span>
+<span class="font-label-lg text-label-lg text-outline">Pilih Template</span>
+</div>
+<div class="h-2 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary w-1/2 transition-all duration-500"></div>
+</div>
+</div>
+<!-- Search Bar -->
+<div class="mb-8 relative group">
+<div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline">search</span>
+</div>
+<input class="w-full h-14 pl-12 pr-4 bg-surface-container-low border-none rounded-xl font-body-lg text-body-lg text-on-surface focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest transition-all placeholder:text-outline-variant" placeholder="Cari tipe aset (misal: Pajak, Mobil...)" type="text"/>
+</div>
+<!-- Section Title -->
+<div class="mb-6">
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-1">Pilih Template Aset</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Gunakan template untuk mempermudah pengisian detail data.</p>
+</div>
+<!-- Template Grid -->
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+<!-- Rumah -->
+<div class="template-card flex flex-col items-center justify-center p-6 bg-surface-container-low rounded-xl border-2 border-transparent cursor-pointer hover:bg-surface-container-high transition-all active:scale-95" onclick="selectTemplate(this)">
+<div class="w-14 h-14 rounded-xl bg-primary-container flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-on-primary-container text-3xl">home</span>
+</div>
+<span class="font-title-sm text-title-sm text-on-surface text-center">Rumah</span>
+</div>
+<!-- Kendaraan -->
+<div class="template-card flex flex-col items-center justify-center p-6 bg-surface-container-low rounded-xl border-2 border-transparent cursor-pointer hover:bg-surface-container-high transition-all active:scale-95" onclick="selectTemplate(this)">
+<div class="w-14 h-14 rounded-xl bg-primary-container flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-on-primary-container text-3xl">directions_car</span>
+</div>
+<span class="font-title-sm text-title-sm text-on-surface text-center">Kendaraan</span>
+</div>
+<!-- Internet -->
+<div class="template-card flex flex-col items-center justify-center p-6 bg-surface-container-low rounded-xl border-2 border-transparent cursor-pointer hover:bg-surface-container-high transition-all active:scale-95" onclick="selectTemplate(this)">
+<div class="w-14 h-14 rounded-xl bg-primary-container flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-on-primary-container text-3xl">wifi</span>
+</div>
+<span class="font-title-sm text-title-sm text-on-surface text-center">Internet</span>
+</div>
+<!-- Listrik -->
+<div class="template-card flex flex-col items-center justify-center p-6 bg-surface-container-low rounded-xl border-2 border-transparent cursor-pointer hover:bg-surface-container-high transition-all active:scale-95" onclick="selectTemplate(this)">
+<div class="w-14 h-14 rounded-xl bg-primary-container flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-on-primary-container text-3xl">electric_bolt</span>
+</div>
+<span class="font-title-sm text-title-sm text-on-surface text-center">Listrik</span>
+</div>
+<!-- BPJS -->
+<div class="template-card flex flex-col items-center justify-center p-6 bg-surface-container-low rounded-xl border-2 border-transparent cursor-pointer hover:bg-surface-container-high transition-all active:scale-95" onclick="selectTemplate(this)">
+<div class="w-14 h-14 rounded-xl bg-primary-container flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-on-primary-container text-3xl">health_and_safety</span>
+</div>
+<span class="font-title-sm text-title-sm text-on-surface text-center">BPJS</span>
+</div>
+<!-- Asuransi -->
+<div class="template-card flex flex-col items-center justify-center p-6 bg-surface-container-low rounded-xl border-2 border-transparent cursor-pointer hover:bg-surface-container-high transition-all active:scale-95" onclick="selectTemplate(this)">
+<div class="w-14 h-14 rounded-xl bg-primary-container flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-on-primary-container text-3xl">shield</span>
+</div>
+<span class="font-title-sm text-title-sm text-on-surface text-center">Asuransi</span>
+</div>
+<!-- KPR -->
+<div class="template-card flex flex-col items-center justify-center p-6 bg-surface-container-low rounded-xl border-2 border-transparent cursor-pointer hover:bg-surface-container-high transition-all active:scale-95" onclick="selectTemplate(this)">
+<div class="w-14 h-14 rounded-xl bg-primary-container flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-on-primary-container text-3xl">payments</span>
+</div>
+<span class="font-title-sm text-title-sm text-on-surface text-center">KPR</span>
+</div>
+<!-- Custom -->
+<div class="template-card flex flex-col items-center justify-center p-6 bg-surface-container-low rounded-xl border-2 border-transparent cursor-pointer hover:bg-surface-container-high transition-all active:scale-95" onclick="selectTemplate(this)">
+<div class="w-14 h-14 rounded-xl bg-surface-container flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-on-surface-variant text-3xl">add</span>
+</div>
+<span class="font-title-sm text-title-sm text-on-surface text-center">Custom</span>
+</div>
+</div>
+</main>
+<!-- Bottom Action Bar (Fixed instead of Nav for focus journey) -->
+<div class="fixed bottom-0 w-full bg-surface-container-lowest border-t border-outline-variant p-4 md:px-8 flex items-center justify-between">
+<button class="px-6 py-3 font-label-lg text-label-lg text-primary hover:bg-surface-container-low rounded-full transition-all">
+            Batal
+        </button>
+<button class="px-8 py-3 bg-primary text-on-primary font-label-lg text-label-lg rounded-full shadow-sm opacity-50 cursor-not-allowed hover:bg-primary-container hover:text-on-primary-container transition-all active:scale-95 flex items-center gap-2" disabled="" id="nextBtn">
+            Lanjut
+            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<!-- Background Decorative Elements -->
+<div class="fixed -z-10 top-0 right-0 w-96 h-96 bg-primary opacity-[0.03] rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+<div class="fixed -z-10 bottom-0 left-0 w-64 h-64 bg-secondary opacity-[0.03] rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+<script>
+        let selectedElement = null;
+
+        function selectTemplate(el) {
+            // Remove previous selection
+            const cards = document.querySelectorAll('.template-card');
+            cards.forEach(card => {
+                card.classList.remove('selected-card');
+                const iconContainer = card.querySelector('div');
+                // Reset icon colors logic could go here if specifically colored
+            });
+
+            // Add new selection
+            el.classList.add('selected-card');
+            selectedElement = el;
+
+            // Enable next button
+            const nextBtn = document.getElementById('nextBtn');
+            nextBtn.disabled = false;
+            nextBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            
+            // Subtle feedback
+            console.log("Selected template:", el.querySelector('span:last-child').textContent);
+        }
+
+        // Mock Navigation
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            if (!selectedElement) return;
+            // Animation or redirect logic
+            const label = selectedElement.querySelector('span:last-child').textContent;
+            alert('Lanjut ke pengisian detail untuk: ' + label);
+        });
+    </script>
+</body></html>

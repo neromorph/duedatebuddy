@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Asset Detail - Asset Tracker</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #000000;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .monospaced-numbers {
+            font-variant-numeric: tabular-nums;
+        }
+        .glass-panel {
+            background: rgba(18, 18, 18, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid #2A2A2A;
+        }
+        .glow-border {
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#131313",
+                        "outline-variant": "#444748",
+                        "inverse-on-surface": "#313030",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "surface-container-lowest": "#0e0e0e",
+                        "secondary-container": "#006672",
+                        "on-surface-variant": "#c4c7c8",
+                        "surface-container-high": "#2a2a2a",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "surface-container-low": "#1c1b1b",
+                        "primary": "#ffffff",
+                        "secondary-fixed-dim": "#85d2e0",
+                        "on-tertiary": "#2f3131",
+                        "secondary-fixed": "#a2effd",
+                        "surface-container": "#201f1f",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "surface-bright": "#393939",
+                        "on-primary-fixed-variant": "#454747",
+                        "outline": "#8e9192",
+                        "primary-container": "#e2e2e2",
+                        "tertiary-container": "#e2e2e2",
+                        "surface-container-highest": "#353534",
+                        "on-secondary-fixed-variant": "#004f58",
+                        "on-secondary": "#00363d",
+                        "surface-dim": "#131313",
+                        "on-secondary-container": "#94e1ee",
+                        "surface-variant": "#353534",
+                        "error-container": "#93000a",
+                        "on-surface": "#e5e2e1",
+                        "surface-tint": "#c6c6c7",
+                        "on-error": "#690005",
+                        "on-secondary-fixed": "#001f24",
+                        "error": "#ffb4ab",
+                        "inverse-surface": "#e5e2e1",
+                        "tertiary": "#ffffff",
+                        "on-primary": "#2f3131",
+                        "inverse-primary": "#5d5f5f",
+                        "tertiary-fixed": "#e2e2e2",
+                        "primary-fixed": "#e2e2e2",
+                        "secondary": "#85d2e0",
+                        "on-primary-fixed": "#1a1c1c",
+                        "on-background": "#e5e2e1",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "on-primary-container": "#636565",
+                        "background": "#131313",
+                        "on-tertiary-container": "#636565",
+                        "on-error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "stack-sm": "4px",
+                        "stack-md": "12px",
+                        "base": "8px",
+                        "margin-mobile": "16px",
+                        "stack-lg": "24px",
+                        "margin-desktop": "32px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "title-md": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "title-md": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-black text-on-surface selection:bg-primary selection:text-surface-dim min-h-screen pb-32">
+<!-- Top App Bar -->
+<header class="w-full top-0 sticky z-40 bg-surface dark:bg-surface border-b border-outline-variant flex justify-between items-center px-margin-mobile h-16">
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-primary hover:bg-surface-container-high transition-colors p-2 rounded-full">arrow_back</button>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-primary tracking-tight">ASSET TRACKER</h1>
+</div>
+<div class="flex items-center">
+<button class="material-symbols-outlined text-primary hover:bg-surface-container-high transition-colors p-2 rounded-full">more_vert</button>
+</div>
+</header>
+<main class="max-w-screen-xl mx-auto px-margin-mobile mt-stack-lg">
+<!-- Hero Section: Asset Visual & Countdown -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Visual Card (Bento Large) -->
+<div class="md:col-span-8 relative rounded-xl overflow-hidden aspect-video md:aspect-auto md:h-[400px] bg-surface-container-low glow-border border border-outline-variant">
+<img alt="Vehicle Asset" class="w-full h-full object-cover opacity-60" data-alt="A professional, high-end photograph of a luxury electric motorcycle parked in a dark, minimalist showroom. The lighting is dramatic and technical, with white neon accents reflecting off the metallic black finish. The background is a clean, architectural space with deep shadows and industrial textures, maintaining a premium high-contrast black and white aesthetic with a sense of precision." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1T88SPFb75afoZnvynKxI7yQeSUzahWw5Wxs7jB6k0Ci5b5j18hRu_-r1nAkAuruhktgQD2YBFS9JNHUrd2qLL2-5boJ3itbz_qcoRnN6S1OxbUXVlWTg2ihTHHWl4tQcn__ZEf7xF4QDrAlzAJtJcxH2eYZGLwvEYQNndIS9DnbLaqAZoyxOy-TheeJD4u5yfpv6jrVMy5OS2lRF0YEbCKxQQXRTHSkpdetLqZ056prQ8HftbQuRrN9SHWGo_zB-dOCrrgfQuVA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+<div class="absolute bottom-6 left-6">
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-secondary-container/20 text-on-secondary-container font-label-md text-label-md mb-2">
+<span class="w-2 h-2 rounded-full bg-secondary mr-2 animate-pulse"></span>
+                        AKTIF
+                    </span>
+<h2 class="font-headline-lg text-headline-lg text-white">Ducati Streetfighter V4 S</h2>
+<p class="font-body-md text-body-md text-outline">B 1234 SMG • ID-9982310</p>
+</div>
+</div>
+<!-- Expiry Countdown Card -->
+<div class="md:col-span-4 flex flex-col justify-center items-center p-8 bg-surface-container-high rounded-xl border border-outline-variant text-center relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-secondary-container"></div>
+<span class="material-symbols-outlined text-primary text-5xl mb-4" style="font-variation-settings: 'FILL' 1;">event_busy</span>
+<p class="font-label-md text-label-md text-outline uppercase tracking-widest mb-2">Kadaluwarsa Dokumen (STNK)</p>
+<div class="flex items-baseline gap-2 mb-2">
+<span class="font-display-lg text-display-lg text-white monospaced-numbers">12</span>
+<span class="font-headline-lg text-headline-lg text-white">Hari Lagi</span>
+</div>
+<p class="font-body-md text-body-md text-outline">Jatuh Tempo: 24 Jan 2024</p>
+<div class="mt-8 w-full h-1.5 bg-outline-variant rounded-full overflow-hidden">
+<div class="h-full bg-primary w-5/6"></div>
+</div>
+<div class="flex justify-between w-full mt-2">
+<span class="font-label-md text-label-md text-outline">Berjalan</span>
+<span class="font-label-md text-label-md text-primary">85% Terlewati</span>
+</div>
+</div>
+</div>
+<!-- Details Grid (Bento Style) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter mt-gutter">
+<!-- Document Info -->
+<div class="bg-surface-container-low p-6 rounded-xl border border-outline-variant flex flex-col gap-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">description</span>
+<h3 class="font-title-md text-title-md text-white">Informasi Dokumen</h3>
+</div>
+<div class="space-y-4 pt-2">
+<div>
+<p class="font-label-md text-label-md text-outline">Nomor STNK</p>
+<p class="font-body-lg text-body-lg text-white monospaced-numbers">9928/JKT/2021/SMG</p>
+</div>
+<div>
+<p class="font-label-md text-label-md text-outline">Nama Pemilik</p>
+<p class="font-body-lg text-body-lg text-white">PT. Artha Mandiri Jaya</p>
+</div>
+<div>
+<p class="font-label-md text-label-md text-outline">Alamat Terdaftar</p>
+<p class="font-body-lg text-body-lg text-white">Sudirman Central Business District, Lot 11A, Jakarta Selatan</p>
+</div>
+</div>
+</div>
+<!-- Billing Details -->
+<div class="bg-surface-container-low p-6 rounded-xl border border-outline-variant flex flex-col gap-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">receipt_long</span>
+<h3 class="font-title-md text-title-md text-white">Rincian Biaya (Estimasi)</h3>
+</div>
+<div class="space-y-4 pt-2">
+<div class="flex justify-between">
+<p class="font-body-md text-body-md text-outline">Pajak Kendaraan (PKB)</p>
+<p class="font-body-md text-body-md text-white monospaced-numbers">Rp 12.450.000</p>
+</div>
+<div class="flex justify-between">
+<p class="font-body-md text-body-md text-outline">SWDKLLJ</p>
+<p class="font-body-md text-body-md text-white monospaced-numbers">Rp 143.000</p>
+</div>
+<div class="flex justify-between">
+<p class="font-body-md text-body-md text-outline">Biaya Administrasi</p>
+<p class="font-body-md text-body-md text-white monospaced-numbers">Rp 50.000</p>
+</div>
+<div class="border-t border-outline-variant pt-4 flex justify-between">
+<p class="font-title-md text-title-md text-primary">Total Pembayaran</p>
+<p class="font-title-md text-title-md text-white monospaced-numbers">Rp 12.643.000</p>
+</div>
+</div>
+</div>
+<!-- Attachments -->
+<div class="bg-surface-container-low p-6 rounded-xl border border-outline-variant flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">attach_file</span>
+<h3 class="font-title-md text-title-md text-white">Lampiran</h3>
+</div>
+<span class="font-label-md text-label-md text-outline">2 Files</span>
+</div>
+<div class="grid grid-cols-2 gap-3 pt-2">
+<div class="group relative aspect-square rounded-lg overflow-hidden bg-surface-container border border-outline-variant cursor-pointer">
+<img alt="STNK Copy" class="w-full h-full object-cover opacity-50 group-hover:opacity-80 transition-opacity" data-alt="A clean, flat-lay macro shot of a formal registration document or vehicle license certificate on a black stone surface. The paper has technical typography and official seals. The lighting is crisp and cold, emphasizing the texture of the high-quality paper and the precision of the printed text, within a dark minimalist aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLyPOnyElqn3c1JPB40XgUTgWloJmUTKtKU31IF17eRIpbaMji3SHCj4P-9lI1HURVR1iWsNKNBJGJX7NqVgf-9lb4lRyketPwXeR2qeuTkOFZqf59H-WrV5bLY92Xk4ETanGe-HlQkwZhQI5M5CT0Ye8eQ7irCu2JC2CJI_i3_gIxfWd4Yd8ripxJXRbC-fzZWisWugMdmjbUHUOZ9JlEB1xV0_tbfMf7sjPPQbRVt9K6vobWf0QJDnVbrog4jxTcaBFLzK7042A"/>
+<div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-white text-3xl">visibility</span>
+</div>
+<div class="absolute bottom-0 left-0 right-0 p-2 bg-black/60 backdrop-blur-md">
+<p class="text-[10px] text-white truncate font-label-md">STNK_Depan.jpg</p>
+</div>
+</div>
+<div class="group relative aspect-square rounded-lg overflow-hidden bg-surface-container border border-outline-variant cursor-pointer">
+<img alt="BPKB Copy" class="w-full h-full object-cover opacity-50 group-hover:opacity-80 transition-opacity" data-alt="An extreme close-up of a blue and gold official identification document lying on a dark, reflective surface. Subtle bokeh light spots dance across the texture of the document cover. The atmosphere is official, secure, and prestigious, maintaining a monochromatic dark theme with sharp focus and professional studio lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6R90dFaTT2yqRff-B9GCOsFslQJxXjRlV505zA_E2y5lDAYKlWea9eaDqRJGAGAg6SYCSBOPmNx8I5VQKX4jUYUrUqaT9EZjeN9ifvXVkiXsf1zXeAsGsuJk1ynJv8v7Yk4FHm3YZGrN8A7I1tNnJMXxLlcEOHXkwqiQiY2Xd0BStSNOKY1kR77SDoLoo1VLureuM-ULvQSMsNXTecOHD1j1qub2HlWItKbonpRTRkg0_liZPGLwXA21lW995uMSbru_N3gxKfvQ"/>
+<div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-white text-3xl">visibility</span>
+</div>
+<div class="absolute bottom-0 left-0 right-0 p-2 bg-black/60 backdrop-blur-md">
+<p class="text-[10px] text-white truncate font-label-md">BPKB_Final.pdf</p>
+</div>
+</div>
+</div>
+<button class="mt-2 w-full flex items-center justify-center gap-2 py-3 rounded-lg border border-primary text-primary font-label-md hover:bg-white/5 transition-colors">
+<span class="material-symbols-outlined text-sm">add</span> TAMBAH BERKAS
+                </button>
+</div>
+</div>
+<!-- History / Logs Section -->
+<div class="mt-gutter bg-surface-container-low rounded-xl border border-outline-variant overflow-hidden">
+<div class="px-6 py-4 border-b border-outline-variant flex items-center justify-between">
+<h3 class="font-title-md text-title-md text-white">Riwayat Perpanjangan</h3>
+<span class="material-symbols-outlined text-outline">history</span>
+</div>
+<div class="divide-y divide-outline-variant">
+<div class="px-6 py-4 flex items-center justify-between hover:bg-surface-container-high transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-xl">check_circle</span>
+</div>
+<div>
+<p class="font-body-md text-body-md text-white">Perpanjangan Tahunan Selesai</p>
+<p class="font-label-md text-label-md text-outline">24 Jan 2023 • Admin: Rizky</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-body-md text-body-md text-white monospaced-numbers">Rp 11.900.000</p>
+<p class="font-label-md text-label-md text-outline">Lunas</p>
+</div>
+</div>
+<div class="px-6 py-4 flex items-center justify-between hover:bg-surface-container-high transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-outline-variant/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-outline text-xl">history_edu</span>
+</div>
+<div>
+<p class="font-body-md text-body-md text-white">Ganti Plat 5 Tahunan</p>
+<p class="font-label-md text-label-md text-outline">24 Jan 2019 • Admin: System</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-body-md text-body-md text-white monospaced-numbers">Rp 15.200.000</p>
+<p class="font-label-md text-label-md text-outline">Lunas</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Action Bar (Contextual FAB replacement) -->
+<div class="fixed bottom-0 left-0 w-full bg-surface-container/95 backdrop-blur-xl border-t border-outline-variant p-margin-mobile flex gap-4 items-center z-50">
+<button class="flex-1 bg-white text-black font-title-md text-title-md py-4 rounded-xl font-bold flex items-center justify-center gap-2 active:scale-95 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">refresh</span>
+            PERBARUI SEKARANG
+        </button>
+<button class="w-14 h-14 border border-outline-variant rounded-xl flex items-center justify-center text-white hover:bg-surface-container-high active:scale-95 transition-all">
+<span class="material-symbols-outlined">share</span>
+</button>
+<button class="w-14 h-14 border border-outline-variant rounded-xl flex items-center justify-center text-white hover:bg-surface-container-high active:scale-95 transition-all">
+<span class="material-symbols-outlined">download</span>
+</button>
+</div>
+<!-- Persistent Nav Shell (Suppressed on detail but for consistency if needed as sub-bar) -->
+<!-- Not rendered as per Destination Rule for Task-Focused Screens -->
+<script>
+        // Simple micro-interaction for numbers
+        document.querySelectorAll('.monospaced-numbers').forEach(el => {
+            el.addEventListener('mouseover', () => {
+                el.style.opacity = '0.7';
+            });
+            el.addEventListener('mouseout', () => {
+                el.style.opacity = '1';
+            });
+        });
+
+        // Atmospheric effect: Subtle pulse for the countdown
+        const countdownVal = document.querySelector('.font-display-lg');
+        if (countdownVal) {
+            setInterval(() => {
+                countdownVal.classList.toggle('opacity-90');
+            }, 1000);
+        }
+    </script>
+</body></html>

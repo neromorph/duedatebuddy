@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .custom-shadow {
+            box-shadow: 0 8px 30px rgba(0, 78, 88, 0.08);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-primary": "#ffffff",
+                      "secondary-container": "#cde7ed",
+                      "outline-variant": "#bec8ca",
+                      "tertiary": "#3a4664",
+                      "status-neutral": "#535F61",
+                      "on-status-active": "#FFFFFF",
+                      "on-primary-fixed": "#001f24",
+                      "inverse-surface": "#2e3131",
+                      "status-warning": "#8F4E00",
+                      "primary-container": "#006874",
+                      "surface": "#f8fafa",
+                      "tertiary-fixed-dim": "#bac6ea",
+                      "background": "#f8fafa",
+                      "surface-container-lowest": "#ffffff",
+                      "secondary-fixed-dim": "#b1cbd1",
+                      "surface-container": "#eceeee",
+                      "on-secondary-container": "#50686d",
+                      "on-status-warning": "#FFFFFF",
+                      "surface-bright": "#f8fafa",
+                      "inverse-primary": "#85d2e0",
+                      "on-tertiary-container": "#ccd8fd",
+                      "primary": "#004e58",
+                      "status-active": "#2E6C00",
+                      "on-background": "#191c1d",
+                      "surface-variant": "#e1e3e3",
+                      "on-tertiary": "#ffffff",
+                      "on-tertiary-fixed": "#0e1b36",
+                      "tertiary-fixed": "#d9e2ff",
+                      "on-surface": "#191c1d",
+                      "on-secondary": "#ffffff",
+                      "primary-fixed": "#a2effd",
+                      "on-status-critical": "#FFFFFF",
+                      "outline": "#6f797b",
+                      "secondary": "#4a6267",
+                      "surface-dim": "#d8dada",
+                      "secondary-fixed": "#cde7ed",
+                      "on-secondary-fixed": "#051f23",
+                      "primary-fixed-dim": "#85d2e0",
+                      "on-error": "#ffffff",
+                      "error": "#ba1a1a",
+                      "error-container": "#ffdad6",
+                      "surface-container-highest": "#e1e3e3",
+                      "on-primary-fixed-variant": "#004f58",
+                      "on-error-container": "#93000a",
+                      "status-critical": "#BA1A1A",
+                      "on-secondary-fixed-variant": "#334b4f",
+                      "on-primary-container": "#97e4f2",
+                      "surface-tint": "#016874",
+                      "surface-container-high": "#e6e8e9",
+                      "on-tertiary-fixed-variant": "#3a4664",
+                      "tertiary-container": "#525e7d",
+                      "on-surface-variant": "#3f484a",
+                      "surface-container-low": "#f2f4f4",
+                      "inverse-on-surface": "#eff1f1"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "lg": "24px",
+                      "base": "8px",
+                      "xs": "4px",
+                      "sm": "8px",
+                      "xl": "32px",
+                      "gutter": "16px",
+                      "margin-tablet": "24px",
+                      "md": "16px",
+                      "margin-mobile": "16px"
+              },
+              "fontFamily": {
+                      "body-lg": ["Plus Jakarta Sans"],
+                      "label-lg": ["Plus Jakarta Sans"],
+                      "title-lg": ["Plus Jakarta Sans"],
+                      "headline-lg-mobile": ["Plus Jakarta Sans"],
+                      "label-md": ["Plus Jakarta Sans"],
+                      "headline-md": ["Plus Jakarta Sans"],
+                      "headline-lg": ["Plus Jakarta Sans"],
+                      "title-sm": ["Plus Jakarta Sans"],
+                      "body-md": ["Plus Jakarta Sans"],
+                      "title-md": ["Plus Jakarta Sans"],
+                      "headline-sm": ["Plus Jakarta Sans"]
+              },
+              "fontSize": {
+                      "body-lg": ["16px", {"lineHeight": "24px", "letterSpacing": "0.5px", "fontWeight": "400"}],
+                      "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "500"}],
+                      "title-lg": ["22px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                      "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "500"}],
+                      "headline-md": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.5px", "fontWeight": "700"}],
+                      "title-sm": ["14px", {"lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "600"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.25px", "fontWeight": "400"}],
+                      "title-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0.15px", "fontWeight": "600"}],
+                      "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen pb-24">
+<!-- Top AppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface flex items-center justify-between px-4 h-16 w-full">
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full hover:bg-surface-container-low transition-colors active:scale-95 duration-100">
+<span class="material-symbols-outlined text-primary" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="font-title-lg text-title-lg text-primary">Asset Tracker</h1>
+</div>
+<div class="flex items-center">
+<button class="p-2 rounded-full hover:bg-surface-container-low transition-colors active:scale-95 duration-100" id="menu-trigger">
+<span class="material-symbols-outlined text-primary" data-icon="more_vert">more_vert</span>
+</button>
+<!-- Hidden Action Menu -->
+<div class="hidden absolute right-4 top-14 w-48 bg-surface-container-lowest shadow-lg rounded-xl border border-outline-variant py-2 z-50" id="action-menu">
+<button class="w-full text-left px-4 py-3 flex items-center gap-3 hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="edit">edit</span>
+<span class="font-body-md text-body-md">Edit Aset</span>
+</button>
+<button class="w-full text-left px-4 py-3 flex items-center gap-3 hover:bg-surface-container-low transition-colors text-status-critical">
+<span class="material-symbols-outlined" data-icon="delete">delete</span>
+<span class="font-body-md text-body-md">Hapus Aset</span>
+</button>
+</div>
+</div>
+</header>
+<main class="pt-20 px-margin-mobile">
+<!-- Hero Section -->
+<section class="mb-lg">
+<div class="relative h-48 w-full rounded-xl overflow-hidden mb-md shadow-sm">
+<img class="w-full h-full object-cover" data-alt="A professional automotive photography shot of a silver Toyota Avanza parked in a minimalist, modern garage. The lighting is soft and natural, emphasizing the clean lines and reflective metallic surface of the vehicle. The background is composed of neutral grey concrete and subtle glass partitions, creating a high-end corporate aesthetic consistent with a premium family asset management application." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJd1fss92v-wrO7QcjIj5CT0615BtxFAwWbN4gEjNaIQAipZkausfW1a2fAWrFFTJSvh69KYakDSVReqIZz8mlomEC3f3Nle017j_3sh0RCj4n3d_SNLkhffGUAe-NyaxP4ocEtk3rrBXWsXB4lv8iiz61D3kEvRDoByuIAoqUCg6XPPrSYHhzVsBaGzqf_sG5mwHgGWHWke1JBBah9jyfhJM1Iwhm9yDNXQvEiotgv1sbeo_ebPJCN0GQbBS7iDnrGXsfT89MvZA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+<div class="absolute bottom-4 left-4 flex items-center gap-3">
+<div class="bg-primary text-on-primary p-2 rounded-xl">
+<span class="material-symbols-outlined" data-icon="directions_car">directions_car</span>
+</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-white">Toyota Avanza</h2>
+<p class="font-label-md text-label-md text-white/80">Kendaraan Keluarga • B 1234 GHI</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Notes Section -->
+<section class="mb-lg">
+<h3 class="font-title-md text-title-md mb-base px-1">Catatan</h3>
+<div class="bg-surface-container-low p-md rounded-xl custom-shadow border border-white">
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                    Kendaraan operasional utama untuk kebutuhan keluarga. Servis rutin dilakukan di bengkel resmi Toyota. Terakhir ganti oli di KM 45.000.
+                </p>
+</div>
+</section>
+<!-- Extension Records Section -->
+<section class="mb-lg">
+<h3 class="font-title-md text-title-md mb-base px-1">Item yang Dilacak</h3>
+<div class="space-y-3">
+<!-- STNK - Critical -->
+<div class="bg-surface-container flex items-center justify-between p-4 rounded-xl border-l-4 border-status-critical">
+<div class="flex items-center gap-4">
+<div class="bg-error-container text-on-error-container p-2 rounded-lg">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+</div>
+<div>
+<p class="font-title-sm text-title-sm">STNK Expiry</p>
+<p class="font-label-md text-label-md text-on-surface-variant">Dokumen Pajak Tahunan</p>
+</div>
+</div>
+<div class="bg-error-container text-on-error-container px-3 py-1 rounded-full">
+<span class="font-label-md text-label-md">2 hari lagi</span>
+</div>
+</div>
+<!-- Asuransi - Warning -->
+<div class="bg-surface-container flex items-center justify-between p-4 rounded-xl border-l-4 border-status-warning">
+<div class="flex items-center gap-4">
+<div class="bg-secondary-fixed text-on-secondary-fixed p-2 rounded-lg">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+</div>
+<div>
+<p class="font-title-sm text-title-sm">Asuransi</p>
+<p class="font-label-md text-label-md text-on-surface-variant">Tagihan All Risk</p>
+</div>
+</div>
+<div class="bg-status-warning/10 text-status-warning px-3 py-1 rounded-full">
+<span class="font-label-md text-label-md">15 hari lagi</span>
+</div>
+</div>
+<!-- Servis Rutin - Active -->
+<div class="bg-surface-container flex items-center justify-between p-4 rounded-xl border-l-4 border-status-active">
+<div class="flex items-center gap-4">
+<div class="bg-secondary-container text-on-secondary-container p-2 rounded-lg">
+<span class="material-symbols-outlined" data-icon="notification_important">notification_important</span>
+</div>
+<div>
+<p class="font-title-sm text-title-sm">Servis Rutin</p>
+<p class="font-label-md text-label-md text-on-surface-variant">Pengingat Perawatan</p>
+</div>
+</div>
+<div class="bg-status-active/10 text-status-active px-3 py-1 rounded-full">
+<span class="font-label-md text-label-md">45 hari lagi</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Attachments Section -->
+<section class="mb-xl">
+<h3 class="font-title-md text-title-md mb-base px-1">Lampiran</h3>
+<div class="grid grid-cols-2 gap-4">
+<!-- Photo Attachment -->
+<div class="group relative aspect-square rounded-xl overflow-hidden border border-outline-variant hover:border-primary transition-all cursor-pointer">
+<img class="w-full h-full object-cover" data-alt="A detailed, close-up photograph of a metallic car key fob resting on a clean, modern white table surface. The lighting is crisp and even, highlighting the textures of the plastic and metal. The composition is artistic yet clear, embodying the organization and asset tracking theme of the interface with a focus on automotive detail." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCnCYnnDJA0L9BYn8IG9c9lfxvj0riH6Lo4gnZtUOeoghyTteCOhoouVG38DXvX8w7rbwLLAsxECmYAdz_-OhixBiq9CUNyPuSgGgUFFVoQgf6FIBqm_KyDJg_rh2N9foTK1hQdhEJEY0rOPjbwkabFc0-2pTrcohSuAr0QGKpmx3o-lCVEJsux0TU8SkyXe3AUSkjkKUgwVt4Dj8svc2LzQE8JwnHbpjZoJkTs-Nww-0mbxCF2J7zaJuVVDSqoejdokkS8wu-l1o"/>
+<div class="absolute bottom-0 inset-x-0 bg-black/60 p-2 backdrop-blur-sm">
+<p class="font-label-md text-label-md text-white truncate text-center">Foto_Mobil.jpg</p>
+</div>
+</div>
+<!-- PDF Attachment -->
+<div class="group aspect-square rounded-xl bg-surface-container flex flex-col items-center justify-center border border-outline-variant hover:border-primary transition-all cursor-pointer">
+<div class="bg-error-container/20 text-error p-3 rounded-full mb-2">
+<span class="material-symbols-outlined text-4xl" data-icon="picture_as_pdf">picture_as_pdf</span>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant">Polis_Asuransi.pdf</p>
+</div>
+</div>
+</section>
+</main>
+<!-- FAB -->
+<button class="fixed bottom-24 right-4 bg-primary text-on-primary w-14 h-14 rounded-2xl shadow-lg flex items-center justify-center active:scale-90 transition-transform z-40">
+<span class="material-symbols-outlined text-3xl" data-icon="add_alert">add_alert</span>
+</button>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 w-full z-50 bg-surface border-t border-outline-variant shadow-sm flex justify-around items-center h-20 w-full pb-safe">
+<div class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1 hover:bg-surface-container-high transition-all active:scale-90">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Beranda</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-5 py-1 transition-all active:scale-90">
+<span class="material-symbols-outlined" data-icon="inventory_2" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<span class="font-label-md text-label-md">Aset</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1 hover:bg-surface-container-high transition-all active:scale-90">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+<span class="font-label-md text-label-md">Kalender</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1 hover:bg-surface-container-high transition-all active:scale-90">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Pengaturan</span>
+</div>
+</nav>
+<script>
+        // Simple Interaction for Menu
+        const menuTrigger = document.getElementById('menu-trigger');
+        const actionMenu = document.getElementById('action-menu');
+
+        menuTrigger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            actionMenu.classList.toggle('hidden');
+        });
+
+        document.addEventListener('click', () => {
+            actionMenu.classList.add('hidden');
+        });
+
+        // Add visual feedback for interactions
+        const cards = document.querySelectorAll('.bg-surface-container');
+        cards.forEach(card => {
+            card.addEventListener('mousedown', () => card.classList.add('scale-[0.98]'));
+            card.addEventListener('mouseup', () => card.classList.remove('scale-[0.98]'));
+            card.addEventListener('mouseleave', () => card.classList.remove('scale-[0.98]'));
+        });
+    </script>
+</body></html>
