@@ -21,6 +21,7 @@ const reminderSchema = z.object({
   notes: z.string().optional(),
   remind_before_days: z.array(z.number()),
   asset_id: z.string().optional(),
+  priority: z.string(),
 });
 
 type ReminderFormData = z.infer<typeof reminderSchema>;
@@ -46,6 +47,13 @@ const RECURRENCE_OPTIONS = [
   { label: 'Tidak Berulang', value: 'none' },
   { label: 'Bulanan', value: 'monthly' },
   { label: 'Tahunan', value: 'yearly' },
+];
+
+const PRIORITY_OPTIONS = [
+  { label: 'Critical', value: 'critical' },
+  { label: 'High', value: 'high' },
+  { label: 'Normal', value: 'normal' },
+  { label: 'Low', value: 'low' },
 ];
 
 const REMIND_CHIPS = [7, 3, 1, 0];
@@ -74,6 +82,7 @@ export default function ReminderForm({
       notes: defaultValues?.notes || '',
       remind_before_days: defaultValues?.remind_before_days || [7, 3, 1, 0],
       asset_id: defaultValues?.asset_id || '',
+      priority: defaultValues?.priority || 'normal',
     },
   });
 
@@ -129,6 +138,19 @@ export default function ReminderForm({
             onSelect={onChange}
             placeholder="Pilih kategori"
             error={errors.category?.message}
+          />
+        )}
+      />
+
+      <Controller
+        control={control}
+        name="priority"
+        render={({ field: { onChange, value } }) => (
+          <Select
+            label="Prioritas"
+            value={value}
+            options={PRIORITY_OPTIONS}
+            onSelect={onChange}
           />
         )}
       />

@@ -67,7 +67,7 @@ export default function DetailPengingatScreen() {
     try {
       const { error: markError } = await markAsPaid(id);
       if (markError) throw new Error(markError);
-      await cancelReminderNotifications(id);
+      await notificationService.cancel(id);
       fetchReminder();
     } catch (e: any) {
       Alert.alert('Error', e.message || 'Gagal memperbarui status');
@@ -83,7 +83,7 @@ export default function DetailPengingatScreen() {
         onPress: async () => {
           if (!id) return;
           await supabase.from('reminders').delete().eq('id', id).eq('user_id', user!.id);
-          await cancelReminderNotifications(id);
+          await notificationService.cancel(id);
           router.back();
         },
       },
@@ -141,6 +141,15 @@ export default function DetailPengingatScreen() {
             <Text style={styles.detailLabel}>Jumlah</Text>
             <Text style={styles.detailValue}>
               {reminder.amount ? formatCurrency(reminder.amount) : '-'}
+            </Text>
+          </View>
+          <View style={styles.divider} />
+          <View style={styles.detailRow}>
+            <Text style={styles.detailLabel}>Prioritas</Text>
+            <Text style={styles.detailValue}>
+              {reminder.priority === 'critical' ? 'Critical' :
+               reminder.priority === 'high' ? 'High' :
+               reminder.priority === 'low' ? 'Low' : 'Normal'}
             </Text>
           </View>
           <View style={styles.divider} />

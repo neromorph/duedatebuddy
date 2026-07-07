@@ -7,6 +7,13 @@ import { daysRemaining, formatCurrency, formatDaysRemaining, formatDate } from '
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
 
+const priorityColors: Record<string, string> = {
+  critical: COLORS.statusCritical,
+  high: COLORS.statusWarning,
+  normal: COLORS.onSurfaceVariant,
+  low: '#9E9E9E',
+};
+
 interface ReminderCardProps {
   reminder: Reminder;
   onPress: () => void;
@@ -60,6 +67,15 @@ export default function ReminderCard({ reminder, onPress }: ReminderCardProps) {
               <Text style={styles.amount}>{formatCurrency(reminder.amount)}</Text>
             )}
           </View>
+          {reminder.priority && reminder.priority !== 'normal' && (
+            <View style={styles.priorityCol}>
+              <View style={[styles.priorityDot, { backgroundColor: priorityColors[reminder.priority] }]} />
+              <Text style={[styles.priorityLabel, { color: priorityColors[reminder.priority] }]}>
+                {reminder.priority === 'critical' ? 'Critical' :
+                 reminder.priority === 'high' ? 'High' : 'Low'}
+              </Text>
+            </View>
+          )}
           <Badge label={getStatusLabel()} variant={getBadgeVariant()} />
         </View>
       </Card>
@@ -100,5 +116,19 @@ const styles = StyleSheet.create({
     ...TYPOGRAPHY.amount,
     color: COLORS.onSurface,
     marginTop: 2,
+  },
+  priorityCol: {
+    alignItems: 'center',
+    marginRight: 4,
+  },
+  priorityDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    marginBottom: 2,
+  },
+  priorityLabel: {
+    ...TYPOGRAPHY.mini,
+    fontSize: 9,
   },
 });
