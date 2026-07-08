@@ -1,16 +1,17 @@
-import React from 'react';
-import { View, Text, Pressable, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Pressable, StyleSheet, TouchableOpacity, Platform } from 'react-native';
+import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { COLORS, SPACING, TYPOGRAPHY } from '@/lib/theme';
+import { COLORS, RADII, SPACING, TYPOGRAPHY } from '@/lib/theme';
 import { Reminder } from '@/types';
 import Input from '@/components/ui/Input';
 import Select from '@/components/ui/Select';
-import DatePicker from '@/components/ui/DatePicker';
 import AmountInput from '@/components/ui/AmountInput';
 import Button from '@/components/ui/Button';
 import { Asset } from '@/types';
+import { formatDate } from '@/lib/date';
 
 const reminderSchema = z.object({
   title: z.string().min(1, 'Judul harus diisi'),
@@ -87,6 +88,20 @@ export default function ReminderForm({
   });
 
   const selectedDays = watch('remind_before_days');
+  const [showCalendar, setShowCalendar] = useState(false);
+
+  const handleDateChange = (
+    onChange: (date: Date) => void,
+    _: DateTimePickerEvent,
+    selectedDate?: Date,
+  ) => {
+    if (Platform.OS === 'android') {
+      setShowCalendar(false);
+    }
+    if (selectedDate) {
+      onChange(selectedDate);
+    }
+  };
 
   const toggleRemindDay = (day: number) => {
     const current = selectedDays || [];
@@ -159,12 +174,37 @@ export default function ReminderForm({
         control={control}
         name="due_date"
         render={({ field: { onChange, value } }) => (
-          <DatePicker
-            label="Tanggal Jatuh Tempo"
-            value={value}
-            onChange={onChange}
-            error={errors.due_date?.message}
-          />
+          <View style={styles.field}>
+            <Text style={styles.label}>Tanggal Jatuh Tempo</Text>
+            <TouchableOpacity
+              style={[styles.dateTrigger, errors.due_date && styles.dateTriggerError]}
+              onPress={() => setShowCalendar(true)}
+              activeOpacity={0.7}
+            >
+              <Text style={styles.dateText}>{formatDate(value, 'dd MMMM yyyy')}</Text>
+            </TouchableOpacity>
+            {errors.due_date?.message && (
+              <Text style={styles.error}>{errors.due_date.message}</Text>
+            )}
+
+            {showCalendar && (
+              <DateTimePicker
+                value={value}
+                mode="date"
+                display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                onChange={(event, selectedDate) => handleDateChange(onChange, event, selectedDate)}
+              />
+            )}
+
+            {Platform.OS === 'ios' && showCalendar && (
+              <TouchableOpacity
+                style={styles.doneButton}
+                onPress={() => setShowCalendar(false)}
+              >
+                <Text style={styles.doneText}>Selesai</Text>
+              </TouchableOpacity>
+            )}
+          </View>
         )}
       />
 
@@ -263,6 +303,46 @@ const styles = StyleSheet.create({
   notesInput: {
     minHeight: 80,
     textAlignVertical: 'top',
+  },
+  field: {
+    marginBottom: SPACING.lg,
+  },
+  label: {
+    ...TYPOGRAPHY.label,
+    color: COLORS.onSurfaceVariant,
+    marginBottom: SPACING.xs,
+  },
+  dateTrigger: {
+    backgroundColor: COLORS.surface,
+    borderWidth: 1,
+    borderColor: COLORS.outline,
+    borderRadius: RADII.sm,
+    padding: SPACING.md + 2,
+    minHeight: 48,
+    justifyContent: 'center',
+  },
+  dateTriggerError: {
+    borderColor: COLORS.statusCritical,
+  },
+  dateText: {
+    ...TYPOGRAPHY.body,
+    color: COLORS.onSurface,
+  },
+  error: {
+    ...TYPOGRAPHY.label,
+    color: COLORS.statusCritical,
+    marginTop: SPACING.xs,
+  },
+  doneButton: {
+    alignItems: 'center',
+    padding: SPACING.md,
+    backgroundColor: COLORS.surfaceContainer,
+    borderRadius: RADII.sm,
+    marginTop: SPACING.xs,
+  },
+  doneText: {
+    ...TYPOGRAPHY.title,
+    color: COLORS.primary,
   },
   chipSection: {
     marginBottom: SPACING.lg,

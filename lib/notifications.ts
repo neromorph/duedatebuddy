@@ -1,11 +1,8 @@
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
-import { NotificationService, LocalNotificationProvider } from './notification-service';
 import { logger } from './logger';
-
-// Singleton — created once at app startup
-export const notificationService = new NotificationService(new LocalNotificationProvider());
+export { notificationService } from './notification-service';
 
 try {
   Notifications.setNotificationHandler({
