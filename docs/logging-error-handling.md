@@ -107,15 +107,9 @@ No raw SQL, stack traces, or internal messages leak to users.
 
 ---
 
-## `useAsync` Hook (`hooks/useAsync.ts`)
+## Async State
 
-```typescript
-import { useAsync } from '@/hooks/useAsync';
-
-const { data, loading, error, execute, setData, reset } = useAsync(fetchFn, initialData);
-```
-
-Eliminates the `useState`/`useCallback`/`try/catch` boilerplate. Calls `getErrorMessage()` automatically on failure.
+There is no shared async hook at the moment. Keep feature async state local unless two or more screens need the same helper.
 
 ---
 
