@@ -84,7 +84,14 @@ export const useAuth = create<AuthState>((set) => ({
     const { error } = await supabase.auth.signUp({
       email,
       password,
-      options: { data: { full_name: fullName } },
+      options: {
+        data: { full_name: fullName },
+        // ponytail: scheme is the app's custom scheme from app.json. Supabase's
+        // SITE_URL falls back to localhost on a physical device, which the email
+        // confirmation link can't resolve. Forcing the app scheme here makes the
+        // confirmation link open DueDateBuddy directly.
+        emailRedirectTo: 'duedatebuddy://login',
+      },
     });
     if (error) {
       logger.warn('auth', `Sign up failed: ${error.message}`);
