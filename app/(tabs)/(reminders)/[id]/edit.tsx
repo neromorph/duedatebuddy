@@ -12,6 +12,7 @@ import LoadingState from '@/components/ui/LoadingState';
 import { requestNotificationPermissions, notificationService } from '@/lib/notifications';
 import { logger } from '@/lib/logger';
 import { getOrCreateNotificationPreferences } from '@/lib/notification-preferences';
+import { normalizeRecurrenceRule, ReminderRecurrence } from '@/lib/recurrence';
 
 export default function EditPengingatScreen() {
   const router = useRouter();
@@ -38,13 +39,22 @@ export default function EditPengingatScreen() {
   const handleSubmit = async (formData: any) => {
     if (!id || !user) return;
 
+    const recurrenceRule: ReminderRecurrence = normalizeRecurrenceRule(
+      formData.recurrence_rule ?? formData.recurrence ?? 'none',
+      formData.due_date,
+    );
+    const legacyRecurrence = recurrenceRule.enabled
+      ? recurrenceRule.unit === 'month' ? 'monthly' : recurrenceRule.unit === 'year' ? 'yearly' : 'custom'
+      : 'none';
+
     const { error: updateErr } = await supabase
       .from('reminders')
       .update({
         title: formData.title,
         category: formData.category,
         due_date: formData.due_date,
-        recurrence: formData.recurrence,
+        recurrence: legacyRecurrence,
+        recurrence_rule: recurrenceRule,
         amount: formData.amount,
         notes: formData.notes,
         remind_before_days: formData.remind_before_days,
@@ -63,7 +73,13 @@ export default function EditPengingatScreen() {
     const prefs = await getOrCreateNotificationPreferences(user.id);
 
     if (prefs) {
-      const fullReminder = { ...reminder!, ...formData, priority: formData.priority || 'normal' };
+      const fullReminder = {
+        ...reminder!,
+        ...formData,
+        recurrence_rule: recurrenceRule,
+        recurrence: legacyRecurrence,
+        priority: formData.priority || 'normal',
+      };
       await notificationService.scheduleReminder(fullReminder, prefs);
     }
 

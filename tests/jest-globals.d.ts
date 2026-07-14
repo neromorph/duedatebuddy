@@ -6,6 +6,13 @@ type JestMatchers = {
   toEqual(expected: unknown): void;
   toContain(expected: unknown): void;
   toHaveLength(expected: number): void;
+  toMatch(expected: RegExp | string): void;
+  toMatchObject(expected: object): void;
+  toBeNull(): void;
+  toBeUndefined(): void;
+  toBeTruthy(): void;
+  toBeFalsy(): void;
+  toThrow(expected?: unknown): void;
 };
 
 declare const expect: (actual: unknown) => JestMatchers;

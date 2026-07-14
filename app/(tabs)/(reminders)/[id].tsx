@@ -6,6 +6,7 @@ import {
   Alert,
   StyleSheet,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -27,6 +28,7 @@ import ErrorState from '@/components/ui/ErrorState';
 import Button from '@/components/ui/Button';
 import { notificationService } from '@/lib/notifications';
 import { useReminders } from '@/features/reminders/useReminders';
+import { normalizeRecurrenceRule, summarizeRecurrence } from '@/lib/recurrence';
 
 export default function DetailPengingatScreen() {
   const router = useRouter();
@@ -74,19 +76,22 @@ export default function DetailPengingatScreen() {
     }
   };
 
+  const deleteReminder = async () => {
+    if (!id) return;
+    await supabase.from('reminders').delete().eq('id', id).eq('user_id', user!.id);
+    await notificationService.cancel(id);
+    router.back();
+  };
+
   const handleDelete = () => {
+    if (Platform.OS === 'web') {
+      if (window.confirm('Yakin ingin menghapus pengingat ini?')) deleteReminder();
+      return;
+    }
+
     Alert.alert('Hapus Pengingat', 'Yakin ingin menghapus pengingat ini?', [
       { text: 'Batal', style: 'cancel' },
-      {
-        text: 'Hapus',
-        style: 'destructive',
-        onPress: async () => {
-          if (!id) return;
-          await supabase.from('reminders').delete().eq('id', id).eq('user_id', user!.id);
-          await notificationService.cancel(id);
-          router.back();
-        },
-      },
+      { text: 'Hapus', style: 'destructive', onPress: deleteReminder },
     ]);
   };
 
@@ -96,6 +101,11 @@ export default function DetailPengingatScreen() {
 
   const days = daysRemaining(reminder.due_date);
   const isPaid = reminder.status === 'paid';
+  const recurrenceRule = normalizeRecurrenceRule(
+    reminder.recurrence_rule ?? reminder.recurrence,
+    reminder.due_date,
+  );
+  const recurrenceSummary = summarizeRecurrence(recurrenceRule, reminder.due_date);
 
   const getBadgeVariant = () => {
     if (isPaid) return 'active' as const;
@@ -117,11 +127,8 @@ export default function DetailPengingatScreen() {
         <Card style={styles.statusCard}>
           <View style={styles.statusRow}>
             <Badge label={getStatusLabel()} variant={getBadgeVariant()} />
-            {reminder.recurrence !== 'none' && (
-              <Badge
-                label={reminder.recurrence === 'monthly' ? 'Bulanan' : 'Tahunan'}
-                variant="neutral"
-              />
+            {recurrenceRule.enabled && (
+              <Badge label={recurrenceSummary} variant="neutral" />
             )}
           </View>
         </Card>
@@ -155,23 +162,17 @@ export default function DetailPengingatScreen() {
           <View style={styles.divider} />
           <View style={styles.detailRow}>
             <Text style={styles.detailLabel}>Pengulangan</Text>
-            <Text style={styles.detailValue}>
-              {reminder.recurrence === 'none'
-                ? 'Tidak'
-                : reminder.recurrence === 'monthly'
-                  ? 'Bulanan'
-                  : 'Tahunan'}
-            </Text>
+            <Text style={styles.detailValue}>{recurrenceSummary}</Text>
           </View>
-          {reminder.notes && (
-            <>
+          {reminder.notes ? (
+            <View>
               <View style={styles.divider} />
               <View style={styles.detailRow}>
                 <Text style={styles.detailLabel}>Catatan</Text>
                 <Text style={styles.detailValue}>{reminder.notes}</Text>
               </View>
-            </>
-          )}
+            </View>
+          ) : null}
         </Card>
 
         <View style={styles.actions}>

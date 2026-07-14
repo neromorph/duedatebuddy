@@ -7,6 +7,7 @@ import {
   Platform,
   ScrollView,
 } from 'react-native';
+import * as Linking from 'expo-linking';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { useForm, Controller } from 'react-hook-form';
@@ -19,20 +20,24 @@ import Button from '@/components/ui/Button';
 
 const loginSchema = z.object({
   email: z.string().email('Email tidak valid'),
-  password: z.string().min(6, 'Password minimal 6 karakter'),
+  password: z.string().min(6, 'Kata sandi minimal 6 karakter'),
 });
 
 type LoginForm = z.infer<typeof loginSchema>;
 
 export default function LoginScreen() {
   const router = useRouter();
-  const { signIn } = useAuth();
+  const { signIn, resetPassword } = useAuth();
   const [loading, setLoading] = useState(false);
+  const [resetLoading, setResetLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
 
   const {
     control,
     handleSubmit,
+    getValues,
+    setError: setFieldError,
     formState: { errors },
   } = useForm<LoginForm>({
     resolver: zodResolver(loginSchema),
@@ -42,11 +47,31 @@ export default function LoginScreen() {
   const onSubmit = async (data: LoginForm) => {
     setLoading(true);
     setError(null);
+    setNotice(null);
     const result = await signIn(data.email, data.password);
     setLoading(false);
     if (result.error) {
       setError(result.error);
     }
+  };
+
+  const onResetPassword = async () => {
+    const email = getValues('email').trim();
+    if (!z.string().email().safeParse(email).success) {
+      setFieldError('email', { message: 'Isi email valid untuk reset kata sandi' });
+      return;
+    }
+
+    setResetLoading(true);
+    setError(null);
+    setNotice(null);
+    const result = await resetPassword(email, Linking.createURL('/reset-password'));
+    setResetLoading(false);
+    if (result.error) {
+      setError(result.error);
+      return;
+    }
+    setNotice('Email reset kata sandi sudah dikirim.');
   };
 
   return (
@@ -56,15 +81,16 @@ export default function LoginScreen() {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         <ScrollView contentContainerStyle={styles.scroll}>
-          <View style={styles.header}>
-            <Text style={styles.appName}>DueDateBuddy</Text>
-            <Text style={styles.tagline}>Kelola tenggat waktumu dengan mudah</Text>
-          </View>
-
           <View style={styles.form}>
-            <Text style={styles.title}>Masuk</Text>
+            <View style={styles.brand}>
+              <View style={styles.logo}>
+                <View style={styles.orbit} />
+              </View>
+              <Text style={styles.title}>Masuk</Text>
+            </View>
 
             {error && <Text style={styles.errorText}>{error}</Text>}
+            {notice && <Text style={styles.noticeText}>{notice}</Text>}
 
             <Controller
               control={control}
@@ -74,7 +100,7 @@ export default function LoginScreen() {
                   label="Email"
                   value={value}
                   onChangeText={onChange}
-                  placeholder="contoh@email.com"
+                  placeholder="nama@email.com"
                   keyboardType="email-address"
                   autoCapitalize="none"
                   error={errors.email?.message}
@@ -87,14 +113,22 @@ export default function LoginScreen() {
               name="password"
               render={({ field: { onChange, value } }) => (
                 <Input
-                  label="Password"
+                  label="Kata sandi"
                   value={value}
                   onChangeText={onChange}
-                  placeholder="Masukkan password"
+                  placeholder="Kata sandi"
                   secureTextEntry
                   error={errors.password?.message}
                 />
               )}
+            />
+
+            <Button
+              title={resetLoading ? 'Mengirim…' : 'Lupa kata sandi?'}
+              onPress={onResetPassword}
+              variant="text"
+              disabled={resetLoading}
+              style={styles.forgot}
             />
 
             <Button
@@ -105,9 +139,9 @@ export default function LoginScreen() {
             />
 
             <Button
-              title="Belum punya akun? Daftar"
+              title="Daftar"
               onPress={() => router.replace('/register')}
-              variant="text"
+              variant="secondary"
             />
           </View>
         </ScrollView>
@@ -126,41 +160,53 @@ const styles = StyleSheet.create({
   },
   scroll: {
     flexGrow: 1,
-  },
-  header: {
-    backgroundColor: COLORS.primary,
-    paddingTop: 80,
-    paddingBottom: SPACING.xl + 8,
-    paddingHorizontal: SPACING.xl,
-    borderBottomLeftRadius: RADII.xl,
-    borderBottomRightRadius: RADII.xl,
-  },
-  appName: {
-    ...TYPOGRAPHY.headline,
-    color: COLORS.onPrimary,
-    fontSize: 28,
-    fontWeight: '700',
-  },
-  tagline: {
-    ...TYPOGRAPHY.body,
-    color: COLORS.onPrimary,
-    opacity: 0.9,
-    marginTop: SPACING.xs,
+    justifyContent: 'center',
+    padding: SPACING.xl,
   },
   form: {
-    padding: SPACING.xl,
-    paddingTop: SPACING.xxl,
+    gap: SPACING.md,
+  },
+  brand: {
+    marginBottom: SPACING.lg,
+  },
+  logo: {
+    width: 64,
+    height: 64,
+    borderRadius: 20,
+    backgroundColor: COLORS.onSurface,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: SPACING.lg,
+  },
+  orbit: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    borderWidth: 4,
+    borderColor: COLORS.primary,
+    backgroundColor: COLORS.primary,
   },
   title: {
     ...TYPOGRAPHY.headline,
     color: COLORS.onSurface,
-    marginBottom: SPACING.xl,
+    fontSize: 38,
+    lineHeight: 42,
   },
   errorText: {
     ...TYPOGRAPHY.body,
     color: COLORS.statusCritical,
     marginBottom: SPACING.md,
     textAlign: 'center',
+  },
+  noticeText: {
+    ...TYPOGRAPHY.body,
+    color: COLORS.statusActive,
+    marginBottom: SPACING.md,
+    textAlign: 'center',
+  },
+  forgot: {
+    alignSelf: 'flex-end',
+    marginTop: -SPACING.md,
   },
   submit: {
     marginTop: SPACING.sm,

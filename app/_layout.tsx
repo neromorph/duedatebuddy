@@ -10,6 +10,7 @@ import { useAuth } from '@/features/auth/useAuth';
 import { COLORS } from '@/lib/theme';
 import { getExpoPushToken } from '@/lib/notifications';
 import ErrorBoundary from '@/components/ErrorBoundary';
+import { useReminderSweep } from '@/features/reminders/useReminderSweep';
 import { logger } from '@/lib/logger';
 
 SplashScreen.preventAutoHideAsync();
@@ -20,6 +21,7 @@ export default function RootLayout() {
   const { session, isLoading, initialize } = useAuth();
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [initError, setInitError] = useState<string | null>(null);
+  useReminderSweep();
 
   useEffect(() => {
     let cancelled = false;
@@ -77,10 +79,11 @@ export default function RootLayout() {
     });
 
     const inAuthGroup = segments[0] === '(auth)';
+    const isResetPassword = String(segments[1]) === 'reset-password';
 
     if (!session && !inAuthGroup) {
       router.replace('/login');
-    } else if (session && inAuthGroup) {
+    } else if (session && inAuthGroup && !isResetPassword) {
       router.replace('/');
     }
   }, [session, fontsLoaded, isLoading, segments]);

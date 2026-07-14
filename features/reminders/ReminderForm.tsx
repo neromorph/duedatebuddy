@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, Pressable, StyleSheet, TouchableOpacity, Platform } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -12,12 +13,21 @@ import AmountInput from '@/components/ui/AmountInput';
 import Button from '@/components/ui/Button';
 import { Asset } from '@/types';
 import { formatDate } from '@/lib/date';
+import {
+  buildRecurrencePreset,
+  normalizeRecurrenceRule,
+  parseLocalDate,
+  RecurrencePreset,
+  ReminderRecurrence,
+  summarizeRecurrence,
+} from '@/lib/recurrence';
+import RecurrenceEditorModal from './RecurrenceEditorModal';
 
 const reminderSchema = z.object({
   title: z.string().min(1, 'Judul harus diisi'),
   category: z.string().min(1, 'Kategori harus dipilih'),
   due_date: z.date({ required_error: 'Tanggal harus diisi' }),
-  recurrence: z.string(),
+  recurrence_rule: z.unknown(),
   amount: z.string().optional(),
   notes: z.string().optional(),
   remind_before_days: z.array(z.number()),
@@ -44,17 +54,18 @@ const CATEGORY_OPTIONS = [
   { label: 'Lainnya', value: 'lainnya' },
 ];
 
-const RECURRENCE_OPTIONS = [
-  { label: 'Tidak Berulang', value: 'none' },
-  { label: 'Bulanan', value: 'monthly' },
-  { label: 'Tahunan', value: 'yearly' },
-];
-
 const PRIORITY_OPTIONS = [
   { label: 'Critical', value: 'critical' },
   { label: 'High', value: 'high' },
   { label: 'Normal', value: 'normal' },
   { label: 'Low', value: 'low' },
+];
+
+const RECURRENCE_PRESETS: { label: string; value: RecurrencePreset }[] = [
+  { label: 'Tidak Berulang', value: 'none' },
+  { label: 'Setiap Minggu', value: 'weekly' },
+  { label: 'Setiap Bulan', value: 'monthly' },
+  { label: 'Setiap Tahun', value: 'yearly' },
 ];
 
 const REMIND_CHIPS = [7, 3, 1, 0];
@@ -78,7 +89,10 @@ export default function ReminderForm({
       title: defaultValues?.title || '',
       category: defaultValues?.category || '',
       due_date: defaultValues?.due_date ? new Date(defaultValues.due_date) : new Date(),
-      recurrence: defaultValues?.recurrence || 'none',
+      recurrence_rule: normalizeRecurrenceRule(
+        defaultValues?.recurrence_rule ?? defaultValues?.recurrence ?? 'none',
+        defaultValues?.due_date || new Date().toISOString().split('T')[0],
+      ),
       amount: defaultValues?.amount ? defaultValues.amount.toString() : '',
       notes: defaultValues?.notes || '',
       remind_before_days: defaultValues?.remind_before_days || [7, 3, 1, 0],
@@ -88,7 +102,43 @@ export default function ReminderForm({
   });
 
   const selectedDays = watch('remind_before_days');
+  const dueDate = watch('due_date');
+  const recurrenceRuleValue = watch('recurrence_rule');
   const [showCalendar, setShowCalendar] = useState(false);
+  const [showRecurrenceEditor, setShowRecurrenceEditor] = useState(false);
+  const previousDueDate = useRef(dueDate.toISOString().split('T')[0]);
+
+  useEffect(() => {
+    const nextDueDate = dueDate.toISOString().split('T')[0];
+    const oldDueDate = previousDueDate.current;
+    if (nextDueDate === oldDueDate) return;
+
+    previousDueDate.current = nextDueDate;
+    const rule = normalizeRecurrenceRule(recurrenceRuleValue, oldDueDate);
+    if (!rule.enabled) return;
+
+    const oldDate = parseLocalDate(oldDueDate);
+    const nextDate = parseLocalDate(nextDueDate);
+    const nextRule: ReminderRecurrence = { ...rule, startDate: nextDueDate };
+
+    if (
+      nextRule.unit === 'week' &&
+      nextRule.daysOfWeek?.length === 1 &&
+      nextRule.daysOfWeek[0] === oldDate.getDay()
+    ) {
+      nextRule.daysOfWeek = [nextDate.getDay()];
+    }
+
+    if (
+      nextRule.unit === 'month' &&
+      nextRule.monthlyMode === 'dayOfMonth' &&
+      nextRule.dayOfMonth === oldDate.getDate()
+    ) {
+      nextRule.dayOfMonth = nextDate.getDate();
+    }
+
+    setValue('recurrence_rule', nextRule);
+  }, [dueDate, recurrenceRuleValue, setValue]);
 
   const handleDateChange = (
     onChange: (date: Date) => void,
@@ -113,10 +163,17 @@ export default function ReminderForm({
   };
 
   const handleFormSubmit = (data: ReminderFormData) => {
+    const dueDateString = data.due_date.toISOString().split('T')[0];
+    const recurrenceRule = normalizeRecurrenceRule(data.recurrence_rule, dueDateString);
+    const legacyRecurrence = recurrenceRule.enabled
+      ? recurrenceRule.unit === 'month' ? 'monthly' : recurrenceRule.unit === 'year' ? 'yearly' : 'custom'
+      : 'none';
     onSubmit({
       ...data,
       amount: data.amount ? parseFloat(data.amount) : null,
-      due_date: data.due_date.toISOString().split('T')[0],
+      due_date: dueDateString,
+      recurrence_rule: recurrenceRule,
+      recurrence: legacyRecurrence,
       asset_id: data.asset_id || null,
     });
   };
@@ -210,15 +267,60 @@ export default function ReminderForm({
 
       <Controller
         control={control}
-        name="recurrence"
-        render={({ field: { onChange, value } }) => (
-          <Select
-            label="Pengulangan"
-            value={value}
-            options={RECURRENCE_OPTIONS}
-            onSelect={onChange}
-          />
-        )}
+        name="recurrence_rule"
+        render={({ field: { onChange, value } }) => {
+          const dueDateString = dueDate.toISOString().split('T')[0];
+          const rule = normalizeRecurrenceRule(value, dueDateString);
+          return (
+            <View style={styles.field}>
+              <Text style={styles.label}>Pengulangan</Text>
+              <TouchableOpacity
+                style={styles.recurrenceCard}
+                onPress={() => setShowRecurrenceEditor(true)}
+                activeOpacity={0.7}
+              >
+                <View style={styles.recurrenceCardText}>
+                  <Text style={styles.recurrenceSummary}>
+                    {summarizeRecurrence(rule, dueDateString)}
+                  </Text>
+                  <Text style={styles.recurrenceHelper}>Pilih cepat atau atur kustom</Text>
+                </View>
+                <Ionicons name="chevron-forward" size={20} color={COLORS.onSurfaceVariant} />
+              </TouchableOpacity>
+
+              <View style={styles.presetRow}>
+                {RECURRENCE_PRESETS.map((preset) => (
+                  <Pressable
+                    key={preset.value}
+                    style={styles.presetChip}
+                    onPress={() =>
+                      onChange(buildRecurrencePreset(preset.value, dueDateString))
+                    }
+                  >
+                    <Text style={styles.presetChipText}>{preset.label}</Text>
+                  </Pressable>
+                ))}
+                <Pressable
+                  style={styles.presetChip}
+                  onPress={() => setShowRecurrenceEditor(true)}
+                >
+                  <Text style={styles.presetChipText}>Kustom...</Text>
+                </Pressable>
+              </View>
+
+              <RecurrenceEditorModal
+                visible={showRecurrenceEditor}
+                dueDate={dueDateString}
+                value={rule as ReminderRecurrence}
+                onClose={() => setShowRecurrenceEditor(false)}
+                onSave={(nextRule) => {
+                  onChange(nextRule);
+                  setShowRecurrenceEditor(false);
+                }}
+              />
+            </View>
+          );
+        }}
       />
 
       <Controller
@@ -382,4 +484,32 @@ const styles = StyleSheet.create({
     marginTop: SPACING.sm,
     marginBottom: SPACING.xxl,
   },
+  recurrenceCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: COLORS.surface,
+    borderWidth: 1,
+    borderColor: COLORS.outline,
+    borderRadius: RADII.md,
+    padding: SPACING.md,
+    minHeight: 64,
+  },
+  recurrenceCardText: { flex: 1 },
+  recurrenceSummary: { ...TYPOGRAPHY.body, color: COLORS.onSurface, fontWeight: '600' },
+  recurrenceHelper: { ...TYPOGRAPHY.label, color: COLORS.onSurfaceVariant, marginTop: 2 },
+  presetRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: SPACING.sm,
+    marginTop: SPACING.sm,
+  },
+  presetChip: {
+    borderWidth: 1,
+    borderColor: COLORS.outline,
+    borderRadius: 20,
+    paddingVertical: SPACING.sm,
+    paddingHorizontal: SPACING.md,
+  },
+  presetChipText: { ...TYPOGRAPHY.label, color: COLORS.onSurfaceVariant },
 });

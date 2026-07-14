@@ -28,6 +28,8 @@ export type Asset = {
   updated_at: string;
 };
 
+import type { ReminderRecurrence } from '@/lib/recurrence';
+
 export type Reminder = {
   id: string;
   user_id: string;
@@ -35,7 +37,9 @@ export type Reminder = {
   title: string;
   category: string;
   due_date: string;
+  /** @deprecated Use recurrence_rule. Kept for rollback and legacy migration only. */
   recurrence: string;
+  recurrence_rule: ReminderRecurrence | null;
   amount: number | null;
   notes: string | null;
   remind_before_days: number[];
@@ -48,7 +52,8 @@ export type Reminder = {
 };
 
 export type ReminderCategory = 'tagihan' | 'pajak' | 'asuransi' | 'cicilan' | 'langganan' | 'lainnya';
-export type RecurrenceType = 'none' | 'monthly' | 'yearly';
+/** @deprecated Use ReminderRecurrence. */
+export type RecurrenceType = 'none' | 'monthly' | 'yearly' | 'custom';
 export type ReminderStatus = 'pending' | 'paid' | 'overdue';
 export type AssetCategory = 'property' | 'vehicle' | 'subscription' | 'utility' | 'insurance' | 'loan' | 'custom';
 

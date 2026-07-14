@@ -1,11 +1,16 @@
 import { useState, useCallback } from 'react';
-import { addMonths, addYears, format } from 'date-fns';
 import { supabase } from '@/lib/supabase';
 import { safeQuery, safeQuerySingle } from '@/lib/supabase-safe';
 import { useAuth } from '@/features/auth/useAuth';
 import { Reminder } from '@/types';
 import { notificationService } from '@/lib/notifications';
 import { getOrCreateNotificationPreferences } from '@/lib/notification-preferences';
+import {
+  formatLocalDate,
+  legacyRecurrenceFromRule,
+  nextOccurrence,
+  normalizeRecurrenceRule,
+} from '@/lib/recurrence';
 
 export function useReminders() {
   const { user } = useAuth();
@@ -37,6 +42,10 @@ export function useReminders() {
     if (!user) return { error: 'Not authenticated' };
 
     const parsedAmount = reminder.amount !== undefined ? reminder.amount : null;
+    const recurrenceRule = normalizeRecurrenceRule(
+      reminder.recurrence_rule ?? reminder.recurrence ?? 'none',
+      reminder.due_date,
+    );
 
     const { data, error: err } = await safeQuerySingle<Reminder>(
       () => supabase
@@ -46,7 +55,8 @@ export function useReminders() {
           title: reminder.title,
           category: reminder.category,
           due_date: reminder.due_date,
-          recurrence: reminder.recurrence || 'none',
+          recurrence: legacyRecurrenceFromRule(recurrenceRule),
+          recurrence_rule: recurrenceRule,
           amount: parsedAmount,
           notes: reminder.notes || null,
           remind_before_days: reminder.remind_before_days || [7, 3, 1, 0],
@@ -118,50 +128,69 @@ export function useReminders() {
 
     if (fetchErr || !reminder) return { error: 'Pengingat tidak ditemukan' };
 
-    const { error: updateErr } = await safeQuerySingle(
+    const { data: paid, error: updateErr } = await safeQuerySingle<Reminder | null>(
       () => supabase
         .from('reminders')
         .update({ status: 'paid', paid_at: new Date().toISOString() })
         .eq('id', id)
         .eq('user_id', user?.id)
-        .single(),
+        .eq('status', 'pending')
+        .select()
+        .maybeSingle(),
       'markAsPaid:update',
     );
 
     if (updateErr) return { error: 'Gagal memperbarui status' };
+    if (!paid) return {};
 
-    // ponytail: create next recurrence if monthly/yearly
-    if (reminder.recurrence === 'monthly' || reminder.recurrence === 'yearly') {
-      const currentDueDate = new Date(reminder.due_date);
-      const nextDueDate = reminder.recurrence === 'monthly'
-        ? addMonths(currentDueDate, 1)
-        : addYears(currentDueDate, 1);
+    const recurrenceRule = normalizeRecurrenceRule(
+      reminder.recurrence_rule ?? reminder.recurrence,
+      reminder.due_date,
+    );
+    const nextDueDate = nextOccurrence(recurrenceRule, reminder.due_date);
 
-      const { data: newReminder } = await safeQuerySingle<Reminder>(
+    if (nextDueDate) {
+      const nextDueDateString = formatLocalDate(nextDueDate);
+      const { data: existingChild } = await safeQuerySingle<{ id: string } | null>(
         () => supabase
           .from('reminders')
-          .insert({
-            user_id: reminder.user_id,
-            title: reminder.title,
-            category: reminder.category,
-            due_date: format(nextDueDate, 'yyyy-MM-dd'),
-            recurrence: reminder.recurrence,
-            amount: reminder.amount,
-            notes: reminder.notes,
-            remind_before_days: reminder.remind_before_days,
-            asset_id: reminder.asset_id,
-            parent_reminder_id: reminder.id,
-            status: 'pending',
-          })
-          .select()
-          .single(),
-        'markAsPaid:next',
+          .select('id')
+          .eq('parent_reminder_id', reminder.id)
+          .eq('user_id', user?.id)
+          .eq('due_date', nextDueDateString)
+          .maybeSingle(),
+        'markAsPaid:childCheck',
       );
 
-      if (newReminder) {
-        const prefs = user ? await getOrCreateNotificationPreferences(user.id) : null;
-        if (prefs) {
-          await notificationService.scheduleReminder(newReminder, prefs);
+      if (!existingChild) {
+        const { data: newReminder } = await safeQuerySingle<Reminder>(
+          () => supabase
+            .from('reminders')
+            .insert({
+              user_id: reminder.user_id,
+              title: reminder.title,
+              category: reminder.category,
+              due_date: nextDueDateString,
+              recurrence: legacyRecurrenceFromRule(recurrenceRule),
+              recurrence_rule: recurrenceRule,
+              amount: reminder.amount,
+              notes: reminder.notes,
+              remind_before_days: reminder.remind_before_days,
+              asset_id: reminder.asset_id,
+              parent_reminder_id: reminder.id,
+              priority: reminder.priority || 'normal',
+              status: 'pending',
+            })
+            .select()
+            .single(),
+          'markAsPaid:next',
+        );
+
+        if (newReminder) {
+          const prefs = user ? await getOrCreateNotificationPreferences(user.id) : null;
+          if (prefs) {
+            await notificationService.scheduleReminder(newReminder, prefs);
+          }
         }
       }
     }

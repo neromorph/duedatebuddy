@@ -19,7 +19,7 @@ import Button from '@/components/ui/Button';
 
 const registerSchema = z.object({
   email: z.string().email('Email tidak valid'),
-  password: z.string().min(6, 'Password minimal 6 karakter'),
+  password: z.string().min(8, 'Kata sandi minimal 8 karakter'),
   fullName: z.string().min(1, 'Nama lengkap harus diisi'),
 });
 
@@ -58,14 +58,20 @@ export default function RegisterScreen() {
         style={styles.kav}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-        <ScrollView contentContainerStyle={styles.scroll}>
-          <View style={styles.header}>
-            <Text style={styles.appName}>DueDateBuddy</Text>
-            <Text style={styles.tagline}>Buat akun baru</Text>
-          </View>
-
+        <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
           <View style={styles.form}>
-            <Text style={styles.title}>Daftar</Text>
+            <View style={styles.brand}>
+              <View
+                style={styles.logo}
+                accessibilityElementsHidden
+                importantForAccessibility="no-hide-descendants"
+              >
+                <View style={styles.orbit}>
+                  <View style={styles.orbitCore} />
+                </View>
+              </View>
+              <Text style={styles.title}>Daftar</Text>
+            </View>
 
             {error && <Text style={styles.errorText}>{error}</Text>}
 
@@ -74,10 +80,10 @@ export default function RegisterScreen() {
               name="fullName"
               render={({ field: { onChange, value } }) => (
                 <Input
-                  label="Nama Lengkap"
+                  label="Nama lengkap"
                   value={value}
                   onChangeText={onChange}
-                  placeholder="Masukkan nama lengkap"
+                  placeholder="Nama lengkap"
                   error={errors.fullName?.message}
                 />
               )}
@@ -91,7 +97,7 @@ export default function RegisterScreen() {
                   label="Email"
                   value={value}
                   onChangeText={onChange}
-                  placeholder="contoh@email.com"
+                  placeholder="nama@email.com"
                   keyboardType="email-address"
                   autoCapitalize="none"
                   error={errors.email?.message}
@@ -104,10 +110,10 @@ export default function RegisterScreen() {
               name="password"
               render={({ field: { onChange, value } }) => (
                 <Input
-                  label="Password"
+                  label="Kata sandi"
                   value={value}
                   onChangeText={onChange}
-                  placeholder="Minimal 6 karakter"
+                  placeholder="Kata sandi"
                   secureTextEntry
                   error={errors.password?.message}
                 />
@@ -122,9 +128,10 @@ export default function RegisterScreen() {
             />
 
             <Button
-              title="Sudah punya akun? Masuk"
+              title="Masuk"
               onPress={() => router.replace('/login')}
-              variant="text"
+              variant="secondary"
+              style={styles.loginButton}
             />
           </View>
         </ScrollView>
@@ -143,35 +150,51 @@ const styles = StyleSheet.create({
   },
   scroll: {
     flexGrow: 1,
-  },
-  header: {
-    backgroundColor: COLORS.primary,
-    paddingTop: 80,
-    paddingBottom: SPACING.xl + 8,
-    paddingHorizontal: SPACING.xl,
-    borderBottomLeftRadius: RADII.xl,
-    borderBottomRightRadius: RADII.xl,
-  },
-  appName: {
-    ...TYPOGRAPHY.headline,
-    color: COLORS.onPrimary,
-    fontSize: 28,
-    fontWeight: '700',
-  },
-  tagline: {
-    ...TYPOGRAPHY.body,
-    color: COLORS.onPrimary,
-    opacity: 0.9,
-    marginTop: SPACING.xs,
+    justifyContent: 'center',
+    padding: SPACING.xl,
   },
   form: {
-    padding: SPACING.xl,
-    paddingTop: SPACING.xxl,
+    gap: SPACING.sm,
+  },
+  brand: {
+    gap: SPACING.md,
+    marginBottom: SPACING.xl,
+  },
+  logo: {
+    width: 60,
+    height: 60,
+    borderRadius: 19,
+    backgroundColor: COLORS.onSurface,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: COLORS.onSurface,
+    shadowOpacity: 0.13,
+    shadowRadius: 18,
+    shadowOffset: { width: 0, height: 12 },
+    elevation: 6,
+  },
+  orbit: {
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    borderWidth: 4,
+    borderColor: COLORS.primary,
+    borderTopColor: COLORS.surface,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  orbitCore: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: COLORS.primary,
   },
   title: {
     ...TYPOGRAPHY.headline,
     color: COLORS.onSurface,
-    marginBottom: SPACING.xl,
+    fontSize: 40,
+    lineHeight: 44,
+    fontWeight: '800',
   },
   errorText: {
     ...TYPOGRAPHY.body,
@@ -181,5 +204,12 @@ const styles = StyleSheet.create({
   },
   submit: {
     marginTop: SPACING.sm,
+    borderRadius: RADII.full,
+    minHeight: 58,
+  },
+  loginButton: {
+    borderRadius: RADII.full,
+    minHeight: 58,
+    backgroundColor: COLORS.surface,
   },
 });

@@ -9,6 +9,7 @@ const baseReminder: Reminder = {
   category: 'tagihan',
   due_date: '2026-07-10',
   recurrence: 'none',
+  recurrence_rule: { version: 1, enabled: false },
   amount: 100000,
   notes: null,
   remind_before_days: [7, 3, 1],

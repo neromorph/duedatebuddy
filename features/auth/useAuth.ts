@@ -30,6 +30,9 @@ interface AuthState {
   initialize: () => Promise<void>;
   signIn: (email: string, password: string) => Promise<{ error?: string }>;
   signUp: (email: string, password: string, fullName?: string) => Promise<{ error?: string }>;
+  resetPassword: (email: string, redirectTo: string) => Promise<{ error?: string }>;
+  startPasswordRecovery: (url: string) => Promise<{ error?: string; recovered?: boolean }>;
+  updatePassword: (password: string) => Promise<{ error?: string }>;
   signOut: () => Promise<void>;
 }
 
@@ -88,6 +91,43 @@ export const useAuth = create<AuthState>((set) => ({
       return { error: 'Gagal mendaftar. Silakan coba lagi.' };
     }
     logger.info('auth', 'Sign up successful');
+    return {};
+  },
+
+  resetPassword: async (email: string, redirectTo: string) => {
+    logger.debug('auth', 'Password recovery requested');
+    const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo });
+    if (error) {
+      logger.warn('auth', `Password recovery failed: ${error.message}`);
+      return { error: 'Gagal mengirim email reset. Silakan coba lagi.' };
+    }
+    logger.info('auth', 'Password recovery email sent');
+    return {};
+  },
+
+  startPasswordRecovery: async (url: string) => {
+    const params = new URLSearchParams(url.split('#')[1] ?? url.split('?')[1] ?? '');
+    const access_token = params.get('access_token');
+    const refresh_token = params.get('refresh_token');
+    if (!access_token || !refresh_token) return { recovered: false };
+
+    const { error } = await supabase.auth.setSession({ access_token, refresh_token });
+    if (error) {
+      logger.warn('auth', `Password recovery session failed: ${error.message}`);
+      return { error: 'Tautan reset tidak valid atau sudah kedaluwarsa.' };
+    }
+    logger.info('auth', 'Password recovery session started');
+    return { recovered: true };
+  },
+
+  updatePassword: async (password: string) => {
+    logger.debug('auth', 'Password update requested');
+    const { error } = await supabase.auth.updateUser({ password });
+    if (error) {
+      logger.warn('auth', `Password update failed: ${error.message}`);
+      return { error: 'Gagal menyimpan kata sandi baru. Buka ulang tautan reset.' };
+    }
+    logger.info('auth', 'Password updated');
     return {};
   },
 

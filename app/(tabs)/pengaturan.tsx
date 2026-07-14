@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, ScrollView, Alert, StyleSheet, Switch } from 'react-native';
+import { View, Text, ScrollView, Alert, StyleSheet, Switch, Platform } from 'react-native';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -47,22 +47,21 @@ export default function SettingsScreen() {
     loadPrefs();
   }, [user]);
 
+  const doLogout = async () => {
+    await signOut();
+    router.replace('/login');
+  };
+
   const handleLogout = () => {
-    Alert.alert(
-      'Keluar',
-      'Yakin ingin keluar?',
-      [
-        { text: 'Batal', style: 'cancel' },
-        {
-          text: 'Keluar',
-          style: 'destructive',
-          onPress: async () => {
-            await signOut();
-            router.replace('/login');
-          },
-        },
-      ]
-    );
+    if (Platform.OS === 'web') {
+      if (window.confirm('Yakin ingin keluar?')) doLogout();
+      return;
+    }
+
+    Alert.alert('Keluar', 'Yakin ingin keluar?', [
+      { text: 'Batal', style: 'cancel' },
+      { text: 'Keluar', style: 'destructive', onPress: doLogout },
+    ]);
   };
 
   return (
