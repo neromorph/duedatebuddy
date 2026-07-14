@@ -439,6 +439,22 @@ If a command is unavailable, report it instead of inventing one.
 - Use official Expo documentation for Expo Router, EAS, notifications, and config changes.
 - Test notification behavior in a development build or production APK, not only Expo Go.
 
+## CI/CD Pipeline
+
+Android preview builds are automated via `.github/workflows/eas-build.yml`.
+
+Triggers:
+- **Pull requests**: Builds preview APK automatically
+- **`*-preview` tags**: e.g., `0.1.0-preview` triggers a preview build
+- **Manual dispatch**: Via GitHub Actions UI
+
+Secrets required (set in GitHub repo settings):
+- `EXPO_TOKEN`: EAS access token from https://expo.dev/settings/access-tokens
+
+Build command: `eas build --platform android --profile preview --non-interactive --no-wait`
+
+---
+
 ## External Reference Storage
 
 Do not mix raw imported documents with human-written project notes.
