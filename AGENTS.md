@@ -453,6 +453,24 @@ Secrets required (set in GitHub repo settings):
 
 Build command: `eas build --platform android --profile preview --non-interactive --no-wait`
 
+## Versioning & Releases
+
+**Never create a release tag, version bump, or trigger a build without explicit user confirmation.** Versioning is a product decision, not an implementation detail.
+
+When the user asks for a release, confirm the following before acting:
+- The target version number (semver: `MAJOR.MINOR.PATCH`)
+- Which profile (`preview`, `production`)
+- Which commit/version to tag
+- Whether the build should be triggered or only the tag created
+
+The current `app.json` `version` field is the source of truth for app version. `eas.json` has `appVersionSource: "remote"`; EAS manages the actual installed version.
+
+Tag conventions:
+- `vX.Y.Z-preview` → triggers the `*-preview` workflow → preview APK
+- `vX.Y.Z` (non-preview) → tag only, no workflow (production builds must be triggered manually via `eas build --platform android --profile production` until a production workflow is added)
+
+Never push tags with `-f` (force) to overwrite an existing release tag. Create a new tag instead.
+
 ---
 
 ## External Reference Storage
