@@ -9,6 +9,7 @@ import { safeQuery } from '@/lib/supabase-safe';
 import { useAuth } from '@/features/auth/useAuth';
 import { Reminder } from '@/types';
 import { daysRemaining, isOverdue, isThisMonth, formatCurrency, formatDaysRemaining, formatDate } from '@/lib/date';
+import { getPerluPerhatianCount } from '@/features/reminders/attention';
 import Badge from '@/components/ui/Badge';
 import LoadingState from '@/components/ui/LoadingState';
 import EmptyState from '@/components/ui/EmptyState';
@@ -46,7 +47,7 @@ export default function DashboardScreen() {
   const week = pending.filter((r) => { const days = daysRemaining(r.due_date); return days >= 0 && days <= 7; });
   const overdue = pending.filter((r) => r.status === 'overdue' || isOverdue(r.due_date));
   const month = pending.filter((r) => isThisMonth(r.due_date));
-  const notificationCount = week.length + overdue.length;
+  const notificationCount = getPerluPerhatianCount(reminders);
   const displayName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'Teman';
 
   // [label, items]

@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: SPACING.lg,
-    paddingBottom: SPACING.xxl,
+    paddingBottom: 120,
   },
   headerCard: {
     marginBottom: SPACING.md,

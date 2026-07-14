@@ -133,7 +133,7 @@ export default function SettingsScreen() {
             <Ionicons name="information-circle-outline" size={22} color={COLORS.onSurfaceVariant} />
             <View style={styles.menuContent}>
               <Text style={styles.menuLabel}>Tentang</Text>
-              <Text style={styles.menuDesc}>Versi 1.0.0</Text>
+              <Text style={styles.menuDesc}>Versi 0.1.3</Text>
             </View>
           </View>
         </Card>
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: SPACING.lg,
-    paddingBottom: SPACING.xxl,
+    paddingBottom: 120,
   },
   pageTitle: {
     ...TYPOGRAPHY.headline,

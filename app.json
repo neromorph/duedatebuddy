@@ -2,7 +2,7 @@
   "expo": {
     "name": "DueDateBuddy",
     "slug": "duedatebuddy",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "scheme": "duedatebuddy",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

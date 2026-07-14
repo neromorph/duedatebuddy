@@ -9,6 +9,7 @@ import { safeQuery } from '@/lib/supabase-safe';
 import { useAuth } from '@/features/auth/useAuth';
 import { Reminder } from '@/types';
 import { daysRemaining, formatCurrency, formatDate, formatDaysRemaining, isOverdue } from '@/lib/date';
+import { getPerluPerhatianReminders } from '@/features/reminders/attention';
 import LoadingState from '@/components/ui/LoadingState';
 import EmptyState from '@/components/ui/EmptyState';
 
@@ -36,8 +37,7 @@ export default function NotificationsScreen() {
 
   useFocusEffect(useCallback(() => { fetchReminders(); }, [fetchReminders]));
 
-  const notices = reminders
-    .filter((r) => r.status === 'pending' || r.status === 'overdue')
+  const notices = getPerluPerhatianReminders(reminders)
     .sort((a, b) => daysRemaining(a.due_date) - daysRemaining(b.due_date))
     .filter((r) => filter === 'urgent' ? (r.priority === 'critical' || r.priority === 'high' || isOverdue(r.due_date)) : filter === 'today' ? daysRemaining(r.due_date) <= 0 : true);
 
