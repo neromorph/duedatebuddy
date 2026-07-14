@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { Session, User } from '@supabase/supabase-js';
 import * as SecureStore from 'expo-secure-store';
+import * as Linking from 'expo-linking';
 import { supabase } from '@/lib/supabase';
 import { logger } from '@/lib/logger';
 
@@ -32,6 +33,7 @@ interface AuthState {
   signUp: (email: string, password: string, fullName?: string) => Promise<{ error?: string }>;
   resetPassword: (email: string, redirectTo: string) => Promise<{ error?: string }>;
   startPasswordRecovery: (url: string) => Promise<{ error?: string; recovered?: boolean }>;
+  completeEmailConfirmation: (url: string) => Promise<{ error?: string; confirmed?: boolean }>;
   updatePassword: (password: string) => Promise<{ error?: string }>;
   signOut: () => Promise<void>;
 }
@@ -86,11 +88,10 @@ export const useAuth = create<AuthState>((set) => ({
       password,
       options: {
         data: { full_name: fullName },
-        // ponytail: scheme is the app's custom scheme from app.json. Supabase's
-        // SITE_URL falls back to localhost on a physical device, which the email
-        // confirmation link can't resolve. Forcing the app scheme here makes the
-        // confirmation link open DueDateBuddy directly.
-        emailRedirectTo: 'duedatebuddy://login',
+        // ponytail: Linking.createURL resolves to the right scheme in dev (exp://)
+        // and prod (duedatebuddy://) without us hardcoding either. Hardcoded
+        // schemes break Expo Go / dev builds where the app is served from Metro.
+        emailRedirectTo: Linking.createURL('/login'),
       },
     });
     if (error) {
@@ -125,6 +126,23 @@ export const useAuth = create<AuthState>((set) => ({
     }
     logger.info('auth', 'Password recovery session started');
     return { recovered: true };
+  },
+
+  // ponytail: confirmation emails (and other PKCE redirects) land on the login
+  // screen with access_token + refresh_token in the URL hash. We exchange them
+  // for a session; onAuthStateChange then routes the user to home.
+  completeEmailConfirmation: async (url: string) => {
+    const params = new URLSearchParams(url.split('#')[1] ?? url.split('?')[1] ?? '');
+    const access_token = params.get('access_token');
+    const refresh_token = params.get('refresh_token');
+    if (!access_token || !refresh_token) return { confirmed: false };
+    const { error } = await supabase.auth.setSession({ access_token, refresh_token });
+    if (error) {
+      logger.warn('auth', `Email confirmation session failed: ${error.message}`);
+      return { error: 'Tautan konfirmasi tidak valid atau sudah kedaluwarsa.' };
+    }
+    logger.info('auth', 'Email confirmation session started');
+    return { confirmed: true };
   },
 
   updatePassword: async (password: string) => {
