@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS, SPACING, RADII, TYPOGRAPHY } from '@/lib/theme';
+import { COLORS, SPACING, RADII, TYPOGRAPHY, BOTTOM_BAR_HEIGHT } from '@/lib/theme';
 import { type Href, useFocusEffect, useRouter } from 'expo-router';
 import { useAuth } from '@/features/auth/useAuth';
 import { useReminders } from '@/features/reminders/useReminders';

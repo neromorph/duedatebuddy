@@ -42,3 +42,7 @@ export const RADII = {
   xl: 24,
   full: 9999,
 } as const;
+
+// Bottom navigation bar height (matches BottomNavigation's bar inner height).
+// Used by FAB to float above the nav bar + safe area insets.
+export const BOTTOM_BAR_HEIGHT = 80;

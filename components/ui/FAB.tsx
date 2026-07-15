@@ -1,7 +1,8 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS, SPACING } from '@/lib/theme';
+import { COLORS, SPACING, BOTTOM_BAR_HEIGHT } from '@/lib/theme';
 
 interface FABProps {
   icon?: keyof typeof Ionicons.glyphMap;
@@ -9,8 +10,14 @@ interface FABProps {
 }
 
 export default function FAB({ icon = 'add', onPress }: FABProps) {
+  const insets = useSafeAreaInsets();
+
   return (
-    <TouchableOpacity style={styles.fab} onPress={onPress} activeOpacity={0.8}>
+    <TouchableOpacity
+      style={[styles.fab, { bottom: BOTTOM_BAR_HEIGHT + insets.bottom + 16 }]}
+      onPress={onPress}
+      activeOpacity={0.8}
+    >
       <Ionicons name={icon} size={28} color={COLORS.onPrimary} />
     </TouchableOpacity>
   );
@@ -19,7 +26,6 @@ export default function FAB({ icon = 'add', onPress }: FABProps) {
 const styles = StyleSheet.create({
   fab: {
     position: 'absolute',
-    bottom: SPACING.xl + 8,
     right: SPACING.lg,
     width: 56,
     height: 56,
