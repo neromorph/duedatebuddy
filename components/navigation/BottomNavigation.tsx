@@ -10,7 +10,7 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, SPACING, RADII, TYPOGRAPHY } from '@/lib/theme';
-import { useFocusEffect } from 'expo-router';
+import { type Href, useFocusEffect, useRouter } from 'expo-router';
 import { useAuth } from '@/features/auth/useAuth';
 import { useReminders } from '@/features/reminders/useReminders';
 import { getPerluPerhatianCount } from '@/features/reminders/attention';
@@ -28,13 +28,29 @@ interface TabConfig {
   route: string;
   title: string;
   icon: IoniconsName;
+  rootHref: Href;
 }
 
 const TABS: Record<string, TabConfig> = {
-  index: { route: 'index', title: 'Beranda', icon: 'home-outline' },
-  '(reminders)': { route: '(reminders)', title: 'Pengingat', icon: 'notifications-outline' },
-  '(assets)': { route: '(assets)', title: 'Aset', icon: 'folder-outline' },
-  pengaturan: { route: 'pengaturan', title: 'Pengaturan', icon: 'settings-outline' },
+  index: { route: 'index', title: 'Beranda', icon: 'home-outline', rootHref: '/(tabs)' },
+  '(reminders)': {
+    route: '(reminders)',
+    title: 'Pengingat',
+    icon: 'notifications-outline',
+    rootHref: '/(tabs)/(reminders)',
+  },
+  '(assets)': {
+    route: '(assets)',
+    title: 'Aset',
+    icon: 'folder-outline',
+    rootHref: '/(tabs)/(assets)',
+  },
+  pengaturan: {
+    route: 'pengaturan',
+    title: 'Pengaturan',
+    icon: 'settings-outline',
+    rootHref: '/(tabs)/pengaturan',
+  },
 };
 
 // ── Minimal props contract ────────────────────────────────────────────
@@ -49,6 +65,7 @@ interface BottomTabBarProps {
 
 export default function BottomNavigation(props: BottomTabBarProps) {
   const { state, navigation } = props;
+  const router = useRouter();
   const safe = useSafeAreaInsets();
 
   // ── Badge count for Pengingat tab ────────────────────────────────────
@@ -114,8 +131,12 @@ export default function BottomNavigation(props: BottomTabBarProps) {
               target: route.key,
               canPreventDefault: true,
             });
-            if (!isFocused && !event.defaultPrevented) {
-              navigation.navigate(route.name);
+            if (!event.defaultPrevented) {
+              // Explicitly pop any nested stack inside the target tab so the
+              // next navigation lands on the tab's root screen.
+              navigation.navigate(route.name, { pop: true });
+              // Then replace the route to ensure the stack is reset.
+              router.replace(tab.rootHref);
             }
           };
 
