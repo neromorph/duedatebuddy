@@ -88,10 +88,10 @@ export const useAuth = create<AuthState>((set) => ({
       password,
       options: {
         data: { full_name: fullName },
-        // ponytail: Linking.createURL resolves to the right scheme in dev (exp://)
-        // and prod (duedatebuddy://) without us hardcoding either. Hardcoded
-        // schemes break Expo Go / dev builds where the app is served from Metro.
-        emailRedirectTo: Linking.createURL('/login'),
+        // ponytail: bare scheme (no path) so it matches Supabase's allowlist
+        // entry 'duedatebuddy://' regardless of path-routing rules. The deep
+        // link lands in the app, and _layout.tsx consumes the access_token.
+        emailRedirectTo: Linking.createURL('/verified'),
       },
     });
     if (error) {

@@ -80,10 +80,11 @@ export default function RootLayout() {
 
     const inAuthGroup = segments[0] === '(auth)';
     const isResetPassword = String(segments[1]) === 'reset-password';
+    const isVerified = String(segments[1]) === 'verified';
 
     if (!session && !inAuthGroup) {
       router.replace('/login');
-    } else if (session && inAuthGroup && !isResetPassword) {
+    } else if (session && inAuthGroup && !isResetPassword && !isVerified) {
       router.replace('/');
     }
   }, [session, fontsLoaded, isLoading, segments]);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -27,22 +27,11 @@ type LoginForm = z.infer<typeof loginSchema>;
 
 export default function LoginScreen() {
   const router = useRouter();
-  const { signIn, resetPassword, completeEmailConfirmation } = useAuth();
+  const { signIn, resetPassword } = useAuth();
   const [loading, setLoading] = useState(false);
   const [resetLoading, setResetLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
-
-  // ponytail: confirmation emails deep-link to this screen with
-  // access_token + refresh_token in the URL hash. Exchange them for a session;
-  // onAuthStateChange will route the user to home.
-  const confirmationUrl = Linking.useURL();
-  useEffect(() => {
-    if (!confirmationUrl || !confirmationUrl.includes('access_token')) return;
-    completeEmailConfirmation(confirmationUrl).then((result) => {
-      if (result.error) setError(result.error);
-    });
-  }, [confirmationUrl, completeEmailConfirmation]);
 
   const {
     control,
